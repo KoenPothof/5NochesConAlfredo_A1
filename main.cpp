@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "OpenCv.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -9,10 +10,12 @@ using tigl::Vertex;
 #pragma comment(lib, "opengl32.lib")
 
 GLFWwindow* window;
+OpenCv openCv;
 
 void init();
 void update();
 void draw();
+void runOpencv();
 
 int main(void)
 {
@@ -53,16 +56,28 @@ void init()
             glfwSetWindowShouldClose(window, true);
     });
 
+    openCv = OpenCv();
 }
 
 
 void update()
 {
-
+    runOpencv();
 }
 
 void draw()
 {
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    tigl::begin(GL_TRIANGLES);
+    tigl::addVertex(Vertex::P(glm::vec3(-0.5f, -0.5f, 0.0f)));
+    tigl::addVertex(Vertex::P(glm::vec3(0.5f, -0.5f, 0.0f)));
+    tigl::addVertex(Vertex::P(glm::vec3(0.0f, 0.5f, 0.0f)));
+    tigl::end();
+}
+
+void runOpencv()
+{
+	openCv.run();
 }
