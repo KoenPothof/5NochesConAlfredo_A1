@@ -3,6 +3,10 @@
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "OpenCv.h"
+
+#include "GameObject.h"
+#include "DrawComponent.h"
+#include "RectangleComponent.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -47,6 +51,7 @@ int main(void)
     return 0;
 }
 
+std::list<std::shared_ptr<GameObject>> gameObjects;
 
 void init()
 {
@@ -57,12 +62,29 @@ void init()
     });
 
     openCv = OpenCv();
+
+    auto object = std::make_shared<GameObject>();
+    object->position = glm::vec3(0, 0, 0);
+    object->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    gameObjects.push_back(object);
+
+    auto object2 = std::make_shared<GameObject>();
+    object2->position = glm::vec3(-1, 3, 0);
+    object2->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    gameObjects.push_back(object2);
 }
 
 
 void update()
 {
+    double currentTime = glfwGetTime();
+    static double lastTime = currentTime;
+    float deltaTime = float(currentTime - lastTime);
+
     runOpencv();
+
+    for (auto& go : gameObjects)
+        go->update(deltaTime);
 }
 
 void draw()
@@ -70,10 +92,19 @@ void draw()
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    int viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
+
+    tigl::shader->setProjectionMatrix(projection);
+    tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(0, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
+    tigl::shader->setModelMatrix(glm::mat4(1.0f));
+
     tigl::begin(GL_TRIANGLES);
-    tigl::addVertex(Vertex::P(glm::vec3(-0.5f, -0.5f, 0.0f)));
-    tigl::addVertex(Vertex::P(glm::vec3(0.5f, -0.5f, 0.0f)));
-    tigl::addVertex(Vertex::P(glm::vec3(0.0f, 0.5f, 0.0f)));
+
+    for (auto& go : gameObjects)
+		go->draw();
+
     tigl::end();
 }
 
