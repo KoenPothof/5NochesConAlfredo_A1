@@ -100,12 +100,12 @@ void draw()
     tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(0, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
-    tigl::begin(GL_TRIANGLES);
+    
 
     for (auto& go : gameObjects)
 		go->draw();
 
-    tigl::end();
+ 
 }
 
 void runOpencv()
