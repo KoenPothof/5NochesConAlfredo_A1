@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
+#include "CameraComponent.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -15,6 +16,7 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 OpenCv openCv;
+std::unique_ptr<CameraComponent> camera;
 
 void init();
 void update();
@@ -47,6 +49,7 @@ int main(void)
 
 	glfwTerminate();
 
+    
 
     return 0;
 }
@@ -62,6 +65,7 @@ void init()
     });
 
     openCv = OpenCv();
+    camera = std::make_unique<CameraComponent>(window);
 
     auto object = std::make_shared<GameObject>();
     object->position = glm::vec3(0, 0, 0);
@@ -82,9 +86,11 @@ void update()
     float deltaTime = float(currentTime - lastTime);
 
     runOpencv();
+    camera->update(window);
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
+
 }
 
 void draw()
@@ -97,7 +103,7 @@ void draw()
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
 
     tigl::shader->setProjectionMatrix(projection);
-    tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(0, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
+    tigl::shader->setViewMatrix(camera->getMatrix());
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
     
