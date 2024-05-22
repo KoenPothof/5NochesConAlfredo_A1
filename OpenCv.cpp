@@ -1,6 +1,7 @@
 #include "OpenCv.h"
 
 using namespace cv;
+using namespace std;
 
 VideoCapture cap(0);
 Mat img;
