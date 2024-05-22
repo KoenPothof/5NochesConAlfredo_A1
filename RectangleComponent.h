@@ -10,7 +10,7 @@ class RectangleComponent : public DrawComponent
 {
 	std::vector<Vertex> verts;
 public:
-	RectangleComponent(int direction, bool flat, int width, int height);
+	RectangleComponent(int direction, bool flat, int width, int height, glm::vec2* texturePositions);
 	~RectangleComponent();
 
 
