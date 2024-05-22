@@ -8,6 +8,7 @@
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
 #include "RoomComponent.h"
+#include "DebugComponent.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -33,21 +34,23 @@ int main(void)
         throw "Could not initialize glwf";
     }
     glfwMakeContextCurrent(window);
-
+    if (glewInit() != GLEW_OK)
+    {
+        throw "Could not initialize GLEW";
+    }
     tigl::init();
 
     init();
 
-	while (!glfwWindowShouldClose(window))
-	{
-		update();
-		draw();
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
+    while (!glfwWindowShouldClose(window))
+    {
+        update();
+        draw();
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 
-	glfwTerminate();
-
+    glfwTerminate();
 
     return 0;
 }
@@ -57,26 +60,32 @@ std::list<std::shared_ptr<GameObject>> gameObjects;
 void init()
 {
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-    {
-        if (key == GLFW_KEY_ESCAPE)
-            glfwSetWindowShouldClose(window, true);
-    });
+        {
+            if (key == GLFW_KEY_ESCAPE)
+                glfwSetWindowShouldClose(window, true);
+        });
 
     openCv = OpenCv();
 
     auto roomObject = std::make_shared<GameObject>();
-    roomObject->position = glm::vec3(0, 6, 6);
+    roomObject->position = glm::vec3(0, 0, 0);
     auto roomComponent = std::make_shared<RoomComponent>(0, 0, 5, 5, 3); // Example dimensions
     roomObject->addComponent(roomComponent);
     gameObjects.push_back(roomObject);
-}
 
+    // Create and add DebugComponent
+    auto debugObject = std::make_shared<GameObject>();
+    auto debugComponent = std::make_shared<DebugComponent>(window);
+    debugObject->addComponent(debugComponent);
+    gameObjects.push_back(debugObject);
+}
 
 void update()
 {
     double currentTime = glfwGetTime();
     static double lastTime = currentTime;
     float deltaTime = float(currentTime - lastTime);
+    lastTime = currentTime;
 
     runOpencv();
 
@@ -94,18 +103,13 @@ void draw()
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
 
     tigl::shader->setProjectionMatrix(projection);
-    tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(0, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
-    
-
     for (auto& go : gameObjects)
-		go->draw();
-
- 
+        go->draw();
 }
 
 void runOpencv()
 {
-	openCv.run();
+    openCv.run();
 }
