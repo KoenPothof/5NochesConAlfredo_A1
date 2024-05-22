@@ -27,7 +27,7 @@ void CameraComponent::move(float angle, float fac)
     position += direction * fac;
 }
 
-void CameraComponent::update(GLFWwindow* window)
+void CameraComponent::update(float elapsedTime)
 {
     static const float rotationSpeed = 1.0f;
     double currentFrameTime = glfwGetTime();
@@ -40,10 +40,4 @@ void CameraComponent::update(GLFWwindow* window)
         rotation.y -= rotationIncrement;
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         rotation.y += rotationIncrement;
-
-    float moveIncrement = moveSpeed * deltaTime;
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        move(0, moveIncrement);
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        move(180, moveIncrement);
 }
