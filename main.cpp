@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
+#include "RoomComponent.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -63,15 +64,11 @@ void init()
 
     openCv = OpenCv();
 
-    auto object = std::make_shared<GameObject>();
-    object->position = glm::vec3(0, 0, 0);
-    object->addComponent(std::make_shared<RectangleComponent>(0, false, 2, 3));
-    gameObjects.push_back(object);
-
-    auto object2 = std::make_shared<GameObject>();
-    object2->position = glm::vec3(10, 0, 0);
-    object2->addComponent(std::make_shared<RectangleComponent>(0, false, 3, 2));
-    gameObjects.push_back(object2);
+    auto roomObject = std::make_shared<GameObject>();
+    roomObject->position = glm::vec3(0, 6, 6);
+    auto roomComponent = std::make_shared<RoomComponent>(0, 0, 5, 5, 3); // Example dimensions
+    roomObject->addComponent(roomComponent);
+    gameObjects.push_back(roomObject);
 }
 
 
