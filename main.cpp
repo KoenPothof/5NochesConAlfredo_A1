@@ -65,12 +65,12 @@ void init()
 
     auto object = std::make_shared<GameObject>();
     object->position = glm::vec3(0, 0, 0);
-    object->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    object->addComponent(std::make_shared<RectangleComponent>(0, false, 2, 3));
     gameObjects.push_back(object);
 
     auto object2 = std::make_shared<GameObject>();
-    object2->position = glm::vec3(-1, 3, 0);
-    object2->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    object2->position = glm::vec3(10, 0, 0);
+    object2->addComponent(std::make_shared<RectangleComponent>(0, false, 3, 2));
     gameObjects.push_back(object2);
 }
 
