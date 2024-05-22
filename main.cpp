@@ -17,11 +17,13 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 OpenCv openCv;
+std::shared_ptr<GameObject> debugPlayer;
 
 void init();
 void update();
 void draw();
 void runOpencv();
+glm::mat4 getDebugMatrix();
 
 int main(void)
 {
@@ -68,16 +70,23 @@ void init()
     openCv = OpenCv();
 
     auto roomObject = std::make_shared<GameObject>();
-    roomObject->position = glm::vec3(0, 0, 0);
+    roomObject->position = glm::vec3(-3, 0, 0);
     auto roomComponent = std::make_shared<RoomComponent>(0, 0, 5, 5, 3); // Example dimensions
     roomObject->addComponent(roomComponent);
     gameObjects.push_back(roomObject);
 
+    auto rectangleObject = std::make_shared<GameObject>();
+    rectangleObject->position = glm::vec3(0, 0, 5);
+    auto rectangleComponent = std::make_shared<RectangleComponent>(0, false, 10, 5);
+    rectangleObject->addComponent(rectangleComponent);
+    gameObjects.push_back(rectangleObject);
+
     // Create and add DebugComponent
-    auto debugObject = std::make_shared<GameObject>();
-    auto debugComponent = std::make_shared<DebugComponent>(window);
-    debugObject->addComponent(debugComponent);
-    gameObjects.push_back(debugObject);
+    debugPlayer = std::make_shared<GameObject>();
+    auto debugComponent = std::make_shared<DebugComponent>();
+    debugPlayer->addComponent(debugComponent);
+    debugPlayer->position = glm::vec3(0, 0, 0);
+    gameObjects.push_back(debugPlayer);
 }
 
 void update()
@@ -87,7 +96,7 @@ void update()
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
 
-    runOpencv();
+    //runOpencv();
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -103,6 +112,7 @@ void draw()
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
 
     tigl::shader->setProjectionMatrix(projection);
+    tigl::shader->setViewMatrix(getDebugMatrix());
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
     for (auto& go : gameObjects)
@@ -112,4 +122,13 @@ void draw()
 void runOpencv()
 {
     openCv.run();
+}
+
+glm::mat4 getDebugMatrix()
+{
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    viewMatrix = glm::rotate(viewMatrix, debugPlayer->rotation.x, glm::vec3(1, 0, 0));
+    viewMatrix = glm::rotate(viewMatrix, debugPlayer->rotation.y, glm::vec3(0, 1, 0));
+    viewMatrix = glm::translate(viewMatrix, -debugPlayer->position);
+    return viewMatrix;
 }
