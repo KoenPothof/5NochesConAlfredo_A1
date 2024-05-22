@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
+#include "Texture.h"
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -15,6 +16,7 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 OpenCv openCv;
+Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 
 void init();
 void update();
@@ -61,16 +63,14 @@ void init()
             glfwSetWindowShouldClose(window, true);
     });
 
-    openCv = OpenCv();
-
     auto object = std::make_shared<GameObject>();
     object->position = glm::vec3(0, 0, 0);
-    object->addComponent(std::make_shared<RectangleComponent>(0, false, 2, 3));
+    object->addComponent(std::make_shared<RectangleComponent>(0, false, 2, 3, texture.setTexture(0, 0)));
     gameObjects.push_back(object);
 
     auto object2 = std::make_shared<GameObject>();
     object2->position = glm::vec3(10, 0, 0);
-    object2->addComponent(std::make_shared<RectangleComponent>(0, false, 3, 2));
+    object2->addComponent(std::make_shared<RectangleComponent>(0, false, 3, 2, texture.setTexture(1, 0)));
     gameObjects.push_back(object2);
 }
 
@@ -81,7 +81,7 @@ void update()
     static double lastTime = currentTime;
     float deltaTime = float(currentTime - lastTime);
 
-    runOpencv();
+    //runOpencv();
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -99,8 +99,9 @@ void draw()
     tigl::shader->setProjectionMatrix(projection);
     tigl::shader->setViewMatrix(glm::lookAt(glm::vec3(0, 10, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
+    tigl::shader->enableTexture(true);
 
-    
+    texture.bind();
 
     for (auto& go : gameObjects)
 		go->draw();
