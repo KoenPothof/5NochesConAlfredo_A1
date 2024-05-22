@@ -16,12 +16,16 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 OpenCv openCv;
-std::unique_ptr<CameraComponent> camera;
+std::shared_ptr<GameObject> object3;
+
+float rotationSpeed = 1.0f;
+float moveSpeed = 5.0f;
 
 void init();
 void update();
 void draw();
 void runOpencv();
+glm::mat4 getMatrix();
 
 int main(void)
 {
@@ -65,17 +69,23 @@ void init()
     });
 
     openCv = OpenCv();
-    camera = std::make_unique<CameraComponent>(window);
+   
+  
 
     auto object = std::make_shared<GameObject>();
-    object->position = glm::vec3(0, 0, 0);
-    object->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    object->position = glm::vec3(0, 0, 1);
+    object->addComponent(std::make_shared<RectangleComponent>(1.0f, 1.0f, 1.0f));
     gameObjects.push_back(object);
 
     auto object2 = std::make_shared<GameObject>();
-    object2->position = glm::vec3(-1, 3, 0);
-    object2->addComponent(std::make_shared<RectangleComponent>(1, 1, 1));
+    object2->position = glm::vec3(-1, 0, 0);
+    object2->addComponent(std::make_shared<RectangleComponent>(1.0f, 1.0f, 1.0f));
     gameObjects.push_back(object2);
+
+    object3 = std::make_shared<GameObject>();
+    object3->position = glm::vec3(0, 0, 0);
+    object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    gameObjects.push_back(object3);
 }
 
 
@@ -86,7 +96,7 @@ void update()
     float deltaTime = float(currentTime - lastTime);
 
     runOpencv();
-    camera->update(window);
+   
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -103,7 +113,7 @@ void draw()
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
 
     tigl::shader->setProjectionMatrix(projection);
-    tigl::shader->setViewMatrix(camera->getMatrix());
+    tigl::shader->setViewMatrix(getMatrix());
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
     
@@ -117,4 +127,13 @@ void draw()
 void runOpencv()
 {
 	openCv.run();
+}
+
+glm::mat4 getMatrix()
+{
+    glm::mat4 view(1.0f);
+    view = glm::rotate(view, object3->rotation.x, glm::vec3(1, 0, 0));
+    view = glm::rotate(view, object3->rotation.y, glm::vec3(0, 1, 0));
+    view = glm::translate(view, -object3->position);
+    return view;
 }

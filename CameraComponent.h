@@ -4,18 +4,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Component.h"
+#include "GameObject.h"
 
 class CameraComponent : public Component {
 public:
-    CameraComponent(GLFWwindow* window, float rotationSpeed = 1.0f, float moveSpeed = 5.0f);
+    CameraComponent(float rotationSpeed, float moveSpeed);
     ~CameraComponent();
 
     glm::mat4 getMatrix() const;
     void move(float angle, float fac);
-    void update(float elapsedTime) override;
+    virtual void update(float elapsedTime) override;
 
 private:
-    GLFWwindow* window;  
     glm::vec3 position;
     glm::vec2 rotation;
     float rotationSpeed;
