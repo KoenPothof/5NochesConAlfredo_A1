@@ -70,22 +70,22 @@ void init()
     openCv = OpenCv();
 
     auto roomObject = std::make_shared<GameObject>();
-    roomObject->position = glm::vec3(-3, 0, 0);
-    auto roomComponent = std::make_shared<RoomComponent>(0, 0, 5, 5, 3); // Example dimensions
+    roomObject->position = glm::vec3(0, 0, 0);
+    auto roomComponent = std::make_shared<RoomComponent>(20, 30); // Example dimensions
     roomObject->addComponent(roomComponent);
     gameObjects.push_back(roomObject);
 
-    auto rectangleObject = std::make_shared<GameObject>();
+   /* auto rectangleObject = std::make_shared<GameObject>();
     rectangleObject->position = glm::vec3(0, 0, 5);
     auto rectangleComponent = std::make_shared<RectangleComponent>(0, false, 10, 5);
     rectangleObject->addComponent(rectangleComponent);
-    gameObjects.push_back(rectangleObject);
+    gameObjects.push_back(rectangleObject);*/
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
     auto debugComponent = std::make_shared<DebugComponent>();
     debugPlayer->addComponent(debugComponent);
-    debugPlayer->position = glm::vec3(0, 0, 0);
+    debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
 }
 

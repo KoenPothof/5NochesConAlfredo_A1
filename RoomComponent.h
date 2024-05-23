@@ -14,6 +14,7 @@ private:
 
 public:
     RoomComponent(const float sideWallsWidth, const float frontWallsWidth);
+    RoomComponent(const int sideWallsWidth, const int frontWallsWidth);
     ~RoomComponent();
 
     virtual void draw() override;
