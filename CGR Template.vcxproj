@@ -160,23 +160,27 @@
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DrawComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjModel.cpp" />
     <ClCompile Include="OpenCv.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
+    <ClCompile Include="RoomComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DrawComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ObjModel.h" />
     <ClInclude Include="OpenCv.h" />
     <ClInclude Include="RectangleComponent.h" />
+    <ClInclude Include="RoomComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />
   </ItemGroup>

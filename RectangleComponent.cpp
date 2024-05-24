@@ -1,12 +1,8 @@
 #include "RectangleComponent.h"
 
 // xyz for bottom point, direction 0 for x-as direction and direction 1 for z-as direction, for flat width is x length and height is z length
-RectangleComponent::RectangleComponent(int direction, bool flat, int width, int height, glm::vec2* texturePositions)
+RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height)
 {
-    int x = 0;
-    int y = 0;
-    int z = 0;
-
     if (direction == 0 && flat == false) {
         verts.push_back(Vertex::PT(glm::vec3(x, y, z), texturePositions[0])); // bottom point
         verts.push_back(Vertex::PT(glm::vec3(x + width, y, z), texturePositions[1])); // far bottom point
