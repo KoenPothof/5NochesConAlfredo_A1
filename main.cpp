@@ -31,12 +31,13 @@ std::shared_ptr<GameObject> object3;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 
 float romigeKwarkTaardt = 0.0f;
+bool pauseCamera = false;
 
 void init();
 void update();
 void draw();
 void runOpencv();
-glm::mat4 currentmatrix;
+glm::mat4 currentMatrix;
 glm::mat4 getDebugMatrix();
 glm::mat4 getMatrix();
 
@@ -106,6 +107,20 @@ void init()
 {
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
         {
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+            {
+                pauseCamera = !pauseCamera;
+
+                if (pauseCamera)
+                {
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                }
+                else
+                {
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                }
+            }
+
             if (key == GLFW_KEY_ESCAPE)
                 glfwSetWindowShouldClose(window, true);
         });
@@ -158,7 +173,11 @@ void draw()
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
 
     tigl::shader->setProjectionMatrix(projection);
-    tigl::shader->setViewMatrix(getDebugMatrix());
+
+    if (pauseCamera)
+        tigl::shader->setViewMatrix(currentMatrix);
+    else
+        tigl::shader->setViewMatrix(getDebugMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
@@ -178,6 +197,7 @@ glm::mat4 getDebugMatrix()
     viewMatrix = glm::rotate(viewMatrix, debugPlayer->rotation.x, glm::vec3(1, 0, 0));
     viewMatrix = glm::rotate(viewMatrix, debugPlayer->rotation.y, glm::vec3(0, 1, 0));
     viewMatrix = glm::translate(viewMatrix, -debugPlayer->position);
+    currentMatrix = viewMatrix;
     return viewMatrix;
 }
 
