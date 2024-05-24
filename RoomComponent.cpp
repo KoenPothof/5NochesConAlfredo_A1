@@ -17,11 +17,9 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
     switch (doorLocation)
     {
     case FRONT:
-        // front wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 0, false, frontWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth + frontWallsWidth - doorWidth - wallBesideDoorWidth, y + doorHeight, z, 0, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth + frontWallsWidth - wallBesideDoorWidth, y, z, 0, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
-        
+
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::FRONT));
+
         // rest of the walls
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // left wall
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z - sideWallsWidth, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // back wall
@@ -31,11 +29,8 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         break;
 
     case BACK:
-        // back wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z - sideWallsWidth, 0, false, frontWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth + frontWallsWidth - doorWidth - wallBesideDoorWidth, y + doorHeight, z - sideWallsWidth, 0, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth + frontWallsWidth - wallBesideDoorWidth, y, z - sideWallsWidth, 0, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
-
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::BACK));
+        
         // rest of the walls
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // front wall
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // left wall
@@ -45,10 +40,7 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         break;
 
     case LEFT:
-        // left wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y + doorHeight, z - sideWallsWidth + doorWidth + wallBesideDoorWidth, 1, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z - sideWallsWidth + wallBesideDoorWidth, 1, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::LEFT));
 
         // rest of the walls
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // front wall
@@ -59,10 +51,7 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         break;
 
     case RIGHT:
-        // right wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, false, sideWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y + doorHeight, z - sideWallsWidth + doorWidth + wallBesideDoorWidth, 1, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z - sideWallsWidth + wallBesideDoorWidth, 1, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::RIGHT));
 
         // rest of the walls
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // front wall
@@ -73,6 +62,9 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         break;
 
     case RIGHTLEFT:
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::LEFT));
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::RIGHT));
+
         // right wall with door
         rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, false, sideWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
         rectangles.push_back(std::make_shared<RectangleComponent>(x, y + doorHeight, z - sideWallsWidth + doorWidth + wallBesideDoorWidth, 1, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
@@ -101,5 +93,9 @@ void RoomComponent::draw()
     for (const auto& rectangle : rectangles)
     {
         rectangle->draw();
+    }
+    for (const auto& door : doors)
+    {
+        door->draw();
     }
 }

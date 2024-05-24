@@ -163,6 +163,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
+    <ClCompile Include="DoorComponent.cpp" />
     <ClCompile Include="DrawComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_glfw.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
+    <ClInclude Include="DoorComponent.h" />
     <ClInclude Include="DrawComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="lib\imgui\backends\imgui_impl_glfw.h" />

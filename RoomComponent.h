@@ -2,6 +2,7 @@
 
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
+#include "DoorComponent.h"
 #include <vector>
 #include <memory>
 
@@ -11,6 +12,7 @@ class RoomComponent : public DrawComponent
 {
 private:
     std::vector<std::shared_ptr<RectangleComponent>> rectangles;
+    std::vector<std::shared_ptr<DoorComponent>> doors;
 
 public:
 
