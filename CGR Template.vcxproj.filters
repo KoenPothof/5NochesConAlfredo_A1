@@ -44,8 +44,11 @@
     </ClCompile>
     <ClCompile Include="RoomComponent.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </ClCompile>   
     <ClCompile Include="DebugComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,8 +79,11 @@
     </ClInclude>
     <ClInclude Include="RoomComponent.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </ClInclude>  
     <ClInclude Include="DebugComponent.h">
+       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
