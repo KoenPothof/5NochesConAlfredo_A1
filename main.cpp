@@ -71,7 +71,7 @@ void init()
 
     auto roomObject = std::make_shared<GameObject>();
     roomObject->position = glm::vec3(0, 0, 0);
-    auto roomComponent = std::make_shared<RoomComponent>(20, 30); // Example dimensions
+    auto roomComponent = std::make_shared<RoomComponent>(20, 30, 10); // Example dimensions
     roomObject->addComponent(roomComponent);
     gameObjects.push_back(roomObject);
 

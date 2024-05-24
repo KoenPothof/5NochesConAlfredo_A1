@@ -1,6 +1,6 @@
 #include "RoomComponent.h"
 
-RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth)
+RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth)
 {
     int height = 15;
     int x = 0;
@@ -9,7 +9,7 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
 
     int doorHeight = 5;
     int doorWidth = 3;
-    int wallBesideDoorWidth = 15;
+    //int wallBesideDoorWidth = 15;
 
     // front wall with door
     rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 0, false, frontWallsWidth - doorWidth - wallBesideDoorWidth, height)); // wall with door
