@@ -9,6 +9,10 @@
 #include "RectangleComponent.h"
 #include "RoomComponent.h"
 #include "DebugComponent.h"
+#include "CameraComponent.h"
+
+#include "Texture.h"
+
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -17,13 +21,19 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 OpenCv openCv;
+
 std::shared_ptr<GameObject> debugPlayer;
+std::shared_ptr<GameObject> object3;
+Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
+
+
 
 void init();
 void update();
 void draw();
 void runOpencv();
 glm::mat4 getDebugMatrix();
+glm::mat4 getMatrix();
 
 int main(void)
 {
@@ -51,7 +61,7 @@ int main(void)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
+  
     glfwTerminate();
 
     return 0;
@@ -100,6 +110,7 @@ void update()
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
+
 }
 
 void draw()
@@ -113,7 +124,9 @@ void draw()
 
     tigl::shader->setProjectionMatrix(projection);
     tigl::shader->setViewMatrix(getDebugMatrix());
+
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
+    tigl::shader->enableTexture(true);
 
     for (auto& go : gameObjects)
         go->draw();
@@ -132,3 +145,14 @@ glm::mat4 getDebugMatrix()
     viewMatrix = glm::translate(viewMatrix, -debugPlayer->position);
     return viewMatrix;
 }
+
+
+glm::mat4 getMatrix()
+{
+    glm::mat4 view(1.0f);
+    view = glm::rotate(view, object3->rotation.x, glm::vec3(1, 0, 0));
+    view = glm::rotate(view, object3->rotation.y, glm::vec3(0, 1, 0));
+    view = glm::translate(view, -object3->position);
+    return view;
+}
+

@@ -3,9 +3,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#define IMAGE_PART (float)textureSize / textureWidth
+#define IMAGE_PART (float)textureSize / (float)textureWidth
 
-Texture::Texture(const std::string& filename, int textureWidth, int textureHeight, int textureSize)
+Texture::Texture(const std::string& filename, const int textureWidth, const int textureHeight, const int textureSize)
 {
 	this->textureWidth = textureWidth;
 	this->textureHeight = textureHeight;
@@ -39,12 +39,6 @@ void Texture::bind()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-/// <summary>
-/// Creates the texture coordinates for the texture atlas
-/// </summary>
-/// <param name="textureX">the x index of the texture atlas</param>
-/// <param name="textureY">the y index of the texture atlas</param>
-/// <returns>An array of 4 vectors. ret[0] bottom left, ret[1] bottom right, ret[2] top right, ret[3] top left</returns>
 glm::vec2* Texture::setTexture(int textureX, int textureY)
 {
 	float x = (float)((IMAGE_PART)*textureX);
