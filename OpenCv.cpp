@@ -6,6 +6,10 @@ using namespace std;
 VideoCapture cap(0);
 Mat img;
 
+int siggy1 = 255;
+int siggy2 = 0;
+int siggy3 = 0;
+
 OpenCv::OpenCv()
 {
 }
@@ -33,7 +37,40 @@ void OpenCv::run()
 	for (int i = 0; i < hands.size(); i++)
 	{
 		Point center(hands[i].x + hands[i].width / 2, hands[i].y + hands[i].height / 2);
-		rectangle(img, hands[i].tl(), hands[i].br(), Scalar(255, 0, 255), 3);
+		rectangle(img, hands[i].tl(), hands[i].br(), Scalar(siggy1, siggy2, siggy3), 3);
+
+
+		/// DoorButtonRight ///
+		if (center.x < 100 && center.x > 10 && center.y < 470 && center.y > 280) {
+			cout << "Door right button" << endl;
+		}
+
+		/// DoorButtonLeft ///
+		if (center.x < 630 && center.x > 540 && center.y < 470 && center.y > 280) {
+			cout << "Door left button" << endl;
+		}
+
+		/// CameraButton ///
+		if (center.x < 470 && center.x > 160 && center.y < 460 && center.y > 390) {
+			cout << "Camera button" << endl;
+		}
+
+		/// CameraViewButtonRight ///
+		if (center.x < 620 && center.x > 550 && center.y < 340 && center.y > 100) {
+			cout << "Cameraview right button" << endl;
+		}
+
+		/// CameraViewButtonLeft ///
+		if (center.x < 90 && center.x > 20 && center.y < 340 && center.y > 100) {
+			cout << "Cameraview left button" << endl;
+		}
+
+		/// CameraSwitchButton ///
+		if (center.x < 360 && center.x > 280 && center.y < 280 && center.y > 200) {
+			cout << "Cameraswitch button" << endl;
+		}
+
+
 		Mat handROI = imgGray(hands[i]);
 	}
 
@@ -52,7 +89,6 @@ void OpenCv::run()
 
 	////////////////////// CameraSwitchButton(blue) //////////////////////
 	rectangle(img, Point(280, 200), Point(360, 280), Scalar(255, 0, 0), 3);
-
 
 	flip(img, img, 1);
 
