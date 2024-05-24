@@ -13,6 +13,10 @@
 
 #include "Texture.h"
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 using tigl::Vertex;
 
 #pragma comment(lib, "glfw3.lib")
@@ -26,12 +30,13 @@ std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 
-
+float romigeKwarkTaardt = 0.0f;
 
 void init();
 void update();
 void draw();
 void runOpencv();
+glm::mat4 currentmatrix;
 glm::mat4 getDebugMatrix();
 glm::mat4 getMatrix();
 
@@ -52,12 +57,40 @@ int main(void)
     }
     tigl::init();
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init(nullptr);
+
     init();
 
     while (!glfwWindowShouldClose(window))
     {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
         update();
         draw();
+
+        {
+            ImGui::SetNextWindowPos(ImVec2(0, 0));
+            ImGui::SetNextWindowSize(ImVec2(0, 400));
+            ImGui::Begin("Demo Selection");
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+            ImGui::BeginGroup();
+            ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
+            ImGui::EndGroup();
+
+            ImGui::End();
+        }
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
