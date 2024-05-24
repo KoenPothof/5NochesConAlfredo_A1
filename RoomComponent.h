@@ -13,7 +13,17 @@ private:
     std::vector<std::shared_ptr<RectangleComponent>> rectangles;
 
 public:
-    RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth);
+
+    enum DoorLocation 
+    {
+        LEFT,
+        RIGHT,
+        BACK,
+        FRONT,
+        RIGHTLEFT
+    };
+
+    RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth, DoorLocation doorLocation);
     ~RoomComponent();
 
     virtual void draw() override;
