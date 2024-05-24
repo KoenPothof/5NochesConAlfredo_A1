@@ -13,8 +13,7 @@ private:
     std::vector<std::shared_ptr<RectangleComponent>> rectangles;
 
 public:
-    RoomComponent(const float sideWallsWidth, const float frontWallsWidth);
-    RoomComponent(const int sideWallsWidth, const int frontWallsWidth);
+    RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth);
     ~RoomComponent();
 
     virtual void draw() override;
