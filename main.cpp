@@ -97,6 +97,8 @@ void init()
     debugPlayer->addComponent(debugComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
+
+    texture.bind();
 }
 
 void update()
