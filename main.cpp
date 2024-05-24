@@ -125,6 +125,8 @@ void init()
                 glfwSetWindowShouldClose(window, true);
         });
 
+    glEnable(GL_DEPTH_TEST);
+
     //openCv = OpenCv();
 
     auto roomObjectA = std::make_shared<GameObject>();
