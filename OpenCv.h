@@ -10,6 +10,7 @@ class OpenCv
 public:
 	OpenCv();
 	~OpenCv();
+	void init();
 	void run();
 };
 

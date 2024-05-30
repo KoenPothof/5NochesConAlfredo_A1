@@ -230,6 +230,8 @@ void init()
     object3->position = glm::vec3(0, 0, 0);
     object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
     gameObjects.push_back(object3);
+
+    openCv.init();
 }
 
 void update()
@@ -239,7 +241,7 @@ void update()
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
 
-    //runOpencv();
+    runOpencv();
 
     for (auto& go : gameObjects)
         go->update(deltaTime);

@@ -5,6 +5,9 @@ using namespace std;
 
 VideoCapture cap(0);
 Mat img;
+Mat imgGray;
+CascadeClassifier handCascade;
+vector<Rect> hands;
 
 int siggy1 = 255;
 int siggy2 = 0;
@@ -18,20 +21,17 @@ OpenCv::~OpenCv()
 {
 }
 
+void OpenCv::init() 
+{
+	handCascade.load("Resources/fist.xml");
+	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }
+	
+}
+
 void OpenCv::run()
 {
 	cap.read(img);
-
-	Mat imgGray;
-
 	cvtColor(img, imgGray, COLOR_BGR2GRAY);
-
-	CascadeClassifier handCascade;
-	handCascade.load("Resources/fist.xml");
-
-	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }
-
-	vector<Rect> hands;
 	handCascade.detectMultiScale(imgGray, hands);
 
 	for (int i = 0; i < hands.size(); i++)
