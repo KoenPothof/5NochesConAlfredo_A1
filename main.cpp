@@ -131,81 +131,81 @@ void init()
 
     auto roomObjectA = std::make_shared<GameObject>();
     roomObjectA->position = glm::vec3(0, 0, 0);
-    auto roomComponentA = std::make_shared<RoomComponent>(10, 10, 2, RoomComponent::RIGHTLEFT); // Example dimensions
+    auto roomComponentA = std::make_shared<RoomComponent>(10, 10, 2, RoomComponent::FRONTBACK); // Example dimensions
     roomObjectA->addComponent(roomComponentA);
     gameObjects.push_back(roomObjectA);
 
-    //auto roomObjectB = std::make_shared<GameObject>();
-    //roomObjectB->position = glm::vec3(10, 0, 0);
-    //auto roomComponentB = std::make_shared<RoomComponent>(10, 10, 5); // Example dimensions
-    //roomObjectB->addComponent(roomComponentB);
-    //gameObjects.push_back(roomObjectB);
+    auto roomObjectB = std::make_shared<GameObject>();
+    roomObjectB->position = glm::vec3(10, 0, 0);
+    auto roomComponentB = std::make_shared<RoomComponent>(10, 10, 3, RoomComponent::BACK); // Example dimensions
+    roomObjectB->addComponent(roomComponentB);
+    gameObjects.push_back(roomObjectB);
 
-    //auto roomObjectC = std::make_shared<GameObject>();
-    //roomObjectC->position = glm::vec3(10, 0, -15);
-    //auto roomComponentC = std::make_shared<RoomComponent>(20, 20, 9); // Example dimensions
-    //roomObjectC->addComponent(roomComponentC);
-    //gameObjects.push_back(roomObjectC);
+    auto roomObjectC = std::make_shared<GameObject>();
+    roomObjectC->position = glm::vec3(10, 0, -15);
+    auto roomComponentC = std::make_shared<RoomComponent>(20, 20, 3, RoomComponent::FRONT); // Example dimensions
+    roomObjectC->addComponent(roomComponentC);
+    gameObjects.push_back(roomObjectC);
 
-    //auto roomObjectD = std::make_shared<GameObject>();
-    //roomObjectD->position = glm::vec3(25, 0, -25);
-    //auto roomComponentD = std::make_shared<RoomComponent>(15, 15, 1); // Example dimensions
-    //roomObjectD->addComponent(roomComponentD);
-    //gameObjects.push_back(roomObjectD);
+    auto roomObjectD = std::make_shared<GameObject>();
+    roomObjectD->position = glm::vec3(25, 0, -25);
+    auto roomComponentD = std::make_shared<RoomComponent>(15, 15, 3, RoomComponent::FRONT); // Example dimensions
+    roomObjectD->addComponent(roomComponentD);
+    gameObjects.push_back(roomObjectD);
 
-    //auto roomObjectE = std::make_shared<GameObject>();
-    //roomObjectE->position = glm::vec3(40, 0, -25);
-    //auto roomComponentE = std::make_shared<RoomComponent>(15, 15, 1); // Example dimensions
-    //roomObjectE->addComponent(roomComponentE);
-    //gameObjects.push_back(roomObjectE);
+    auto roomObjectE = std::make_shared<GameObject>();
+    roomObjectE->position = glm::vec3(40, 0, -25);
+    auto roomComponentE = std::make_shared<RoomComponent>(15, 15, 3, RoomComponent::FRONT); // Example dimensions
+    roomObjectE->addComponent(roomComponentE);
+    gameObjects.push_back(roomObjectE);
 
-    //auto roomObjectF = std::make_shared<GameObject>();
-    //roomObjectF->position = glm::vec3(53, 0, -5);
-    //auto roomComponentF = std::make_shared<RoomComponent>(20, 15, 1); // Example dimensions
-    //roomObjectF->addComponent(roomComponentF);
-    //gameObjects.push_back(roomObjectF);
+    auto roomObjectF = std::make_shared<GameObject>();
+    roomObjectF->position = glm::vec3(53, 0, -5);
+    auto roomComponentF = std::make_shared<RoomComponent>(20, 15, 3, RoomComponent::STAGE); // Example dimensions
+    roomObjectF->addComponent(roomComponentF);
+    gameObjects.push_back(roomObjectF);
 
-    //auto roomObjectG = std::make_shared<GameObject>();
-    //roomObjectG->position = glm::vec3(53, 0, 10);
-    //auto roomComponentG = std::make_shared<RoomComponent>(20, 15, 1); // Example dimensions
-    //roomObjectG->addComponent(roomComponentG);
-    //gameObjects.push_back(roomObjectG);
+    auto roomObjectG = std::make_shared<GameObject>();
+    roomObjectG->position = glm::vec3(53, 0, 10);
+    auto roomComponentG = std::make_shared<RoomComponent>(20, 15, 5, RoomComponent::LEFT); // Example dimensions
+    roomObjectG->addComponent(roomComponentG);
+    gameObjects.push_back(roomObjectG);
 
-    //auto roomObjectH = std::make_shared<GameObject>();
-    //roomObjectH->position = glm::vec3(40, 0, 25);
-    //auto roomComponentH = std::make_shared<RoomComponent>(15, 15, 1); // Example dimensions
-    //roomObjectH->addComponent(roomComponentH);
-    //gameObjects.push_back(roomObjectH);
+    auto roomObjectH = std::make_shared<GameObject>();
+    roomObjectH->position = glm::vec3(40, 0, 25);
+    auto roomComponentH = std::make_shared<RoomComponent>(15, 15, 3, RoomComponent::BACK); // Example dimensions
+    roomObjectH->addComponent(roomComponentH);
+    gameObjects.push_back(roomObjectH);
 
-    //auto roomObjectI = std::make_shared<GameObject>();
-    //roomObjectI->position = glm::vec3(25, 0, 25);
-    //auto roomComponentI = std::make_shared<RoomComponent>(15, 15, 1); // Example dimensions
-    //roomObjectI->addComponent(roomComponentI);
-    //gameObjects.push_back(roomObjectI);
+    auto roomObjectI = std::make_shared<GameObject>();
+    roomObjectI->position = glm::vec3(25, 0, 25);
+    auto roomComponentI = std::make_shared<RoomComponent>(15, 15, 1, RoomComponent::BACK); // Example dimensions
+    roomObjectI->addComponent(roomComponentI);
+    gameObjects.push_back(roomObjectI);
 
-    //auto roomObjectJ = std::make_shared<GameObject>();
-    //roomObjectJ->position = glm::vec3(10, 0, 25);
-    //auto roomComponentJ = std::make_shared<RoomComponent>(20, 20, 1); // Example dimensions
-    //roomObjectJ->addComponent(roomComponentJ);
-    //gameObjects.push_back(roomObjectJ);
+    auto roomObjectJ = std::make_shared<GameObject>();
+    roomObjectJ->position = glm::vec3(10, 0, 25);
+    auto roomComponentJ = std::make_shared<RoomComponent>(20, 20, 1, RoomComponent::BACK); // Example dimensions
+    roomObjectJ->addComponent(roomComponentJ);
+    gameObjects.push_back(roomObjectJ);
 
-    //auto roomObjectK = std::make_shared<GameObject>();
-    //roomObjectK->position = glm::vec3(38, 0, 10);
-    //auto roomComponentK = std::make_shared<RoomComponent>(35, 28, 1); // Example dimensions
-    //roomObjectK->addComponent(roomComponentK);
-    //gameObjects.push_back(roomObjectK);
+    auto roomObjectK = std::make_shared<GameObject>();
+    roomObjectK->position = glm::vec3(38, 0, 10);
+    auto roomComponentK = std::make_shared<RoomComponent>(35, 28, 1, RoomComponent::MAINROOM); // Example dimensions
+    roomObjectK->addComponent(roomComponentK);
+    gameObjects.push_back(roomObjectK);
 
-    //auto roomObjectHallWayRight = std::make_shared<GameObject>();
-    //roomObjectHallWayRight->position = glm::vec3(10, 0, 5);
-    //auto roomComponentHallWayRight = std::make_shared<RoomComponent>(5, 20, 1); // Example dimensions
-    //roomObjectHallWayRight->addComponent(roomComponentHallWayRight);
-    //gameObjects.push_back(roomObjectHallWayRight);
+    auto roomObjectHallWayRight = std::make_shared<GameObject>();
+    roomObjectHallWayRight->position = glm::vec3(10, 0, 5);
+    auto roomComponentHallWayRight = std::make_shared<RoomComponent>(5, 20, 1, RoomComponent::HALLWAY); // Example dimensions
+    roomObjectHallWayRight->addComponent(roomComponentHallWayRight);
+    gameObjects.push_back(roomObjectHallWayRight);
 
-    //auto roomObjectHallWayLeft = std::make_shared<GameObject>();
-    //roomObjectHallWayLeft->position = glm::vec3(10, 0, -10);
-    //auto roomComponentHallWayLeft = std::make_shared<RoomComponent>(5, 20, 1); // Example dimensions
-    //roomObjectHallWayLeft->addComponent(roomComponentHallWayLeft);
-    //gameObjects.push_back(roomObjectHallWayLeft);
+    auto roomObjectHallWayLeft = std::make_shared<GameObject>();
+    roomObjectHallWayLeft->position = glm::vec3(10, 0, -10);
+    auto roomComponentHallWayLeft = std::make_shared<RoomComponent>(5, 20, 3, RoomComponent::HALLWAY); // Example dimensions
+    roomObjectHallWayLeft->addComponent(roomComponentHallWayLeft);
+    gameObjects.push_back(roomObjectHallWayLeft);
 
 
 

@@ -22,7 +22,11 @@ public:
         RIGHT,
         BACK,
         FRONT,
-        RIGHTLEFT
+        RIGHTLEFT,
+		FRONTBACK,
+		HALLWAY,
+        STAGE,
+        MAINROOM
     };
 
     RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth, DoorLocation doorLocation);
