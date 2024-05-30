@@ -1,10 +1,17 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "GameObject.h"
+#include "Component.h"
 
-class SecurityCameraComponent
+class SecurityCameraComponent : public Component
 {
-    glm::vec3 position;
-    glm::vec3 angle;
+public:
+    std::shared_ptr<GameObject> camera;
+    SecurityCameraComponent();
+    ~SecurityCameraComponent();
+    glm::mat4 getCameraMatrix();
 };
 

@@ -10,6 +10,7 @@
 #include "RoomComponent.h"
 #include "DebugComponent.h"
 #include "CameraComponent.h"
+#include "SecurityCameraComponent.h"
 
 #include "Texture.h"
 
@@ -28,6 +29,7 @@ OpenCv openCv;
 
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
+std::shared_ptr<GameObject> camera;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 
 float romigeKwarkTaardt = 0.0f;
@@ -207,8 +209,12 @@ void init()
     roomObjectHallWayLeft->addComponent(roomComponentHallWayLeft);
     gameObjects.push_back(roomObjectHallWayLeft);
 
-
-
+    auto RoomObjCameraB = std::make_shared<GameObject>();
+    RoomObjCameraB->position = glm::vec3(0, 0, 0);
+    RoomObjCameraB->rotation = glm::vec3(0, 0, 0);
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>();
+    RoomObjCameraB->addComponent(RoomCompCameraB);
+    gameObjects.push_back(RoomObjCameraB);
     
 
    /* auto rectangleObject = std::make_shared<GameObject>();

@@ -164,6 +164,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DrawComponent.cpp" />
+    <ClCompile Include="fbo.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DrawComponent.h" />
+    <ClInclude Include="fbo.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="lib\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="lib\imgui\backends\imgui_impl_opengl3.h" />
