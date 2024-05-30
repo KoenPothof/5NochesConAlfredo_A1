@@ -11,7 +11,7 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
     int z = 0;
 
     int doorHeight = 5;
-    int doorWidth = 3;
+    int doorWidth = 2;
     //int wallBesideDoorWidth = 2;
 
     switch (doorLocation)
@@ -65,15 +65,7 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::LEFT));
         doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::RIGHT));
 
-        // right wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, false, sideWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y + doorHeight, z - sideWallsWidth + doorWidth + wallBesideDoorWidth, 1, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z - sideWallsWidth + wallBesideDoorWidth, 1, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
-
-        // left wall with door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth - doorWidth - wallBesideDoorWidth, height, texture.setTexture(14, 0))); // front wall
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y + doorHeight, z - sideWallsWidth + doorWidth + wallBesideDoorWidth, 1, false, doorWidth, height - doorHeight, texture.setTexture(14, 0))); // wall above door
-        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z - sideWallsWidth + wallBesideDoorWidth, 1, false, wallBesideDoorWidth, height, texture.setTexture(14, 0))); // wall beside door
+  
 
         // rest of the walls
         rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // front wall
@@ -81,6 +73,38 @@ RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth
         rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(1, 0))); // floor
         rectangles.push_back(std::make_shared<RectangleComponent>(x, height, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(2, 0))); // ceiling
         break;
+
+	case FRONTBACK: 
+		doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::FRONT));
+		doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::BACK));
+
+        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // left wall
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // right wall
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(1, 0))); // floor
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, height, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(2, 0))); // ceiling
+	    break;
+
+    case HALLWAY:
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::RIGHT));
+
+        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // left wall
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(1, 0))); // floor
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, height, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(2, 0))); // ceiling
+        break;
+
+    case STAGE:
+        doors.push_back(std::make_shared<DoorComponent>(frontWallsWidth, sideWallsWidth, height, 0, wallBesideDoorWidth, DoorComponent::LEFT));
+
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(1, 0))); // floor
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, height, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(2, 0))); // ceiling
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, false, sideWallsWidth, height, texture.setTexture(14, 0))); // right wall
+        rectangles.push_back(std::make_shared<RectangleComponent>(x - frontWallsWidth, y, z - sideWallsWidth, 0, false, frontWallsWidth, height, texture.setTexture(14, 0))); // back wall
+        break;
+    case MAINROOM:
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, y, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(1, 0))); // floor
+        rectangles.push_back(std::make_shared<RectangleComponent>(x, height, z, 1, true, frontWallsWidth, -1 * sideWallsWidth, texture.setTexture(2, 0))); // ceiling
+        break;
+
     };
 }
 
