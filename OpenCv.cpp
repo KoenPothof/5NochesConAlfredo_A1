@@ -25,13 +25,18 @@ void OpenCv::init()
 {
 	handCascade.load("Resources/fist.xml");
 	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }
-	
+
+	// resolution decrease
+	cap.set(CAP_PROP_FRAME_WIDTH, 640/2);
+	cap.set(CAP_PROP_FRAME_HEIGHT, 480/2);
+
 }
 
 void OpenCv::run()
 {
 	cap.read(img);
 	cvtColor(img, imgGray, COLOR_BGR2GRAY);
+
 	handCascade.detectMultiScale(imgGray, hands);
 
 	for (int i = 0; i < hands.size(); i++)
