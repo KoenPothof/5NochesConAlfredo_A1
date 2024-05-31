@@ -1,14 +1,22 @@
 #include "EnemyComponent.h"
 
-EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions)
+EnemyComponent::EnemyComponent(const std::vector<EnemyLocations> enemyPath, const std::vector<glm::vec3> positions, const std::vector<glm::vec3> rotations)
 {
+	currentPathIndex = 0;
 	this->enemyPath = enemyPath;
 	this->positions = positions;
+	this->rotations = rotations;
 	currentLocation = this->enemyPath[currentPathIndex];
 }
 
 EnemyComponent::~EnemyComponent()
 {
+}
+
+void EnemyComponent::init()
+{
+	gameObject->position = positions.at(currentPathIndex);
+	gameObject->rotation = rotations[currentPathIndex];
 }
 
 void EnemyComponent::update(float elapsedTime)
@@ -32,6 +40,7 @@ void EnemyComponent::moveToNextRoom()
 	{
 		currentLocation = enemyPath[currentPathIndex];
 		gameObject->position = positions[currentPathIndex];
+		gameObject->rotation = rotations[currentPathIndex];
 	}
 
 }

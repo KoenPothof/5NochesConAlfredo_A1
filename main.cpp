@@ -30,7 +30,11 @@ OpenCv openCv;
 
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
+std::shared_ptr<GameObject> enemy;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
+std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
+const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
+const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
 
 float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
@@ -85,9 +89,17 @@ int main(void)
             ImGui::Begin("Demo Selection");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::Text("Player position: x: %.3f, y: %.3f, z: %.3f", debugPlayer->position.x, debugPlayer->position.y, debugPlayer->position.z);
+            ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);
+            ImGui::Text("Enemy current room is: %s", enumConverter[(int)enemy->getComponent<EnemyComponent>()->getCurrentLocation()]);
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
+            ImGui::SliderFloat("E pos X", &enemy->position.x, -100, 100);
+            ImGui::SliderFloat("E pos Y", &enemy->position.y, -100, 100);
+            ImGui::SliderFloat("E pos Z", &enemy->position.z, -100, 100);
+            ImGui::SliderFloat("E rot X", &enemy->rotation.x, -10, 10);
+            ImGui::SliderFloat("E rot Y", &enemy->rotation.y, -10, 10);
+            ImGui::SliderFloat("E rot Z", &enemy->rotation.z, -10, 10);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -125,6 +137,11 @@ void init()
                 }
             }
 
+            if (key == GLFW_KEY_R && action == GLFW_PRESS)
+            {
+				enemy->getComponent<EnemyComponent>()->moveToNextRoom();
+			}
+
             if (key == GLFW_KEY_ESCAPE)
                 glfwSetWindowShouldClose(window, true);
         });
@@ -132,13 +149,32 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
-    //initRoom();
+    initRoom();
 
-    auto model = std::make_shared<GameObject>();
-    model->addComponent(std::make_shared<ModelComponent>("assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj"));
-    model->position = glm::vec3(0, -1.0f, 0);
-    model->scale = glm::vec3(100.1f, 100.1f, 100.1f);
-    gameObjects.push_back(model);
+    enemy = std::make_shared<GameObject>();
+    enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
+    std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A};
+    std::vector<glm::vec3> positions = 
+    { 
+        glm::vec3(47.248f, -1.162f, -15.329f),
+        glm::vec3(30.787f, -1.162f, -16.759f),
+        glm::vec3(18.546f, -1.162f, -32.304f),
+        glm::vec3(6.3f, -3.558f, -21.506f),
+        glm::vec3(-7.272f, -2.744f, -13.600f)
+    };
+    std::vector<glm::vec3> rotations =
+    {
+        glm::vec3(-0.040f, 2.964f, 0),
+        glm::vec3(0.003f, 3.774f, 0),
+        glm::vec3(0.694f, 4.287f, 0.790f),
+        glm::vec3(0.227f, 5.336f, 0),
+        glm::vec3(0.040f, 0.358f, 0)
+    };
+    enemy->position = glm::vec3(0, -1.0f, 0);
+    enemy->scale = glm::vec3(80.1f, 80.1f, 80.1f);
+    enemy->addComponent(std::make_shared<EnemyComponent>(enemyPath, positions, rotations));
+    enemy->getComponent<EnemyComponent>()->init();
+    gameObjects.push_back(enemy);
 
    /* auto rectangleObject = std::make_shared<GameObject>();
     rectangleObject->position = glm::vec3(0, 0, 5);
