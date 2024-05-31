@@ -217,11 +217,11 @@ void init()
     gameObjects.push_back(RoomObjCameraB);
     
 
-   /* auto rectangleObject = std::make_shared<GameObject>();
+    auto rectangleObject = std::make_shared<GameObject>();
     rectangleObject->position = glm::vec3(0, 0, 5);
-    auto rectangleComponent = std::make_shared<RectangleComponent>(0, false, 10, 5);
+    auto rectangleComponent = std::make_shared<RectangleComponent>(5, 0, -10, 1, false, 2, 2, texture.setTexture(0, 0));
     rectangleObject->addComponent(rectangleComponent);
-    gameObjects.push_back(rectangleObject);*/
+    gameObjects.push_back(rectangleObject);
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
