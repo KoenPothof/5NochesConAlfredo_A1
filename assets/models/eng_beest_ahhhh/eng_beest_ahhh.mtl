@@ -1,0 +1,23 @@
+# Blender 4.1.1 MTL File: 'None'
+# www.blender.org
+
+newmtl lambert1.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd lp_eye_lambert1_BaseColor.png
+map_Bump -bm 1.000000 lp_eye_lambert1_normal.png
+
+newmtl phong34.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd MechanicEye_OjoInterior_BaseColor.jpg
+map_Ke MechanicEye_OjoInterior_Emissive.jpg
