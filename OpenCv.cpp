@@ -46,32 +46,32 @@ void OpenCv::run()
 
 
 		/// DoorButtonRight ///
-		if (center.x < 100 && center.x > 10 && center.y < 470 && center.y > 280) {
+		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			cout << "Door right button" << endl;
 		}
 
 		/// DoorButtonLeft ///
-		if (center.x < 630 && center.x > 540 && center.y < 470 && center.y > 280) {
+		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			cout << "Door left button" << endl;
 		}
 
 		/// CameraButton ///
-		if (center.x < 470 && center.x > 160 && center.y < 460 && center.y > 390) {
+		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
 			cout << "Camera button" << endl;
 		}
 
 		/// CameraViewButtonRight ///
-		if (center.x < 620 && center.x > 550 && center.y < 340 && center.y > 100) {
+		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			cout << "Cameraview right button" << endl;
 		}
 
 		/// CameraViewButtonLeft ///
-		if (center.x < 90 && center.x > 20 && center.y < 340 && center.y > 100) {
+		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			cout << "Cameraview left button" << endl;
 		}
 
 		/// CameraSwitchButton ///
-		if (center.x < 360 && center.x > 280 && center.y < 280 && center.y > 200) {
+		if (center.x < 360 / 2 && center.x > 280 / 2 && center.y < 280 / 2 && center.y > 200 / 2) {
 			cout << "Cameraswitch button" << endl;
 		}
 
@@ -82,18 +82,18 @@ void OpenCv::run()
 	
 
 	////////////////////// DoorButtons(purple) //////////////////////
-	rectangle(img, Point(10, 380), Point(100, 470), Scalar(255, 0, 255), 3);
-	rectangle(img, Point(540, 380), Point(630, 470), Scalar(255, 0, 255), 3);
+	rectangle(img, Point(10 / 2, 380 / 2), Point(100 / 2, 470 / 2), Scalar(255, 0, 255), 3);
+	rectangle(img, Point(540 / 2, 380 / 2), Point(630 / 2, 470 / 2), Scalar(255, 0, 255), 3);
 
 	////////////////////// CameraButton(red) //////////////////////
-	rectangle(img, Point(160, 390), Point(470, 460), Scalar(0, 0, 255), 3);
+	rectangle(img, Point(160 / 2, 390 / 2), Point(470 / 2, 460 / 2), Scalar(0, 0, 255), 3);
 
 	////////////////////// CameraViewButtons(green) //////////////////////
-	rectangle(img, Point(20, 100), Point(90, 340), Scalar(0, 255, 0), 3);
-	rectangle(img, Point(550, 100), Point(620, 340), Scalar(0, 255, 0), 3);
+	rectangle(img, Point(20 / 2, 100 / 2), Point(90 / 2, 340 / 2), Scalar(0, 255, 0), 3);
+	rectangle(img, Point(550 / 2, 100 / 2), Point(620 / 2, 340 / 2), Scalar(0, 255, 0), 3);
 
 	////////////////////// CameraSwitchButton(blue) //////////////////////
-	rectangle(img, Point(280, 200), Point(360, 280), Scalar(255, 0, 0), 3);
+	rectangle(img, Point(280 / 2, 200 / 2), Point(360 / 2, 280 / 2), Scalar(255, 0, 0), 3);
 
 	flip(img, img, 1);
 
