@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "OpenCv.h"
+#include "VisionComponent.h"
 
 #include "GameObject.h"
 #include "DrawComponent.h"
@@ -24,7 +24,6 @@ using tigl::Vertex;
 #pragma comment(lib, "opengl32.lib")
 
 GLFWwindow* window;
-OpenCv openCv;
 
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
@@ -36,7 +35,6 @@ bool pauseCamera = false;
 void init();
 void update();
 void draw();
-void runOpencv();
 glm::mat4 currentMatrix;
 glm::mat4 getDebugMatrix();
 glm::mat4 getMatrix();
@@ -127,7 +125,6 @@ void init()
 
     glEnable(GL_DEPTH_TEST);
 
-    //openCv = OpenCv();
 
     auto roomObjectA = std::make_shared<GameObject>();
     roomObjectA->position = glm::vec3(0, 0, 0);
@@ -229,9 +226,9 @@ void init()
     object3 = std::make_shared<GameObject>();
     object3->position = glm::vec3(0, 0, 0);
     object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    object3->addComponent(std::make_shared<VisionComponent>());
     gameObjects.push_back(object3);
 
-    openCv.init();
 }
 
 void update()
@@ -241,7 +238,6 @@ void update()
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
 
-    runOpencv();
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -269,11 +265,6 @@ void draw()
 
     for (auto& go : gameObjects)
         go->draw();
-}
-
-void runOpencv()
-{
-    openCv.run();
 }
 
 glm::mat4 getDebugMatrix()

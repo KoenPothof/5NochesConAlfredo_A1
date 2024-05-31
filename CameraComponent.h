@@ -9,11 +9,15 @@
 class CameraComponent : public Component {
 public:
     CameraComponent(float rotationSpeed, float moveSpeed);
+    CameraComponent(const CameraComponent &obj);
     ~CameraComponent();
 
     glm::mat4 getMatrix() const;
     void move(float angle, float fac);
     virtual void update(float elapsedTime) override;
+
+    void lookLeft();
+    void lookRight();
 
 private:
     glm::vec3 position;

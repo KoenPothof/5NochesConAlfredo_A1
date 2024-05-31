@@ -1,102 +1,105 @@
-#include "OpenCv.h"
-
-using namespace cv;
-using namespace std;
-
-VideoCapture cap(0);
-Mat img;
-Mat imgGray;
-CascadeClassifier handCascade;
-vector<Rect> hands;
-
-int siggy1 = 255;
-int siggy2 = 0;
-int siggy3 = 0;
-
-OpenCv::OpenCv()
-{
-}
-
-OpenCv::~OpenCv()
-{
-}
-
-void OpenCv::init() 
-{
-	handCascade.load("Resources/fist.xml");
-	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }
-
-	// resolution decrease
-	cap.set(CAP_PROP_FRAME_WIDTH, 640/2);
-	cap.set(CAP_PROP_FRAME_HEIGHT, 480/2);
-
-}
-
-void OpenCv::run()
-{
-	cap.read(img);
-	cvtColor(img, imgGray, COLOR_BGR2GRAY);
-
-	handCascade.detectMultiScale(imgGray, hands);
-
-	for (int i = 0; i < hands.size(); i++)
-	{
-		Point center(hands[i].x + hands[i].width / 2, hands[i].y + hands[i].height / 2);
-		rectangle(img, hands[i].tl(), hands[i].br(), Scalar(siggy1, siggy2, siggy3), 3);
-
-
-		/// DoorButtonRight ///
-		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
-			cout << "Door right button" << endl;
-		}
-
-		/// DoorButtonLeft ///
-		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
-			cout << "Door left button" << endl;
-		}
-
-		/// CameraButton ///
-		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
-			cout << "Camera button" << endl;
-		}
-
-		/// CameraViewButtonRight ///
-		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
-			cout << "Cameraview right button" << endl;
-		}
-
-		/// CameraViewButtonLeft ///
-		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
-			cout << "Cameraview left button" << endl;
-		}
-
-		/// CameraSwitchButton ///
-		if (center.x < 360 / 2 && center.x > 280 / 2 && center.y < 280 / 2 && center.y > 200 / 2) {
-			cout << "Cameraswitch button" << endl;
-		}
-
-
-		Mat handROI = imgGray(hands[i]);
-	}
-
-	
-
-	////////////////////// DoorButtons(purple) //////////////////////
-	rectangle(img, Point(10 / 2, 380 / 2), Point(100 / 2, 470 / 2), Scalar(255, 0, 255), 3);
-	rectangle(img, Point(540 / 2, 380 / 2), Point(630 / 2, 470 / 2), Scalar(255, 0, 255), 3);
-
-	////////////////////// CameraButton(red) //////////////////////
-	rectangle(img, Point(160 / 2, 390 / 2), Point(470 / 2, 460 / 2), Scalar(0, 0, 255), 3);
-
-	////////////////////// CameraViewButtons(green) //////////////////////
-	rectangle(img, Point(20 / 2, 100 / 2), Point(90 / 2, 340 / 2), Scalar(0, 255, 0), 3);
-	rectangle(img, Point(550 / 2, 100 / 2), Point(620 / 2, 340 / 2), Scalar(0, 255, 0), 3);
-
-	////////////////////// CameraSwitchButton(blue) //////////////////////
-	rectangle(img, Point(280 / 2, 200 / 2), Point(360 / 2, 280 / 2), Scalar(255, 0, 0), 3);
-
-	flip(img, img, 1);
-
-	imshow("HandDetection", img);
-	waitKey(1);
-}
+//#include "OpenCv.h"
+//#include "ControlsComponent.h"
+//
+//using namespace cv;
+//using namespace std;
+//
+//VideoCapture cap(0);
+//Mat img;
+//Mat imgGray;
+//CascadeClassifier handCascade;
+//vector<Rect> hands;
+//ControlsComponent controlsComponent;
+//
+//int siggy1 = 255;
+//int siggy2 = 0;
+//int siggy3 = 0;
+//
+//OpenCv::OpenCv()
+//{
+//}
+//
+//OpenCv::~OpenCv()
+//{
+//}
+//
+//void OpenCv::init() 
+//{
+//	handCascade.load("Resources/fist.xml");
+//	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }
+//
+//	// resolution decrease
+//	cap.set(CAP_PROP_FRAME_WIDTH, 640/2);
+//	cap.set(CAP_PROP_FRAME_HEIGHT, 480/2);
+//
+//	controlsComponent = ControlsComponent();
+//}
+//
+//void OpenCv::run()
+//{
+//	cap.read(img);
+//	cvtColor(img, imgGray, COLOR_BGR2GRAY);
+//
+//	handCascade.detectMultiScale(imgGray, hands);
+//
+//	for (int i = 0; i < hands.size(); i++)
+//	{
+//		Point center(hands[i].x + hands[i].width / 2, hands[i].y + hands[i].height / 2);
+//		rectangle(img, hands[i].tl(), hands[i].br(), Scalar(siggy1, siggy2, siggy3), 3);
+//
+//
+//		/// DoorButtonRight ///
+//		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
+//			controlsComponent.controls(ControlsComponent::DOORRIGHT);
+//		}
+//
+//		/// DoorButtonLeft ///
+//		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
+//			controlsComponent.controls(ControlsComponent::DOORLEFT);
+//		}
+//
+//		/// CameraButton ///
+//		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
+//			controlsComponent.controls(ControlsComponent::TOGGLECAMERAS);
+//		}
+//
+//		/// CameraViewButtonLeft ///
+//		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
+//			controlsComponent.controls(ControlsComponent::LOOKLEFT);
+//		}
+//
+//		/// CameraViewButtonRight ///
+//		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
+//			controlsComponent.controls(ControlsComponent::LOOKRIGHT);
+//		}
+//
+//		/// CameraSwitchButton ///
+//		if (center.x < 360 / 2 && center.x > 280 / 2 && center.y < 280 / 2 && center.y > 200 / 2) {
+//			controlsComponent.controls(ControlsComponent::CAMERASWITCH);
+//		}
+//
+//
+//		Mat handROI = imgGray(hands[i]);
+//	}
+//
+//	
+//
+//	////////////////////// DoorButtons(purple) //////////////////////
+//	rectangle(img, Point(10 / 2, 380 / 2), Point(100 / 2, 470 / 2), Scalar(255, 0, 255), 3);
+//	rectangle(img, Point(540 / 2, 380 / 2), Point(630 / 2, 470 / 2), Scalar(255, 0, 255), 3);
+//
+//	////////////////////// CameraButton(red) //////////////////////
+//	rectangle(img, Point(160 / 2, 390 / 2), Point(470 / 2, 460 / 2), Scalar(0, 0, 255), 3);
+//
+//	////////////////////// CameraViewButtons(green) //////////////////////
+//	rectangle(img, Point(20 / 2, 100 / 2), Point(90 / 2, 340 / 2), Scalar(0, 255, 0), 3);
+//	rectangle(img, Point(550 / 2, 100 / 2), Point(620 / 2, 340 / 2), Scalar(0, 255, 0), 3);
+//
+//	////////////////////// CameraSwitchButton(blue) //////////////////////
+//	rectangle(img, Point(280 / 2, 200 / 2), Point(360 / 2, 280 / 2), Scalar(255, 0, 0), 3);
+//
+//	flip(img, img, 1);
+//
+//	imshow("HandDetection", img);
+//	waitKey(1);
+//}
