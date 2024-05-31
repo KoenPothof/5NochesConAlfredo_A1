@@ -13,6 +13,7 @@
 #include "SecurityCameraComponent.h"
 
 #include "Texture.h"
+#include "fbo.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -27,10 +28,13 @@ using tigl::Vertex;
 GLFWwindow* window;
 OpenCv openCv;
 
+std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
+
+Texture textureFbo = Texture("assets/screen.jpg", 800, 600, NULL);
 
 float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
@@ -131,6 +135,8 @@ void init()
 
     //openCv = OpenCv();
 
+    fbo = std::make_shared<Fbo>(800, 600);
+
     auto roomObjectA = std::make_shared<GameObject>();
     roomObjectA->position = glm::vec3(0, 0, 0);
     auto roomComponentA = std::make_shared<RoomComponent>(10, 10); // Example dimensions
@@ -215,11 +221,10 @@ void init()
     auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>();
     RoomObjCameraB->addComponent(RoomCompCameraB);
     gameObjects.push_back(RoomObjCameraB);
-    
 
     auto rectangleObject = std::make_shared<GameObject>();
     rectangleObject->position = glm::vec3(0, 0, 5);
-    auto rectangleComponent = std::make_shared<RectangleComponent>(5, 0, -10, 1, false, 2, 2, texture.setTexture(0, 0));
+    auto rectangleComponent = std::make_shared<RectangleComponent>(5, 0, -10, 1, false, 2, 2, textureFbo);
     rectangleObject->addComponent(rectangleComponent);
     gameObjects.push_back(rectangleObject);
 
@@ -230,7 +235,6 @@ void init()
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
 
-    texture.bind();
 }
 
 void update()
