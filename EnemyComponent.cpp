@@ -20,7 +20,13 @@ void EnemyComponent::moveToNextRoom()
 	currentPathIndex++;
 	if (currentPathIndex >= enemyPath.size())
 	{
-		tryToAttack();
+		if (enemyPath[enemyPath.size() - 1] == EnemyLocations::A)
+		{
+			if (tryToAttack())			
+				jumpscare();			
+			else
+				moveBack();
+		}
 	}	
 	else
 	{
@@ -32,10 +38,14 @@ void EnemyComponent::moveToNextRoom()
 
 void EnemyComponent::moveBack()
 {
+	currentPathIndex = 0;
+	currentLocation = enemyPath[currentPathIndex];
+	gameObject->position = positions[currentPathIndex];
 }
 
-void EnemyComponent::tryToAttack()
+bool EnemyComponent::tryToAttack()
 {
+	return false;
 }
 
 void EnemyComponent::jumpscare()

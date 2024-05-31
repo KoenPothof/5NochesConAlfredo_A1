@@ -17,7 +17,7 @@ public:
 	void update(float elapsedTime) override;
 	void moveToNextRoom();
 	void moveBack();
-	void tryToAttack();
+	bool tryToAttack();
 	void jumpscare();
 private:
 	std::vector<EnemyLocations> enemyPath;

@@ -1,4 +1,7 @@
 #include "RectangleComponent.h"
+#include "Texture.h"
+
+extern Texture texture;
 
 // xyz for bottom point, direction 0 for x-as direction and direction 1 for z-as direction, for flat width is x length and height is z length
 RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height, glm::vec2* texturePositions)
@@ -29,5 +32,6 @@ RectangleComponent::~RectangleComponent()
 
 void RectangleComponent::draw()
 {
+    texture.bind();
 	tigl::drawVertices(GL_QUADS, verts);
 }

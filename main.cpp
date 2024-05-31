@@ -10,6 +10,8 @@
 #include "RoomComponent.h"
 #include "DebugComponent.h"
 #include "CameraComponent.h"
+#include "ModelComponent.h"
+#include "EnemyComponent.h"
 
 #include "Texture.h"
 
@@ -82,6 +84,7 @@ int main(void)
             ImGui::SetNextWindowSize(ImVec2(0, 400));
             ImGui::Begin("Demo Selection");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::Text("Player position: x: %.3f, y: %.3f, z: %.3f", debugPlayer->position.x, debugPlayer->position.y, debugPlayer->position.z);
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
@@ -129,7 +132,13 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
-    initRoom();
+    //initRoom();
+
+    auto model = std::make_shared<GameObject>();
+    model->addComponent(std::make_shared<ModelComponent>("assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj"));
+    model->position = glm::vec3(0, -1.0f, 0);
+    model->scale = glm::vec3(100.1f, 100.1f, 100.1f);
+    gameObjects.push_back(model);
 
    /* auto rectangleObject = std::make_shared<GameObject>();
     rectangleObject->position = glm::vec3(0, 0, 5);
@@ -143,8 +152,6 @@ void init()
     debugPlayer->addComponent(debugComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
-
-    texture.bind();
 }
 
 void update()
