@@ -13,6 +13,7 @@
 #include "ModelComponent.h"
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
+#include "GameManager.h"
 
 #include "Texture.h"
 
@@ -33,6 +34,7 @@ std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
+std::shared_ptr<GameManager> gameManager;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
@@ -163,7 +165,7 @@ void init()
     //openCv = OpenCv();
     initRoom();
 
-    enemy = std::make_shared<GameObject>();
+    enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
     std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A};
     std::vector<glm::vec3> positions = 
@@ -186,13 +188,8 @@ void init()
     enemy->scale = glm::vec3(80.1f, 80.1f, 80.1f);
     enemy->addComponent(std::make_shared<EnemyComponent>(enemyPath, positions, rotations));
     enemy->getComponent<EnemyComponent>()->init();
+    gameManager->enemy = enemy;
     gameObjects.push_back(enemy);
-
-   /* auto rectangleObject = std::make_shared<GameObject>();
-    rectangleObject->position = glm::vec3(0, 0, 5);
-    auto rectangleComponent = std::make_shared<RectangleComponent>(0, false, 10, 5);
-    rectangleObject->addComponent(rectangleComponent);
-    gameObjects.push_back(rectangleObject);*/
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
@@ -344,16 +341,18 @@ void initRoom()
     roomObjectHallWayLeft->addComponent(roomComponentHallWayLeft);
     gameObjects.push_back(roomObjectHallWayLeft);
 
-    securityDoor = std::make_shared<GameObject>();
+    securityDoor = std::make_shared<GameObject>(gameManager);
     securityDoor->position = glm::vec3(-6.640f, 0, 0.316f);
     securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
     securityDoor->addComponent(std::make_shared<SecurityDoorComponent>());
+    gameManager->rightDoor = securityDoor;
     gameObjects.push_back(securityDoor);
 
-    securityDoor1 = std::make_shared<GameObject>();
+    securityDoor1 = std::make_shared<GameObject>(gameManager);
     securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
     securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
+    gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);
 }
 

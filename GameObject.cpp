@@ -8,6 +8,11 @@ GameObject::GameObject()
 {
 }
 
+GameObject::GameObject(std::shared_ptr<GameManager> gameManager)
+{
+	this->gameManager = gameManager;
+}
+
 
 GameObject::~GameObject()
 {

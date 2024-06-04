@@ -1,6 +1,6 @@
 #include "EnemyComponent.h"
 
-EnemyComponent::EnemyComponent(const std::vector<EnemyLocations> enemyPath, const std::vector<glm::vec3> positions, const std::vector<glm::vec3> rotations)
+EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& rotations)
 {
 	currentPathIndex = 0;
 	this->enemyPath = enemyPath;
