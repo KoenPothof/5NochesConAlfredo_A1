@@ -156,7 +156,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\glfw-3.3.8\$(Platform);$(SolutionDir)lib\glew-2.1.0\lib\Release\$(Platform);$(OpenCV)\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world490d.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world490.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -180,6 +180,7 @@
     <ClCompile Include="OpenCv.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RoomComponent.cpp" />
+    <ClCompile Include="SecurityDoorComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
   </ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="OpenCv.h" />
     <ClInclude Include="RectangleComponent.h" />
     <ClInclude Include="RoomComponent.h" />
+    <ClInclude Include="SecurityDoorComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />
   </ItemGroup>

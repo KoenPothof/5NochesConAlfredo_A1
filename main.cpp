@@ -12,6 +12,7 @@
 #include "CameraComponent.h"
 #include "ModelComponent.h"
 #include "EnemyComponent.h"
+#include "SecurityDoorComponent.h"
 
 #include "Texture.h"
 
@@ -31,6 +32,7 @@ OpenCv openCv;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> enemy;
+std::shared_ptr<GameObject> securityDoor, securityDoor1;
 Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
@@ -94,12 +96,12 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
-            ImGui::SliderFloat("E pos X", &enemy->position.x, -100, 100);
-            ImGui::SliderFloat("E pos Y", &enemy->position.y, -100, 100);
-            ImGui::SliderFloat("E pos Z", &enemy->position.z, -100, 100);
-            ImGui::SliderFloat("E rot X", &enemy->rotation.x, -10, 10);
-            ImGui::SliderFloat("E rot Y", &enemy->rotation.y, -10, 10);
-            ImGui::SliderFloat("E rot Z", &enemy->rotation.z, -10, 10);
+            ImGui::SliderFloat("Door 1 X", &securityDoor->position.x, -20.0f, 20.0f);
+            ImGui::SliderFloat("Door 1 Y", &securityDoor->position.y, -20.0f, 20.0f);
+            ImGui::SliderFloat("Door 1 Z", &securityDoor->position.z, -20.0f, 20.0f);
+            ImGui::SliderFloat("Door 2 X", &securityDoor1->position.x, -20.0f, 20.0f);
+            ImGui::SliderFloat("Door 2 Y", &securityDoor1->position.y, -20.0f, 20.0f);
+            ImGui::SliderFloat("Door 2 Z", &securityDoor1->position.z, -20.0f, 20.0f);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -141,6 +143,16 @@ void init()
             {
 				enemy->getComponent<EnemyComponent>()->moveToNextRoom();
 			}
+
+            if (key == GLFW_KEY_T && action == GLFW_PRESS)
+            {
+				securityDoor->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor->getComponent<SecurityDoorComponent>()->isClosed;
+			}
+
+            if (key == GLFW_KEY_Y && action == GLFW_PRESS)
+            {
+                securityDoor1->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor1->getComponent<SecurityDoorComponent>()->isClosed;
+            }
 
             if (key == GLFW_KEY_ESCAPE)
                 glfwSetWindowShouldClose(window, true);
@@ -331,5 +343,17 @@ void initRoom()
     auto roomComponentHallWayLeft = std::make_shared<RoomComponent>(5, 20, 3, RoomComponent::HALLWAY); // Example dimensions
     roomObjectHallWayLeft->addComponent(roomComponentHallWayLeft);
     gameObjects.push_back(roomObjectHallWayLeft);
+
+    securityDoor = std::make_shared<GameObject>();
+    securityDoor->position = glm::vec3(-6.640f, 0, 0.316f);
+    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor->addComponent(std::make_shared<SecurityDoorComponent>());
+    gameObjects.push_back(securityDoor);
+
+    securityDoor1 = std::make_shared<GameObject>();
+    securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
+    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
+    gameObjects.push_back(securityDoor1);
 }
 
