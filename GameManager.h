@@ -20,5 +20,7 @@ public:
 	void setGameWon();
 	bool isGameOver();
 	bool isGameWon();
+	bool rightDoorClosed();
+	bool leftDoorClosed();
 };
 

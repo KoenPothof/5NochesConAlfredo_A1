@@ -93,17 +93,16 @@ int main(void)
             ImGui::Begin("Demo Selection");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::Text("Player position: x: %.3f, y: %.3f, z: %.3f", debugPlayer->position.x, debugPlayer->position.y, debugPlayer->position.z);
-            ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);
-            ImGui::Text("Enemy current room is: %s", enumConverter[(int)enemy->getComponent<EnemyComponent>()->getCurrentLocation()]);
+            ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
-            ImGui::SliderFloat("Door 1 X", &securityDoor->position.x, -20.0f, 20.0f);
-            ImGui::SliderFloat("Door 1 Y", &securityDoor->position.y, -20.0f, 20.0f);
-            ImGui::SliderFloat("Door 1 Z", &securityDoor->position.z, -20.0f, 20.0f);
-            ImGui::SliderFloat("Door 2 X", &securityDoor1->position.x, -20.0f, 20.0f);
-            ImGui::SliderFloat("Door 2 Y", &securityDoor1->position.y, -20.0f, 20.0f);
-            ImGui::SliderFloat("Door 2 Z", &securityDoor1->position.z, -20.0f, 20.0f);
+            ImGui::SliderFloat("Beest pos x", &enemy->position.x, -15.0f, 15.0f);
+            ImGui::SliderFloat("Beest pos y", &enemy->position.y, -15.0f, 15.0f);
+            ImGui::SliderFloat("Beest pos z", &enemy->position.z, -15.0f, 15.0f);
+            ImGui::SliderFloat("Beest rot x", &enemy->rotation.x, -3.14f, 3.14f);
+            ImGui::SliderFloat("Beest rot y", &enemy->rotation.y, -3.14f, 3.14f);
+            ImGui::SliderFloat("Beest rot z", &enemy->rotation.z, -3.14f, 3.14f);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -163,6 +162,7 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
+    gameManager = std::make_shared<GameManager>();
     initRoom();
 
     enemy = std::make_shared<GameObject>(gameManager);

@@ -2,6 +2,7 @@
 #include "DrawComponent.h"
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "GameManager.h"
 //#include "BoundingBoxComponent.h"
 
 GameObject::GameObject()
@@ -13,6 +14,15 @@ GameObject::GameObject(std::shared_ptr<GameManager> gameManager)
 	this->gameManager = gameManager;
 }
 
+GameObject::GameObject(std::shared_ptr<GameObject>& other)
+{
+	this->gameManager = other->gameManager;
+	this->position = other->position;
+	this->rotation = other->rotation;
+	this->scale = other->scale;
+	this->components = other->components;
+	this->drawComponent = other->drawComponent;
+}
 
 GameObject::~GameObject()
 {

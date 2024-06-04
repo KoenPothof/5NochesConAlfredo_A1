@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "GameObject.h"
+#include "SecurityDoorComponent.h"
 
 GameManager::GameManager()
 {
@@ -37,4 +38,14 @@ bool GameManager::isGameOver()
 bool GameManager::isGameWon()
 {
 	return false;
+}
+
+bool GameManager::rightDoorClosed()
+{
+	return rightDoor->getComponent<SecurityDoorComponent>()->isClosed;
+}
+
+bool GameManager::leftDoorClosed()
+{
+	return leftDoor->getComponent<SecurityDoorComponent>()->isClosed;
 }

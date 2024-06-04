@@ -18,6 +18,7 @@ public:
 
 	GameObject();
 	GameObject(std::shared_ptr<GameManager> gameManager);
+	GameObject(std::shared_ptr<GameObject>& other);
 	~GameObject();
 
 	glm::vec3 position;
