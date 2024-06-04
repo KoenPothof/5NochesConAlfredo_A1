@@ -4,7 +4,7 @@
 #include <list>
 #include <glm/glm.hpp>
 
-
+class GameManager;
 class Component;
 class DrawComponent;
 
@@ -14,8 +14,11 @@ public:
 
 	std::shared_ptr<DrawComponent> drawComponent;
 	std::list<std::shared_ptr<Component>> components;
+	std::shared_ptr<GameManager> gameManager;
 
 	GameObject();
+	GameObject(std::shared_ptr<GameManager> gameManager);
+	GameObject(std::shared_ptr<GameObject>& other);
 	~GameObject();
 
 	glm::vec3 position;

@@ -1,6 +1,8 @@
 #include "EnemyComponent.h"
+//#include "GameObject.h"
+#include "GameManager.h"
 
-EnemyComponent::EnemyComponent(const std::vector<EnemyLocations> enemyPath, const std::vector<glm::vec3> positions, const std::vector<glm::vec3> rotations)
+EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& rotations)
 {
 	currentPathIndex = 0;
 	this->enemyPath = enemyPath;
@@ -26,19 +28,20 @@ void EnemyComponent::update(float elapsedTime)
 void EnemyComponent::moveToNextRoom()
 {
 	currentPathIndex++;
-	if (currentPathIndex >= enemyPath.size())
+	currentLocation = enemyPath[currentPathIndex];
+	if (currentLocation == A)
 	{
-		if (enemyPath[enemyPath.size() - 1] == EnemyLocations::A)
+		if (tryToAttack())
 		{
-			if (tryToAttack())			
-				jumpscare();			
-			else
-				moveBack();
+			jumpscare();
 		}
-	}	
+		else
+		{
+			moveBack();
+		}
+	}
 	else
 	{
-		currentLocation = enemyPath[currentPathIndex];
 		gameObject->position = positions[currentPathIndex];
 		gameObject->rotation = rotations[currentPathIndex];
 	}
@@ -50,13 +53,21 @@ void EnemyComponent::moveBack()
 	currentPathIndex = 0;
 	currentLocation = enemyPath[currentPathIndex];
 	gameObject->position = positions[currentPathIndex];
+	gameObject->rotation = rotations[currentPathIndex];
 }
 
 bool EnemyComponent::tryToAttack()
 {
-	return false;
+	if (gameObject->gameManager->leftDoorClosed())
+	{
+		return false;
+	}
+	else return true;
 }
 
 void EnemyComponent::jumpscare()
 {
+	gameObject->position = glm::vec3(-0.427f, -3.660f, -4.763f);
+	gameObject->rotation = glm::vec3(0.0f, -2.519f, 0.0f);
+	currentPathIndex = 0;
 }

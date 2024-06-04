@@ -6,12 +6,13 @@
 class EnemyComponent : public Component
 {
 public:
+	bool attackFromLeft = true;
 	enum EnemyLocations
 	{
 		A, B, C, D, E, F, G, H, I, J, K, HALL_LEFT, HALL_RIGHT
 	};
 
-	EnemyComponent(const std::vector<EnemyLocations> enemyPath, const std::vector<glm::vec3> positions, const std::vector<glm::vec3> rotations);
+	EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& rotations);
 	~EnemyComponent();
 
 	void update(float elapsedTime) override;
