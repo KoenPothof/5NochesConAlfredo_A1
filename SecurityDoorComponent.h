@@ -7,7 +7,7 @@ public:
 	SecurityDoorComponent();
 	~SecurityDoorComponent();
 	void update(float elapsedTime) override;
-	void openDoor();
-	void closeDoor();
+	void openDoor(float elapsedTime);
+	void closeDoor(float elapsedTime);
 };
 
