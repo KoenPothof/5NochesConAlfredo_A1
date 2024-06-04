@@ -13,6 +13,9 @@ class RoomComponent : public DrawComponent
 private:
     std::vector<std::shared_ptr<RectangleComponent>> rectangles;
     std::vector<std::shared_ptr<DoorComponent>> doors;
+    int sideWallsWidth;
+    int frontWallsWidth;
+    int wallBesideDoorWidth;
 
 public:
 
@@ -22,15 +25,28 @@ public:
         RIGHT,
         BACK,
         FRONT,
+        FRONTBACK,
         RIGHTLEFT,
-		FRONTBACK,
 		HALLWAY,
         STAGE,
-        MAINROOM
+        MAINROOM,
+        LEFTDOORCLOSED,
+		RIGHTDOORCLOSED,
+        BOTHCLOSED
     };
+
+	enum Door
+	{
+		LEFTDOOR,
+        RIGHTDOOR,
+        BOTHDOORS
+	};
 
     RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth, DoorLocation doorLocation);
     ~RoomComponent();
 
     virtual void draw() override;
+
+    void openDoor(Door door);
+	void closeDoor(Door door);
 };
