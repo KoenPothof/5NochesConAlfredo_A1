@@ -29,16 +29,17 @@ void VisionComponent::init()
 	// resolution decrease
 	cap.set(CAP_PROP_FRAME_WIDTH, 640 / 2);
 	cap.set(CAP_PROP_FRAME_HEIGHT, 480 / 2);
-
 }
 
 void VisionComponent::update(float elapseTime)
 {
 	cap.read(img);
+
 	cvtColor(img, imgGray, COLOR_BGR2GRAY);
 
 	handCascade.detectMultiScale(imgGray, hands);
-
+	
+	
 	for (int i = 0; i < hands.size(); i++)
 	{
 		Point center(hands[i].x + hands[i].width / 2, hands[i].y + hands[i].height / 2);
@@ -48,31 +49,37 @@ void VisionComponent::update(float elapseTime)
 		/// DoorButtonRight ///
 		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			//controlsComponent.controls(ControlsComponent::DOORRIGHT);
+			cout << "Door right toggled" << endl;
 		}
 
 		/// DoorButtonLeft ///
 		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			//controlsComponent.controls(ControlsComponent::DOORLEFT);
+			cout << "Door left toggled" << endl;
 		}
 
 		/// CameraButton ///
 		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
 			//controlsComponent.controls(ControlsComponent::TOGGLECAMERAS);
+			cout << "Camerasystem toggled" << endl;
 		}
 
 		/// CameraViewButtonLeft ///
 		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKLEFT);
+			cout << "Camera to the left" << endl;
 		}
 
 		/// CameraViewButtonRight ///
 		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKRIGHT);
+			cout << "Camera to the right" << endl;
 		}
 
 		/// CameraSwitchButton ///
 		if (center.x < 360 / 2 && center.x > 280 / 2 && center.y < 280 / 2 && center.y > 200 / 2) {
 			//controlsComponent.controls(ControlsComponent::CAMERASWITCH);
+			cout << "Camera switched" << endl;
 		}
 
 

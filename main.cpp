@@ -229,6 +229,8 @@ void init()
     object3->addComponent(std::make_shared<VisionComponent>());
     gameObjects.push_back(object3);
 
+    object3->getComponent<VisionComponent>()->init();
+
 }
 
 void update()
