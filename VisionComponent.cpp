@@ -1,4 +1,6 @@
 #include "VisionComponent.h"
+#include "GameObject.h"
+#include "CameraComponent.h"
 
 using namespace cv;
 using namespace std;
@@ -8,6 +10,7 @@ Mat img;
 Mat imgGray;
 CascadeClassifier handCascade;
 vector<Rect> hands;
+shared_ptr<GameObject> cameraComponent;
 
 int siggy1 = 255;
 int siggy2 = 0;
@@ -50,6 +53,7 @@ void VisionComponent::update(float elapseTime)
 		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			//controlsComponent.controls(ControlsComponent::DOORRIGHT);
 			cout << "Door right toggled" << endl;
+			
 		}
 
 		/// DoorButtonLeft ///
@@ -68,12 +72,25 @@ void VisionComponent::update(float elapseTime)
 		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKLEFT);
 			cout << "Camera to the left" << endl;
+			try {
+				//cameraComponent->getComponent<CameraComponent>()->lookLeft();
+			}
+			catch (const std::exception& e) {
+				cout << "CameraComponent not found" << endl;
+			}
+			
 		}
 
 		/// CameraViewButtonRight ///
 		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKRIGHT);
 			cout << "Camera to the right" << endl;
+			try {
+				//cameraComponent->getComponent<CameraComponent>()->lookRight();
+			}
+			catch (const std::exception& e) {
+				cout << "CameraComponent not found" << endl;
+			}
 		}
 
 		/// CameraSwitchButton ///
