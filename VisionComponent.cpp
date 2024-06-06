@@ -1,6 +1,7 @@
 #include "VisionComponent.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "GameManager.h"
 
 using namespace cv;
 using namespace std;
@@ -52,13 +53,14 @@ void VisionComponent::update(float elapseTime)
 		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			//controlsComponent.controls(ControlsComponent::DOORRIGHT);
 			cout << "Door right toggled" << endl;
-			
+			gameObject->gameManager->rightDoorToggle();
 		}
 
 		/// DoorButtonLeft ///
 		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
 			//controlsComponent.controls(ControlsComponent::DOORLEFT);
 			cout << "Door left toggled" << endl;
+			gameObject->gameManager->leftDoorToggle();
 		}
 
 		/// CameraButton ///
