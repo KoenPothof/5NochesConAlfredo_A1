@@ -14,6 +14,7 @@
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
 #include "GameManager.h"
+#include "TextComponent.h"
 
 #include "Texture.h"
 
@@ -56,7 +57,7 @@ int main(void)
 {
     if (!glfwInit())
         throw "Could not initialize glwf";
-    window = glfwCreateWindow(1400, 800, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(1800, 1000, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -194,7 +195,9 @@ void init()
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
     auto debugComponent = std::make_shared<DebugComponent>();
+    auto fontComponent = std::make_shared<TextComponent>();
     debugPlayer->addComponent(debugComponent);
+    debugPlayer->addComponent(fontComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
 }
@@ -207,6 +210,7 @@ void update()
     lastTime = currentTime;
 
     //runOpencv();
+    glEnable(GL_DEPTH_TEST);
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
