@@ -202,13 +202,13 @@ void init()
     gameObjects.push_back(debugPlayer);
 
     // Create and add object3
-    //object3 = std::make_shared<GameObject>();
-    //object3->position = glm::vec3(0, 2, 0);
-    //object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
-    //object3->addComponent(std::make_shared<VisionComponent>());
-    //gameObjects.push_back(object3);
-    //
-    //object3->getComponent<VisionComponent>()->init();
+    object3 = std::make_shared<GameObject>(gameManager);
+    object3->position = glm::vec3(0, 2, -2);
+    object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    object3->addComponent(std::make_shared<VisionComponent>());
+    gameObjects.push_back(object3);
+    
+    object3->getComponent<VisionComponent>()->init();
 
     texture.bind();
 }
@@ -242,7 +242,7 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);

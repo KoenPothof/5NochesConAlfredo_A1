@@ -49,3 +49,13 @@ bool GameManager::leftDoorClosed()
 {
 	return leftDoor->getComponent<SecurityDoorComponent>()->isClosed;
 }
+
+void GameManager::rightDoorToggle()
+{
+	rightDoor->getComponent<SecurityDoorComponent>()->isClosed = !rightDoor->getComponent<SecurityDoorComponent>()->isClosed;
+}
+
+void GameManager::leftDoorToggle()
+{
+	leftDoor->getComponent<SecurityDoorComponent>()->isClosed = !leftDoor->getComponent<SecurityDoorComponent>()->isClosed;
+}
