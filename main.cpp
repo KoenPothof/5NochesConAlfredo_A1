@@ -211,7 +211,7 @@ void init()
     
     object3->getComponent<VisionComponent>()->init();
 
-    texture.bind();
+    texture->bind();
 }
 
 void update()
