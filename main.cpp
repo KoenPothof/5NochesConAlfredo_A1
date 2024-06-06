@@ -17,6 +17,9 @@
 #include "TextComponent.h"
 
 #include "Texture.h"
+#include <irrKlang.h>
+
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -29,6 +32,9 @@ using tigl::Vertex;
 #pragma comment(lib, "opengl32.lib")
 
 GLFWwindow* window;
+
+irrklang::ISoundEngine* soundEngine;
+irrklang::ISound* sound;
 
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
@@ -54,6 +60,7 @@ glm::mat4 getMatrix();
 
 int main(void)
 {
+    soundEngine = irrklang::createIrrKlangDevice();
     if (!glfwInit())
         throw "Could not initialize glwf";
     window = glfwCreateWindow(1800, 1000, "Hello World", NULL, NULL);
@@ -67,6 +74,9 @@ int main(void)
     {
         throw "Could not initialize GLEW";
     }
+
+    sound = soundEngine->play2D("assets/sounds/musicWin.mp3", true, false, true);
+
     tigl::init();
 
     IMGUI_CHECKVERSION();
