@@ -218,7 +218,7 @@ void init()
     gameObjects.push_back(roomObjectHallWayLeft);
 
     auto RoomObjCameraB = std::make_shared<GameObject>();
-    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 800, 0, 800, 600, glm::vec3(5, 2, -5), glm::vec3(glm::radians(45.0f), glm::radians(-45.0f), 0));
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 5, 0, -10, 600, glm::vec3(5, 2, -5), glm::vec3(glm::radians(45.0f), glm::radians(-45.0f), 0));
     RoomObjCameraB->addComponent(RoomCompCameraB);
     gameObjects.push_back(RoomObjCameraB);
 
