@@ -185,6 +185,7 @@
     <ClCompile Include="SecurityDoorComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
+    <ClCompile Include="TimerComponent.cpp" />
     <ClCompile Include="VisionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +215,7 @@
     <ClInclude Include="SecurityDoorComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />
+    <ClInclude Include="TimerComponent.h" />
     <ClInclude Include="VisionComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
