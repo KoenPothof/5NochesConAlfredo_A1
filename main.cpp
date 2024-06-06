@@ -161,6 +161,9 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
+    gameManager = std::make_shared<GameManager>();
+    initRoom();
+
 
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
@@ -195,6 +198,15 @@ void init()
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
 
+    // Create and add object3
+    //object3 = std::make_shared<GameObject>();
+    //object3->position = glm::vec3(0, 2, 0);
+    //object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    //object3->addComponent(std::make_shared<VisionComponent>());
+    //gameObjects.push_back(object3);
+    //
+    //object3->getComponent<VisionComponent>()->init();
+
     texture.bind();
 }
 
@@ -225,7 +237,7 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
