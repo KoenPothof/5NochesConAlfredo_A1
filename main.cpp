@@ -11,6 +11,7 @@
 #include "DebugComponent.h"
 #include "CameraComponent.h"
 #include "SecurityCameraComponent.h"
+#include "ScreenComponent.h"
 
 #include "Texture.h"
 #include "fbo.h"
@@ -40,6 +41,7 @@ bool pauseCamera = false;
 
 void init();
 void update();
+void buildFbo();
 void draw();
 void runOpencv();
 glm::mat4 currentMatrix;
@@ -79,6 +81,7 @@ int main(void)
         ImGui::NewFrame();
 
         update();
+        buildFbo();
         draw();
 
         {
@@ -222,11 +225,11 @@ void init()
     RoomObjCameraB->addComponent(RoomCompCameraB);
     gameObjects.push_back(RoomObjCameraB);
 
-    auto rectangleObject = std::make_shared<GameObject>();
-    rectangleObject->position = glm::vec3(0, 0, 5);
-    auto rectangleComponent = std::make_shared<RectangleComponent>(5, 0, -10, 1, false, 2, 2, textureFbo);
-    rectangleObject->addComponent(rectangleComponent);
-    gameObjects.push_back(rectangleObject);
+    auto screenObject = std::make_shared<GameObject>();
+    screenObject->position = glm::vec3(0, 0, 5); 
+    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 2, 2, fbo.get());
+    screenObject->addComponent(screenComponent);
+    gameObjects.push_back(screenObject);
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
@@ -251,11 +254,37 @@ void update()
 
 }
 
+void buildFbo()
+{
+    fbo->bind();
+    glViewport(0, 0, fbo->width, fbo->height);
+    glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    int viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
+
+    tigl::shader->setProjectionMatrix(projection);
+
+    if (pauseCamera)
+        tigl::shader->setViewMatrix(currentMatrix);
+    else
+        tigl::shader->setViewMatrix(getDebugMatrix());
+
+    tigl::shader->setModelMatrix(glm::mat4(1.0f));
+    tigl::shader->enableTexture(true);
+
+    for (auto& go : gameObjects)
+        go->draw();
+    fbo->unbind();
+}
+
 void draw()
 {
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    glViewport(0, 0, 1920, 1080);
     int viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);

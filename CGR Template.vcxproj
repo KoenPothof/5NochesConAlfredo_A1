@@ -178,6 +178,7 @@
     <ClCompile Include="OpenCv.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RoomComponent.cpp" />
+    <ClCompile Include="ScreenComponent.cpp" />
     <ClCompile Include="SecurityCameraComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
@@ -201,10 +202,15 @@
     <ClInclude Include="ObjModel.h" />
     <ClInclude Include="OpenCv.h" />
     <ClInclude Include="RectangleComponent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RoomComponent.h" />
+    <ClInclude Include="ScreenComponent.h" />
     <ClInclude Include="SecurityCameraComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Program.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

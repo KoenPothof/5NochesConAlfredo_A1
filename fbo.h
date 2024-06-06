@@ -16,6 +16,6 @@ public:
 
 	void bind();
 	void unbind();
-	void use();
+	void bindTexture();
 
 };

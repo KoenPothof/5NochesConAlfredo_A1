@@ -40,7 +40,7 @@ void Fbo::unbind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Fbo::use()
+void Fbo::bindTexture()
 {
 	glBindTexture(GL_TEXTURE_2D, fboTextureId);
 }
