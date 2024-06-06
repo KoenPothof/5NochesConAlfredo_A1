@@ -42,7 +42,6 @@ void GameObject::draw(const glm::mat4& parentMatrix)
 	modelMatrix = glm::scale(modelMatrix, scale);
 
 	tigl::shader->setModelMatrix(modelMatrix);
-	drawComponent->getTexture().bind();
 	drawComponent->draw();
 }
 

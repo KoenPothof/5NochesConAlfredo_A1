@@ -9,5 +9,4 @@ public:
 	DrawComponent();
 	~DrawComponent();
 	virtual void draw() = 0;
-	virtual Texture getTexture() = 0;
 };

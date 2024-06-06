@@ -1,7 +1,7 @@
 #include "RectangleComponent.h"
 
 // xyz for bottom point, direction 0 for x-as direction and direction 1 for z-as direction, for flat width is x length and height is z length
-RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height, glm::vec2* texturePositions) : compTexture(Texture("assets/screen.jpg", 800, 600, NULL))
+RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height, glm::vec2* texturePositions) : compTexture(new Texture("assets/screen.jpg", 800, 600, NULL))
 {
     if (direction == 0 && flat == false) {
         verts.push_back(Vertex::PT(glm::vec3(x, y, z), texturePositions[0])); // bottom point
@@ -23,7 +23,7 @@ RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool 
     }
 }
 
-RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height, Texture texture) : compTexture(texture)
+RectangleComponent::RectangleComponent(int x, int y, int z, int direction, bool flat, int width, int height, Texture* texture) : compTexture(texture)
 {
     glm::vec2 pos1 = glm::vec2(0, 0);
     glm::vec2 pos2 = glm::vec2(1, 0);
@@ -56,9 +56,6 @@ RectangleComponent::~RectangleComponent()
 
 void RectangleComponent::draw()
 {
+    compTexture->bind();
 	tigl::drawVertices(GL_QUADS, verts);
-}
-
-Texture RectangleComponent::getTexture() {
-    return compTexture;
 }

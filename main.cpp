@@ -32,9 +32,8 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
-
-Texture textureFbo = Texture("assets/screen.jpg", 800, 600, NULL);
+Texture* texture;
+Texture* textureFbo;
 
 float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
@@ -134,7 +133,8 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
-
+    texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
+    textureFbo = new Texture("assets/screen.jpg", 800, 600, NULL);
     fbo = std::make_shared<Fbo>(800, 600);
 
     auto roomObjectA = std::make_shared<GameObject>();
