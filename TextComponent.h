@@ -4,12 +4,15 @@
 #include <string>
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "GameManager.h"
+
 class TextComponent : public DrawComponent
 {
 public:
 	stbtt_bakedchar cdata[96];
 	GLuint texId;
-	std::string text = "Hello World";
+	std::string battery = "Battery Level: ";
+	
 
 	TextComponent();
 	~TextComponent();

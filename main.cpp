@@ -193,7 +193,7 @@ void init()
     gameObjects.push_back(enemy);
 
     // Create and add DebugComponent
-    debugPlayer = std::make_shared<GameObject>();
+    debugPlayer = std::make_shared<GameObject>(gameManager);
     auto debugComponent = std::make_shared<DebugComponent>();
     auto fontComponent = std::make_shared<TextComponent>();
     debugPlayer->addComponent(debugComponent);
@@ -219,6 +219,7 @@ void update()
     static double lastTime = currentTime;
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
+	gameManager->update(deltaTime);
 
     //runOpencv();
     glEnable(GL_DEPTH_TEST);

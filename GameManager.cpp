@@ -1,9 +1,15 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "SecurityDoorComponent.h"
+#include "GLFW/glfw3.h"
+
+
+float passedTime = glfwGetTime();
+
 
 GameManager::GameManager()
 {
+	
 }
 
 GameManager::~GameManager()
@@ -12,6 +18,8 @@ GameManager::~GameManager()
 
 void GameManager::update(float elapsedTime)
 {
+	float currentTime = glfwGetTime();
+	deltaTime = float(passedTime - currentTime);
 }
 
 void GameManager::init()
