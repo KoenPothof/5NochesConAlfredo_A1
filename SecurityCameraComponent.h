@@ -9,9 +9,12 @@
 class SecurityCameraComponent : public Component
 {
 public:
-    std::shared_ptr<GameObject> camera;
-    SecurityCameraComponent();
-    ~SecurityCameraComponent();
-    glm::mat4 getCameraMatrix();
+    int id;
+    int viewportX, viewportY, viewportWidth, viewportHeight;
+    glm::vec3 position;
+    glm::vec3 rotation;
+
+    SecurityCameraComponent(int id, int x, int y, int width, int height, const glm::vec3& pos, const glm::vec3& rot);
+    ~SecurityCameraComponent(); // Destructor declaration
 };
 

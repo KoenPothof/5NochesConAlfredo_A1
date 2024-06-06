@@ -34,10 +34,10 @@ std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
 Texture* texture;
-Texture* textureFbo;
 
 float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
+int selectedCamera = 1;
 
 void init();
 void update();
@@ -137,7 +137,6 @@ void init()
 
     //openCv = OpenCv();
     texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
-    textureFbo = new Texture("assets/screen.jpg", 800, 600, NULL);
     fbo = std::make_shared<Fbo>(800, 600);
 
     auto roomObjectA = std::make_shared<GameObject>();
@@ -219,9 +218,7 @@ void init()
     gameObjects.push_back(roomObjectHallWayLeft);
 
     auto RoomObjCameraB = std::make_shared<GameObject>();
-    RoomObjCameraB->position = glm::vec3(0, 0, 0);
-    RoomObjCameraB->rotation = glm::vec3(0, 0, 0);
-    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>();
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 800, 0, 800, 600, glm::vec3(5, 2, -5), glm::vec3(glm::radians(45.0f), glm::radians(-45.0f), 0));
     RoomObjCameraB->addComponent(RoomCompCameraB);
     gameObjects.push_back(RoomObjCameraB);
 
@@ -256,8 +253,26 @@ void update()
 
 void buildFbo()
 {
+    // Find the SecurityCameraComponent for the selectedCamera
+    std::shared_ptr<SecurityCameraComponent> selectedCameraComponent;
+    for (auto& go : gameObjects)
+    {
+        auto cameraComponent = go->getComponent<SecurityCameraComponent>();
+        if (cameraComponent && cameraComponent->id == selectedCamera)
+        {
+            selectedCameraComponent = cameraComponent;
+            break;
+        }
+    }
+
+    if (!selectedCameraComponent)
+    {
+        std::cerr << "Selected camera not found!" << std::endl;
+        return;
+    }
+
     fbo->bind();
-    glViewport(0, 0, fbo->width, fbo->height);
+    glViewport(selectedCameraComponent->viewportX, selectedCameraComponent->viewportY, selectedCameraComponent->viewportWidth, selectedCameraComponent->viewportHeight);
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -267,16 +282,21 @@ void buildFbo()
 
     tigl::shader->setProjectionMatrix(projection);
 
-    if (pauseCamera)
-        tigl::shader->setViewMatrix(currentMatrix);
-    else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+    // Set view matrix based on the camera's position and rotation
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.x, glm::vec3(1, 0, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.y, glm::vec3(0, 1, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.z, glm::vec3(0, 0, 1));
+    viewMatrix = glm::translate(viewMatrix, -selectedCameraComponent->position);
+
+    tigl::shader->setViewMatrix(viewMatrix);
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
 
     for (auto& go : gameObjects)
         go->draw();
+
     fbo->unbind();
 }
 
