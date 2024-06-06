@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "OpenCv.h"
+#include "VisionComponent.h"
 
 #include "GameObject.h"
 #include "DrawComponent.h"
@@ -14,6 +14,7 @@
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
 #include "GameManager.h"
+#include "TextComponent.h"
 
 #include "Texture.h"
 #include <irrKlang.h>
@@ -31,7 +32,6 @@ using tigl::Vertex;
 #pragma comment(lib, "opengl32.lib")
 
 GLFWwindow* window;
-OpenCv openCv;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* sound;
@@ -41,7 +41,7 @@ std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
-Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
+Texture* texture;
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
 const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
@@ -63,7 +63,7 @@ int main(void)
     soundEngine = irrklang::createIrrKlangDevice();
     if (!glfwInit())
         throw "Could not initialize glwf";
-    window = glfwCreateWindow(1400, 800, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(1800, 1000, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -172,8 +172,10 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
+    texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
     gameManager = std::make_shared<GameManager>();
     initRoom();
+
 
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
@@ -204,9 +206,22 @@ void init()
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>();
     auto debugComponent = std::make_shared<DebugComponent>();
+    auto fontComponent = std::make_shared<TextComponent>();
     debugPlayer->addComponent(debugComponent);
+    debugPlayer->addComponent(fontComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
+
+    // Create and add object3
+    object3 = std::make_shared<GameObject>(gameManager);
+    object3->position = glm::vec3(0, 2, -2);
+    object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    object3->addComponent(std::make_shared<VisionComponent>());
+    gameObjects.push_back(object3);
+    
+    object3->getComponent<VisionComponent>()->init();
+
+    texture->bind();
 }
 
 void update()
@@ -217,6 +232,7 @@ void update()
     lastTime = currentTime;
 
     //runOpencv();
+    glEnable(GL_DEPTH_TEST);
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -237,18 +253,13 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
 
     for (auto& go : gameObjects)
         go->draw();
-}
-
-void runOpencv()
-{
-    openCv.run();
 }
 
 glm::mat4 getDebugMatrix()
@@ -353,14 +364,14 @@ void initRoom()
 
     securityDoor = std::make_shared<GameObject>(gameManager);
     securityDoor->position = glm::vec3(-6.640f, 0, 0.316f);
-    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0));
     securityDoor->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->rightDoor = securityDoor;
     gameObjects.push_back(securityDoor);
 
     securityDoor1 = std::make_shared<GameObject>(gameManager);
     securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
-    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0));
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);

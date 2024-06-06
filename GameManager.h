@@ -22,5 +22,7 @@ public:
 	bool isGameWon();
 	bool rightDoorClosed();
 	bool leftDoorClosed();
+	void rightDoorToggle();
+	void leftDoorToggle();
 };
 
