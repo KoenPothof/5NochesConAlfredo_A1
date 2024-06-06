@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "tigl.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "OpenCv.h"
+#include "VisionComponent.h"
 
 #include "GameObject.h"
 #include "DrawComponent.h"
@@ -28,7 +28,6 @@ using tigl::Vertex;
 #pragma comment(lib, "opengl32.lib")
 
 GLFWwindow* window;
-OpenCv openCv;
 
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
@@ -162,8 +161,6 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
-    gameManager = std::make_shared<GameManager>();
-    initRoom();
 
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
@@ -197,6 +194,8 @@ void init()
     debugPlayer->addComponent(debugComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameObjects.push_back(debugPlayer);
+
+    texture.bind();
 }
 
 void update()
@@ -206,7 +205,6 @@ void update()
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
 
-    //runOpencv();
 
     for (auto& go : gameObjects)
         go->update(deltaTime);
@@ -227,18 +225,13 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
 
     for (auto& go : gameObjects)
         go->draw();
-}
-
-void runOpencv()
-{
-    openCv.run();
 }
 
 glm::mat4 getDebugMatrix()

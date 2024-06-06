@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ControlsComponent.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DoorComponent.cpp" />
     <ClCompile Include="DrawComponent.cpp" />
@@ -184,10 +185,12 @@
     <ClCompile Include="SecurityDoorComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
+    <ClCompile Include="VisionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ControlsComponent.h" />
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DoorComponent.h" />
     <ClInclude Include="DrawComponent.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="SecurityDoorComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />
+    <ClInclude Include="VisionComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,19 @@
 #include "CameraComponent.h"
 extern GLFWwindow* window;
 
+float rotationIncrement;
+
 CameraComponent::CameraComponent(float rotationSpeed, float moveSpeed)
     : position(0.0f, 0.0f, 0.0f), rotation(0.0f, 0.0f), rotationSpeed(rotationSpeed), moveSpeed(moveSpeed)
 {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (glfwRawMouseMotionSupported())
         glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+}
+
+CameraComponent::CameraComponent(const CameraComponent& obj)
+{
+	
 }
 
 CameraComponent::~CameraComponent()
@@ -33,9 +40,19 @@ void CameraComponent::update(float elapsedTime)
     const float rotationSpeed = 0.3f;
 	const float moveSpeed = 5.0f;
     
-    float rotationIncrement = rotationSpeed * elapsedTime;
+    rotationIncrement = rotationSpeed * elapsedTime;
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         gameObject->rotation.y -= rotationIncrement;
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         gameObject->rotation.y += rotationIncrement;
+}
+
+void CameraComponent::lookLeft()
+{
+    gameObject->rotation.y -= rotationIncrement;
+}
+
+void CameraComponent::lookRight()
+{
+    gameObject->rotation.y += rotationIncrement;
 }
