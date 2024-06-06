@@ -10,7 +10,6 @@ Mat img;
 Mat imgGray;
 CascadeClassifier handCascade;
 vector<Rect> hands;
-shared_ptr<GameObject> cameraComponent;
 
 int siggy1 = 255;
 int siggy2 = 0;
@@ -73,7 +72,7 @@ void VisionComponent::update(float elapseTime)
 			//controlsComponent.controls(ControlsComponent::LOOKLEFT);
 			cout << "Camera to the left" << endl;
 			try {
-				//cameraComponent->getComponent<CameraComponent>()->lookLeft();
+				gameObject->getComponent<CameraComponent>()->lookLeft();
 			}
 			catch (const std::exception& e) {
 				cout << "CameraComponent not found" << endl;
@@ -86,7 +85,7 @@ void VisionComponent::update(float elapseTime)
 			//controlsComponent.controls(ControlsComponent::LOOKRIGHT);
 			cout << "Camera to the right" << endl;
 			try {
-				//cameraComponent->getComponent<CameraComponent>()->lookRight();
+				gameObject->getComponent<CameraComponent>()->lookRight();
 			}
 			catch (const std::exception& e) {
 				cout << "CameraComponent not found" << endl;
