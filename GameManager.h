@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include "tigl.h"
+#include <GLFW/glfw3.h>
 
 class GameObject;
 
@@ -17,9 +19,13 @@ private:
 	};
 
 public:
+	unsigned int usage = 1;
+	float countdown = 100.0f;
+	float deltaTime;
 	std::shared_ptr<GameObject> enemy;
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
+	std::shared_ptr<GameObject> player;
 	bool gameOver = false;
 	bool gameWon = false;
 	GameManager();

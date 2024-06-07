@@ -229,12 +229,13 @@ void init()
     gameObjects.push_back(enemy);
 
     // Create and add DebugComponent
-    debugPlayer = std::make_shared<GameObject>();
+    debugPlayer = std::make_shared<GameObject>(gameManager);
     auto debugComponent = std::make_shared<DebugComponent>();
-    auto fontComponent = std::make_shared<TextComponent>();
+    auto fontComponent = std::make_shared<TextComponent>(15, 400);
     debugPlayer->addComponent(debugComponent);
     debugPlayer->addComponent(fontComponent);
     debugPlayer->position = glm::vec3(0, 2, 0);
+    gameManager->player = debugPlayer;
     gameObjects.push_back(debugPlayer);
 
     // Create and add object3
@@ -255,6 +256,8 @@ void update()
     static double lastTime = currentTime;
     float deltaTime = float(currentTime - lastTime);
     lastTime = currentTime;
+	gameManager->update(deltaTime);
+
 
     //runOpencv();
     glEnable(GL_DEPTH_TEST);
