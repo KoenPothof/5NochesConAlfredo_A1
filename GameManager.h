@@ -7,6 +7,17 @@ class GameObject;
 
 class GameManager
 {
+
+private:
+
+	enum Sounds
+	{
+		DOOR_OPEN,
+		DOOR_CLOSE,
+		LOSE,
+		WIN
+	};
+
 public:
 	unsigned int usage = 1;
 	float countdown = 100.0f;
@@ -28,5 +39,8 @@ public:
 	bool isGameWon();
 	bool rightDoorClosed();
 	bool leftDoorClosed();
+	void rightDoorToggle();
+	void leftDoorToggle();
+	void playSound(Sounds sound);
 };
 

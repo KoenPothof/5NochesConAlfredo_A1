@@ -10,13 +10,17 @@
 #include "RoomComponent.h"
 #include "DebugComponent.h"
 #include "CameraComponent.h"
+#include "SecurityCameraComponent.h"
+#include "ScreenComponent.h"
 #include "ModelComponent.h"
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
-#include "GameManager.h"
-#include "TextComponent.h"
 
 #include "Texture.h"
+#include "fbo.h"
+#include "GameManager.h"
+#include "TextComponent.h"
+#include "LightComponent.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -30,24 +34,35 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 
+std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
+std::shared_ptr<GameObject> camera;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
-Texture texture = Texture("assets/spritesheet.png", 4736, 128, 128);
+std::shared_ptr<GameObject> light;
+
+Texture* texture;
+Texture* textureFloor;
+Texture* textureWall;
+Texture* textureCeiling;
+Texture* textureDoor;
+
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
 const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
 
-float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
+int selectedCamera = 1;
 
 void init();
 void update();
+void buildFbo();
 void draw();
 void runOpencv();
 void initRoom();
+void initSecurity();
 glm::mat4 currentMatrix;
 glm::mat4 getDebugMatrix();
 glm::mat4 getMatrix();
@@ -67,6 +82,7 @@ int main(void)
     {
         throw "Could not initialize GLEW";
     }
+
     tigl::init();
 
     IMGUI_CHECKVERSION();
@@ -85,6 +101,7 @@ int main(void)
         ImGui::NewFrame();
 
         update();
+        buildFbo();
         draw();
 
         {
@@ -96,13 +113,23 @@ int main(void)
             ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
 
             ImGui::BeginGroup();
-            ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
-            ImGui::SliderFloat("Beest pos x", &enemy->position.x, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest pos y", &enemy->position.y, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest pos z", &enemy->position.z, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest rot x", &enemy->rotation.x, -3.14f, 3.14f);
-            ImGui::SliderFloat("Beest rot y", &enemy->rotation.y, -3.14f, 3.14f);
-            ImGui::SliderFloat("Beest rot z", &enemy->rotation.z, -3.14f, 3.14f);
+            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
+      
+            ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
+            ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
+            ImGui::SliderFloat("Light position Z", &light->position.z, -10.0f, 10.0f);
+
+            ImGui::SliderFloat("Light diffuse X", &light->getComponent<LightComponent>()->diffuse.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light diffuse Y", &light->getComponent<LightComponent>()->diffuse.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light diffuse Z", &light->getComponent<LightComponent>()->diffuse.z, -2.0f, 2.0f);
+
+            ImGui::SliderFloat("Light ambient X", &light->getComponent<LightComponent>()->ambient.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light ambient Y", &light->getComponent<LightComponent>()->ambient.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light ambient Z", &light->getComponent<LightComponent>()->ambient.z, -2.0f, 2.0f);
+
+            ImGui::SliderFloat("Light specular X", &light->getComponent<LightComponent>()->specular.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light specular Y", &light->getComponent<LightComponent>()->specular.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light specular Z", &light->getComponent<LightComponent>()->specular.z, -2.0f, 2.0f);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -121,6 +148,8 @@ int main(void)
 }
 
 std::list<std::shared_ptr<GameObject>> gameObjects;
+
+float passedTime = glfwGetTime();
 
 void init()
 {
@@ -162,10 +191,17 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
+    fbo = std::make_shared<Fbo>(800, 600);
+    texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
+    textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
+    textureWall = new Texture("assets/wall.png", 128, 128, NULL);
+    textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
+    textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
+    gameManager->init();
     initRoom();
-
-
+    initSecurity();
+    
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
     std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A};
@@ -203,15 +239,15 @@ void init()
     gameObjects.push_back(debugPlayer);
 
     // Create and add object3
-    //object3 = std::make_shared<GameObject>();
-    //object3->position = glm::vec3(0, 2, 0);
-    //object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
-    //object3->addComponent(std::make_shared<VisionComponent>());
-    //gameObjects.push_back(object3);
-    //
-    //object3->getComponent<VisionComponent>()->init();
+    object3 = std::make_shared<GameObject>(gameManager);
+    object3->position = glm::vec3(0, 2, -2);
+    object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
+    object3->addComponent(std::make_shared<VisionComponent>());
+    gameObjects.push_back(object3);
+    
+    object3->getComponent<VisionComponent>()->init();
 
-    texture.bind();
+    texture->bind();
 }
 
 void update()
@@ -231,8 +267,28 @@ void update()
 
 }
 
-void draw()
+void buildFbo()
 {
+    // Find the SecurityCameraComponent for the selectedCamera
+    std::shared_ptr<SecurityCameraComponent> selectedCameraComponent;
+    for (auto& go : gameObjects)
+    {
+        auto cameraComponent = go->getComponent<SecurityCameraComponent>();
+        if (cameraComponent && cameraComponent->id == selectedCamera)
+        {
+            selectedCameraComponent = cameraComponent;
+            break;
+        }
+    }
+
+    if (!selectedCameraComponent)
+    {
+        std::cerr << "Selected camera not found!" << std::endl;
+        return;
+    }
+
+    fbo->bind();
+    glViewport(selectedCameraComponent->viewportX, selectedCameraComponent->viewportY, selectedCameraComponent->viewportWidth, selectedCameraComponent->viewportHeight);
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -242,10 +298,39 @@ void draw()
 
     tigl::shader->setProjectionMatrix(projection);
 
+    // Set view matrix based on the camera's position and rotation
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.x, glm::vec3(1, 0, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.y, glm::vec3(0, 1, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.z, glm::vec3(0, 0, 1));
+    viewMatrix = glm::translate(viewMatrix, -selectedCameraComponent->position);
+
+    tigl::shader->setViewMatrix(viewMatrix);
+
+    tigl::shader->setModelMatrix(glm::mat4(1.0f));
+    tigl::shader->enableTexture(true);
+
+    for (auto& go : gameObjects)
+        go->draw();
+
+    fbo->unbind();
+}
+
+void draw()
+{
+    glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, 1920, 1080);
+    int viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
+
+    tigl::shader->setProjectionMatrix(projection);
+
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
@@ -276,6 +361,14 @@ glm::mat4 getMatrix()
 
 void initRoom()
 {
+    light = std::make_shared<GameObject>();
+    light->position = glm::vec3(-4.032f, 6, -4.5f);
+    auto lightComponent = std::make_shared<LightComponent>();
+    lightComponent->diffuse = glm::vec3(0.437f, 0.547f, 0.516f);
+    lightComponent->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+    light->addComponent(lightComponent);
+    gameObjects.push_back(light);
+
     auto roomObjectA = std::make_shared<GameObject>();
     roomObjectA->position = glm::vec3(0, 0, 0);
     auto roomComponentA = std::make_shared<RoomComponent>(10, 10, 2, RoomComponent::FRONTBACK); // Example dimensions
@@ -356,16 +449,74 @@ void initRoom()
 
     securityDoor = std::make_shared<GameObject>(gameManager);
     securityDoor->position = glm::vec3(-6.640f, 0, 0.316f);
-    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, textureDoor, 0));
     securityDoor->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->rightDoor = securityDoor;
     gameObjects.push_back(securityDoor);
 
     securityDoor1 = std::make_shared<GameObject>(gameManager);
     securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
-    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture.setTexture(6, 0), 0));
+    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, textureDoor, 0, true));
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);
+}
+
+void initSecurity() {
+    auto screenObject = std::make_shared<GameObject>();
+    screenObject->position = glm::vec3(-6, 0, 7.5);
+    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());
+    screenObject->addComponent(screenComponent);
+    gameObjects.push_back(screenObject);
+
+    auto RoomObjCameraB = std::make_shared<GameObject>();
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 0, 0, 800, 600, glm::vec3(0.468, 9.8, -0.748), glm::vec3(0.748, 0.935, 0));
+    RoomObjCameraB->addComponent(RoomCompCameraB);
+    gameObjects.push_back(RoomObjCameraB);
+
+    auto RoomObjCameraC = std::make_shared<GameObject>();
+    auto RoomCompCameraC = std::make_shared<SecurityCameraComponent>(2, 0, 0, 800, 600, glm::vec3(-9.346, 9.8, -15.888), glm::vec3(0.650, 0.747, 0));
+    RoomObjCameraC->addComponent(RoomCompCameraC);
+    gameObjects.push_back(RoomObjCameraC);
+
+    auto RoomObjCameraD = std::make_shared<GameObject>();
+    auto RoomCompCameraD = std::make_shared<SecurityCameraComponent>(3, 0, 0, 800, 600, glm::vec3(10.352, 9.8, -25.727), glm::vec3(0.622, 0.846, 0));
+    RoomObjCameraD->addComponent(RoomCompCameraD);
+    gameObjects.push_back(RoomObjCameraD);
+
+    auto RoomObjCameraE = std::make_shared<GameObject>();
+    auto RoomCompCameraE = std::make_shared<SecurityCameraComponent>(4, 0, 0, 800, 600, glm::vec3(25.154, 9.8, -25.464), glm::vec3(0.622, 0.819, 0));
+    RoomObjCameraE->addComponent(RoomCompCameraE);
+    gameObjects.push_back(RoomObjCameraE);
+
+    auto RoomObjCameraF = std::make_shared<GameObject>();
+    auto RoomCompCameraF = std::make_shared<SecurityCameraComponent>(5, 0, 0, 800, 600, glm::vec3(38.729, 9.8, -23.083), glm::vec3(0.687, 2.352, 0));
+    RoomObjCameraF->addComponent(RoomCompCameraF);
+    gameObjects.push_back(RoomObjCameraF);
+
+    auto RoomObjCameraG = std::make_shared<GameObject>();
+    auto RoomCompCameraG = std::make_shared<SecurityCameraComponent>(6, 0, 0, 800, 600, glm::vec3(38.729, 9.8, 9.164), glm::vec3(0.687, 0.767, 0));
+    RoomObjCameraG->addComponent(RoomCompCameraG);
+    gameObjects.push_back(RoomObjCameraG);
+
+    auto RoomObjCameraH = std::make_shared<GameObject>();
+    auto RoomCompCameraH = std::make_shared<SecurityCameraComponent>(7, 0, 0, 800, 600, glm::vec3(25.154, 9.8, 11.543), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraH->addComponent(RoomCompCameraH);
+    gameObjects.push_back(RoomObjCameraH);
+
+    auto RoomObjCameraI = std::make_shared<GameObject>();
+    auto RoomCompCameraI = std::make_shared<SecurityCameraComponent>(8, 0, 0, 800, 600, glm::vec3(10.662, 9.8, 11.543), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraI->addComponent(RoomCompCameraI);
+    gameObjects.push_back(RoomObjCameraI);
+
+    auto RoomObjCameraJ = std::make_shared<GameObject>();
+    auto RoomCompCameraJ = std::make_shared<SecurityCameraComponent>(9, 0, 0, 800, 600, glm::vec3(-8.766, 9.8, 6.521), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraJ->addComponent(RoomCompCameraJ);
+    gameObjects.push_back(RoomObjCameraJ);
+
+    auto RoomObjCameraK = std::make_shared<GameObject>();
+    auto RoomCompCameraK = std::make_shared<SecurityCameraComponent>(10, 0, 0, 800, 600, glm::vec3(10.661, 9.8, 9.691), glm::vec3(0.556, 0.767, 0));
+    RoomObjCameraK->addComponent(RoomCompCameraK);
+    gameObjects.push_back(RoomObjCameraK);
 }
 
