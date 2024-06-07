@@ -75,7 +75,7 @@ int main(void)
         throw "Could not initialize GLEW";
     }
 
-    sound = soundEngine->play2D("assets/sounds/musicWin.mp3", true, false, true);
+    // sound = soundEngine->play2D("assets/sounds/musicWin.mp3", true, false, true);
 
     tigl::init();
 
@@ -131,6 +131,8 @@ int main(void)
 }
 
 std::list<std::shared_ptr<GameObject>> gameObjects;
+
+float passedTime = glfwGetTime();
 
 void init()
 {
