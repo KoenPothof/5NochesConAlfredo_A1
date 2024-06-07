@@ -187,7 +187,6 @@
     <ClCompile Include="ScreenComponent.cpp" />
     <ClCompile Include="SecurityCameraComponent.cpp" />
     <ClCompile Include="SecurityDoorComponent.cpp" />
-    <ClCompile Include="SoundComponent.cpp" />
     <ClCompile Include="stb_truetype.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -223,7 +222,6 @@
     <ClInclude Include="ScreenComponent.h" />
     <ClInclude Include="SecurityCameraComponent.h" />
     <ClInclude Include="SecurityDoorComponent.h" />
-    <ClInclude Include="SoundComponent.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture.h" />
