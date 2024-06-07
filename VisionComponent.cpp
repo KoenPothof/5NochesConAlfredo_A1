@@ -2,8 +2,6 @@
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "GameManager.h"
-#include <chrono>
-
 
 using namespace cv;
 using namespace std;
@@ -17,9 +15,6 @@ vector<Rect> hands;
 int siggy1 = 255;
 int siggy2 = 0;
 int siggy3 = 0;
-
-chrono::steady_clock::time_point lastRightDoorToggle = chrono::steady_clock::now();
-chrono::steady_clock::time_point lastLeftDoorToggle = chrono::steady_clock::now();
 
 VisionComponent::VisionComponent()
 {
@@ -46,8 +41,6 @@ void VisionComponent::update(float elapseTime)
 	cvtColor(img, imgGray, COLOR_BGR2GRAY);
 
 	handCascade.detectMultiScale(imgGray, hands);
-
-	auto now = chrono::steady_clock::now();
 	
 	
 	for (int i = 0; i < hands.size(); i++)
@@ -57,21 +50,17 @@ void VisionComponent::update(float elapseTime)
 
 
 		/// DoorButtonRight ///
-		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 380 / 2) {
-			if (chrono::duration_cast<chrono::seconds>(now - lastRightDoorToggle).count() >= 2) {
-				cout << "Door right toggled" << endl;
-				gameObject->gameManager->rightDoorToggle();
-				lastRightDoorToggle = now;
-			}
+		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
+			//controlsComponent.controls(ControlsComponent::DOORRIGHT);
+			cout << "Door right toggled" << endl;
+			gameObject->gameManager->rightDoorToggle();
 		}
 
 		/// DoorButtonLeft ///
-		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 380 / 2) {
-			if (chrono::duration_cast<chrono::seconds>(now - lastLeftDoorToggle).count() >= 2) {
-				cout << "Door left toggled" << endl;
-				gameObject->gameManager->leftDoorToggle();
-				lastLeftDoorToggle = now;
-			}
+		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 280 / 2) {
+			//controlsComponent.controls(ControlsComponent::DOORLEFT);
+			cout << "Door left toggled" << endl;
+			gameObject->gameManager->leftDoorToggle();
 		}
 
 		/// CameraButton ///
@@ -135,14 +124,4 @@ void VisionComponent::update(float elapseTime)
 
 	imshow("HandDetection", img);
 	waitKey(1);
-}
-
-void VisionComponent::toggleRightDoor() 
-{
-	gameObject->gameManager->rightDoorToggle();
-}
-
-void VisionComponent::toggleLeftDoor()
-{
-	gameObject->gameManager->leftDoorToggle();
 }

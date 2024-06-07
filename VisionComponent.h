@@ -15,8 +15,5 @@ class VisionComponent : public Component
 	void init();
 	virtual void update(float elapseTime) override;
 
-	void toggleRightDoor();
-	void toggleLeftDoor();
-
 };
 
