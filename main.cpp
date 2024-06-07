@@ -15,6 +15,7 @@
 #include "SecurityDoorComponent.h"
 #include "GameManager.h"
 #include "TextComponent.h"
+#include "LightComponent.h"
 
 #include "Texture.h"
 #include <irrKlang.h>
@@ -41,6 +42,7 @@ std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
+std::shared_ptr<GameObject> light;
 Texture* texture;
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
@@ -107,12 +109,22 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
-            ImGui::SliderFloat("Beest pos x", &enemy->position.x, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest pos y", &enemy->position.y, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest pos z", &enemy->position.z, -15.0f, 15.0f);
-            ImGui::SliderFloat("Beest rot x", &enemy->rotation.x, -3.14f, 3.14f);
-            ImGui::SliderFloat("Beest rot y", &enemy->rotation.y, -3.14f, 3.14f);
-            ImGui::SliderFloat("Beest rot z", &enemy->rotation.z, -3.14f, 3.14f);
+
+            ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
+            ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
+            ImGui::SliderFloat("Light position Z", &light->position.z, -10.0f, 10.0f);
+
+            ImGui::SliderFloat("Light diffuse X", &light->getComponent<LightComponent>()->diffuse.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light diffuse Y", &light->getComponent<LightComponent>()->diffuse.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light diffuse Z", &light->getComponent<LightComponent>()->diffuse.z, -2.0f, 2.0f);
+
+            ImGui::SliderFloat("Light ambient X", &light->getComponent<LightComponent>()->ambient.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light ambient Y", &light->getComponent<LightComponent>()->ambient.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light ambient Z", &light->getComponent<LightComponent>()->ambient.z, -2.0f, 2.0f);
+
+            ImGui::SliderFloat("Light specular X", &light->getComponent<LightComponent>()->specular.x, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light specular Y", &light->getComponent<LightComponent>()->specular.y, -2.0f, 2.0f);
+            ImGui::SliderFloat("Light specular Z", &light->getComponent<LightComponent>()->specular.z, -2.0f, 2.0f);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -255,7 +267,7 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
@@ -286,6 +298,14 @@ glm::mat4 getMatrix()
 
 void initRoom()
 {
+    light = std::make_shared<GameObject>();
+    light->position = glm::vec3(-4.032f, 6, -4.5f);
+    auto lightComponent = std::make_shared<LightComponent>();
+    lightComponent->diffuse = glm::vec3(0.437f, 0.547f, 0.516f);
+    lightComponent->ambient = glm::vec3(-0.327f, -0.292f, -0.263f);
+    light->addComponent(lightComponent);
+    gameObjects.push_back(light);
+
     auto roomObjectA = std::make_shared<GameObject>();
     roomObjectA->position = glm::vec3(0, 0, 0);
     auto roomComponentA = std::make_shared<RoomComponent>(10, 10, 2, RoomComponent::FRONTBACK); // Example dimensions
@@ -373,7 +393,7 @@ void initRoom()
 
     securityDoor1 = std::make_shared<GameObject>(gameManager);
     securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
-    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0));
+    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0, 1.0f, true));
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);
