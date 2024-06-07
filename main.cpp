@@ -221,6 +221,7 @@ void update()
     lastTime = currentTime;
 	gameManager->update(deltaTime);
 
+
     //runOpencv();
     glEnable(GL_DEPTH_TEST);
 

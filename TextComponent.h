@@ -17,7 +17,12 @@ public:
 	TextComponent();
 	~TextComponent();
 
+	float countdown;
+	float elapsedTime;
+	float deltaTime;
+
 	void init();
 	virtual void draw() override;
+	void update(float deltaTime);
 };
 
