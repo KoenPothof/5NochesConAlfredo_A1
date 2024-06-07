@@ -50,6 +50,11 @@ std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
 std::shared_ptr<GameObject> light;
 Texture* texture;
+Texture* textureFloor;
+Texture* textureWall;
+Texture* textureCeiling;
+Texture* textureDoor;
+
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
 const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
@@ -209,6 +214,10 @@ void init()
 
     //openCv = OpenCv();
     texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
+    textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
+    textureWall = new Texture("assets/wall.png", 128, 128, NULL);
+    textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
+    textureDoor = new Texture("assets/door.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
     initRoom();
 
@@ -473,14 +482,14 @@ void initRoom()
 
     securityDoor = std::make_shared<GameObject>(gameManager);
     securityDoor->position = glm::vec3(-6.640f, 0, 0.316f);
-    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0));
+    securityDoor->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, textureDoor, 0));
     securityDoor->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->rightDoor = securityDoor;
     gameObjects.push_back(securityDoor);
 
     securityDoor1 = std::make_shared<GameObject>(gameManager);
     securityDoor1->position = glm::vec3(-6.640f, 0, -9.486f);
-    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, texture->setTexture(6, 0), 0, 1.0f, true));
+    securityDoor1->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 5, 7, textureDoor, 0, true));
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);

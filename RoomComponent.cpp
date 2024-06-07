@@ -2,15 +2,14 @@
 #include "Texture.h"
 
 extern Texture* texture;
+extern Texture* textureWall;
+extern Texture* textureFloor;
+extern Texture* textureCeiling;
 
 RoomComponent::RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth, DoorLocation doorLocation)
 {
     // Left and right walls
     //rectangles.push_back(std::make_shared<RectangleComponent>(1, false, ));
-
-    Texture* textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
-    Texture* textureWall = new Texture("assets/wall.png", 128, 128, NULL);
-    Texture* textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
 
     int height = 10;
     int x = 0;
