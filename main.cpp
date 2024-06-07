@@ -44,7 +44,6 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-std::shared_ptr<GameObject> EditCamera;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
@@ -68,6 +67,7 @@ void buildFbo();
 void draw();
 void runOpencv();
 void initRoom();
+void initSecurity();
 glm::mat4 currentMatrix;
 glm::mat4 getDebugMatrix();
 glm::mat4 getMatrix();
@@ -113,7 +113,6 @@ int main(void)
         draw();
 
         {
-            auto cameraComponent = EditCamera->getComponent<SecurityCameraComponent>();
             ImGui::SetNextWindowPos(ImVec2(0, 0));
             ImGui::SetNextWindowSize(ImVec2(0, 400));
             ImGui::Begin("Demo Selection");
@@ -122,21 +121,8 @@ int main(void)
             ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
 
             ImGui::BeginGroup();
-            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 2);
-            if (ImGui::SliderFloat("Pos x", &EditCamera->position.x, -10, 60) ||
-                ImGui::SliderFloat("Pos y", &EditCamera->position.y, 0, 30) ||
-                ImGui::SliderFloat("Pos z", &EditCamera->position.z, -40, 20))
-            {
-                cameraComponent->updatePosition(EditCamera->position);
-            }
-            if (ImGui::SliderFloat("Rot x", &EditCamera->rotation.x, -20, 20) ||
-                ImGui::SliderFloat("Rot y", &EditCamera->rotation.y, -20, 20) ||
-                ImGui::SliderFloat("Rot z", &EditCamera->rotation.z, -20, 20))
-            {
-                // Update the camera component's position
-                cameraComponent->updateRotation(EditCamera->rotation);
-            }
-
+            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
+      
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Z", &light->position.z, -10.0f, 10.0f);
@@ -221,23 +207,7 @@ void init()
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
     initRoom();
-
-    auto RoomObjCameraB = std::make_shared<GameObject>();
-    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 0, 0, 800, 600, glm::vec3(0.468, 9.672, -0.748), glm::vec3(0.748, 0.935, 0));
-    RoomObjCameraB->addComponent(RoomCompCameraB);
-    gameObjects.push_back(RoomObjCameraB);
-
-    auto RoomObjCameraC = std::make_shared<GameObject>();
-    auto RoomCompCameraC = std::make_shared<SecurityCameraComponent>(2, 0, 0, 800, 600, glm::vec3(-9.346, 9.813, -15.888), glm::vec3(0.561, 0.747, 0));
-    RoomObjCameraC->addComponent(RoomCompCameraC);
-    EditCamera = RoomObjCameraC;
-    gameObjects.push_back(EditCamera);
-
-    auto screenObject = std::make_shared<GameObject>();
-    screenObject->position = glm::vec3(0, 0, 5); 
-    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());
-    screenObject->addComponent(screenComponent);
-    gameObjects.push_back(screenObject);
+    initSecurity();
     
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
@@ -399,7 +369,7 @@ void initRoom()
     light->position = glm::vec3(-4.032f, 6, -4.5f);
     auto lightComponent = std::make_shared<LightComponent>();
     lightComponent->diffuse = glm::vec3(0.437f, 0.547f, 0.516f);
-    lightComponent->ambient = glm::vec3(-0.327f, -0.292f, -0.263f);
+    lightComponent->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
     light->addComponent(lightComponent);
     gameObjects.push_back(light);
 
@@ -494,5 +464,63 @@ void initRoom()
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);
+}
+
+void initSecurity() {
+    auto screenObject = std::make_shared<GameObject>();
+    screenObject->position = glm::vec3(-6, 0, 7.5);
+    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());
+    screenObject->addComponent(screenComponent);
+    gameObjects.push_back(screenObject);
+
+    auto RoomObjCameraB = std::make_shared<GameObject>();
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 0, 0, 800, 600, glm::vec3(0.468, 9.8, -0.748), glm::vec3(0.748, 0.935, 0));
+    RoomObjCameraB->addComponent(RoomCompCameraB);
+    gameObjects.push_back(RoomObjCameraB);
+
+    auto RoomObjCameraC = std::make_shared<GameObject>();
+    auto RoomCompCameraC = std::make_shared<SecurityCameraComponent>(2, 0, 0, 800, 600, glm::vec3(-9.346, 9.8, -15.888), glm::vec3(0.650, 0.747, 0));
+    RoomObjCameraC->addComponent(RoomCompCameraC);
+    gameObjects.push_back(RoomObjCameraC);
+
+    auto RoomObjCameraD = std::make_shared<GameObject>();
+    auto RoomCompCameraD = std::make_shared<SecurityCameraComponent>(3, 0, 0, 800, 600, glm::vec3(10.352, 9.8, -25.727), glm::vec3(0.622, 0.846, 0));
+    RoomObjCameraD->addComponent(RoomCompCameraD);
+    gameObjects.push_back(RoomObjCameraD);
+
+    auto RoomObjCameraE = std::make_shared<GameObject>();
+    auto RoomCompCameraE = std::make_shared<SecurityCameraComponent>(4, 0, 0, 800, 600, glm::vec3(25.154, 9.8, -25.464), glm::vec3(0.622, 0.819, 0));
+    RoomObjCameraE->addComponent(RoomCompCameraE);
+    gameObjects.push_back(RoomObjCameraE);
+
+    auto RoomObjCameraF = std::make_shared<GameObject>();
+    auto RoomCompCameraF = std::make_shared<SecurityCameraComponent>(5, 0, 0, 800, 600, glm::vec3(38.729, 9.8, -23.083), glm::vec3(0.687, 2.352, 0));
+    RoomObjCameraF->addComponent(RoomCompCameraF);
+    gameObjects.push_back(RoomObjCameraF);
+
+    auto RoomObjCameraG = std::make_shared<GameObject>();
+    auto RoomCompCameraG = std::make_shared<SecurityCameraComponent>(6, 0, 0, 800, 600, glm::vec3(38.729, 9.8, 9.164), glm::vec3(0.687, 0.767, 0));
+    RoomObjCameraG->addComponent(RoomCompCameraG);
+    gameObjects.push_back(RoomObjCameraG);
+
+    auto RoomObjCameraH = std::make_shared<GameObject>();
+    auto RoomCompCameraH = std::make_shared<SecurityCameraComponent>(7, 0, 0, 800, 600, glm::vec3(25.154, 9.8, 11.543), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraH->addComponent(RoomCompCameraH);
+    gameObjects.push_back(RoomObjCameraH);
+
+    auto RoomObjCameraI = std::make_shared<GameObject>();
+    auto RoomCompCameraI = std::make_shared<SecurityCameraComponent>(8, 0, 0, 800, 600, glm::vec3(10.662, 9.8, 11.543), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraI->addComponent(RoomCompCameraI);
+    gameObjects.push_back(RoomObjCameraI);
+
+    auto RoomObjCameraJ = std::make_shared<GameObject>();
+    auto RoomCompCameraJ = std::make_shared<SecurityCameraComponent>(9, 0, 0, 800, 600, glm::vec3(-8.766, 9.8, 6.521), glm::vec3(0.661, 2.3, 0));
+    RoomObjCameraJ->addComponent(RoomCompCameraJ);
+    gameObjects.push_back(RoomObjCameraJ);
+
+    auto RoomObjCameraK = std::make_shared<GameObject>();
+    auto RoomCompCameraK = std::make_shared<SecurityCameraComponent>(10, 0, 0, 800, 600, glm::vec3(10.661, 9.8, 9.691), glm::vec3(0.556, 0.767, 0));
+    RoomObjCameraK->addComponent(RoomCompCameraK);
+    gameObjects.push_back(RoomObjCameraK);
 }
 
