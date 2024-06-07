@@ -1,8 +1,9 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "SecurityDoorComponent.h"
-#include "GLFW/glfw3.h"
 #include <iostream>
+#include <string>
+#include "TextComponent.h"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ void GameManager::update(float elapsedTime)
 		usage++;
 
 	countdown -= elapsedTime * drainSpeed * usage;
+	player->getComponent<TextComponent>()->text = "Battery Level: " + std::to_string(countdown);
 
     /*if (elapsedTime >= 0.05f) {
         countdown -= elapsedTime/5;

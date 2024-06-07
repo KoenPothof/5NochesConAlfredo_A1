@@ -8,13 +8,13 @@
 
 class TextComponent : public DrawComponent
 {
+private:
+	float x1, y1;
 public:
 	stbtt_bakedchar cdata[96];
 	GLuint texId;
-	std::string battery = "Battery Level: ";
-	
-
-	TextComponent();
+	std::string text = "Hello, world!";
+	TextComponent(const float x1, const float y1);
 	~TextComponent();
 
 	float countdown;
