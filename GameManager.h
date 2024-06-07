@@ -6,9 +6,9 @@ class GameObject;
 class GameManager
 {
 public:
-	float countdown;
+	unsigned int usage = 1;
+	float countdown = 100.0f;
 	float elapsedTime;
-	float passedTime;
 	float deltaTime;
 	std::shared_ptr<GameObject> enemy;
 	std::shared_ptr<GameObject> leftDoor;

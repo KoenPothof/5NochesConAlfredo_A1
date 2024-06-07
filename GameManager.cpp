@@ -7,9 +7,10 @@
 using namespace std;
 
 float passedTime = glfwGetTime();
+float drainSpeed = 0.25f;
 
 
-GameManager::GameManager() :countdown(100), elapsedTime(0.0f), passedTime(0.0f)
+GameManager::GameManager() :elapsedTime(0.0f)
 {
 	
 }
@@ -24,10 +25,17 @@ void GameManager::update(float elapsedTime)
     deltaTime = currentTime - passedTime;
     passedTime = currentTime;
 
-    elapsedTime += deltaTime;
 	cout << elapsedTime << endl;
 
-    if (elapsedTime >= 1.0f) {
+	usage = 1;
+	if (leftDoorClosed())
+		usage++;
+	if (rightDoorClosed())
+		usage++;
+
+	countdown -= elapsedTime * drainSpeed * usage;
+
+    /*if (elapsedTime >= 0.05f) {
         countdown -= elapsedTime/5;
         elapsedTime = 0.0f;
 
@@ -43,13 +51,13 @@ void GameManager::update(float elapsedTime)
 		}
 
 		if (countdown == 0) {
-		}
+		}*/
 
 		// Ensure countdown does not go below 0
-		if (countdown < 0) {
+		/*if (countdown < 0) {
 			countdown = 0;
 		}
-	}
+	}*/
 }
 
 
