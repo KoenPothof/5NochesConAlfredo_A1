@@ -213,6 +213,7 @@ void init()
     glEnable(GL_DEPTH_TEST);
 
     //openCv = OpenCv();
+    fbo = std::make_shared<Fbo>(800, 600);
     texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
     textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
     textureWall = new Texture("assets/wall.png", 128, 128, NULL);
