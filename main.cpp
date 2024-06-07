@@ -33,6 +33,7 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
+std::shared_ptr<GameObject> testCamera;
 Texture* texture;
 
 float romigeKwarkTaardt = 0.0f;
@@ -92,6 +93,7 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
+            ImGui::SliderFloat("a", &testCamera->position.x);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -220,7 +222,8 @@ void init()
     auto RoomObjCameraB = std::make_shared<GameObject>();
     auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 5, 0, -10, 600, glm::vec3(5, 2, -5), glm::vec3(glm::radians(45.0f), glm::radians(-45.0f), 0));
     RoomObjCameraB->addComponent(RoomCompCameraB);
-    gameObjects.push_back(RoomObjCameraB);
+    testCamera = RoomObjCameraB;
+    gameObjects.push_back(testCamera);
 
     auto screenObject = std::make_shared<GameObject>();
     screenObject->position = glm::vec3(0, 0, 5); 
