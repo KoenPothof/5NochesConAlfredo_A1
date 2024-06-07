@@ -5,7 +5,7 @@
 
 extern GLFWwindow* window;
 
-const float speed = 3.0f;
+const float speed = 6.0f;
 
 DebugComponent::DebugComponent()
 {

@@ -203,7 +203,7 @@ void ObjModel::draw()
 		{
 			for (const auto& vertex : face.vertices)
 			{
-				tigl::addVertex(tigl::Vertex::PTN((vertices[vertex.position] * 0.01f) + glm::vec3(5, 3, 0), texcoords[vertex.texcoord], normals[vertex.normal]));
+				tigl::addVertex(tigl::Vertex::PTN((vertices[vertex.position]), texcoords[vertex.texcoord], normals[vertex.normal]));
 			}
 		}
 

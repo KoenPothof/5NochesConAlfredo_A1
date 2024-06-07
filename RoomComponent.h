@@ -2,6 +2,7 @@
 
 #include "DrawComponent.h"
 #include "RectangleComponent.h"
+#include "DoorComponent.h"
 #include <vector>
 #include <memory>
 
@@ -11,10 +12,24 @@ class RoomComponent : public DrawComponent
 {
 private:
     std::vector<std::shared_ptr<RectangleComponent>> rectangles;
+    std::vector<std::shared_ptr<DoorComponent>> doors;
 
 public:
-    RoomComponent(const float sideWallsWidth, const float frontWallsWidth);
-    RoomComponent(const int sideWallsWidth, const int frontWallsWidth);
+
+    enum DoorLocation 
+    {
+        LEFT,
+        RIGHT,
+        BACK,
+        FRONT,
+        RIGHTLEFT,
+		FRONTBACK,
+		HALLWAY,
+        STAGE,
+        MAINROOM
+    };
+
+    RoomComponent(const int sideWallsWidth, const int frontWallsWidth, const int wallBesideDoorWidth, DoorLocation doorLocation);
     ~RoomComponent();
 
     virtual void draw() override;
