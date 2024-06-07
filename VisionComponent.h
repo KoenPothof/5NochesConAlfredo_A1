@@ -8,7 +8,6 @@
 
 class VisionComponent : public Component
 {
-
 	public:
 	VisionComponent();
 	~VisionComponent();

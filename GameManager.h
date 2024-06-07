@@ -24,5 +24,6 @@ public:
 	bool leftDoorClosed();
 	void rightDoorToggle();
 	void leftDoorToggle();
+	void playSound();
 };
 
