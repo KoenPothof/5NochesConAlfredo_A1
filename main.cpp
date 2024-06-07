@@ -44,7 +44,6 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-std::shared_ptr<GameObject> EditCamera;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
@@ -122,7 +121,6 @@ int main(void)
             ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
 
             ImGui::BeginGroup();
-            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 2);
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
       
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
