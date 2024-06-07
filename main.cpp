@@ -149,8 +149,6 @@ int main(void)
 
 std::list<std::shared_ptr<GameObject>> gameObjects;
 
-float passedTime = glfwGetTime();
-
 void init()
 {
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -330,7 +328,7 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);

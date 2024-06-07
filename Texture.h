@@ -1,8 +1,8 @@
 #pragma once
 
+#include <gl/glew.h>
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
-#include <gl/glew.h>
 
 class Texture
 {

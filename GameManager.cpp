@@ -4,15 +4,13 @@
 #include <iostream>
 #include <string>
 #include "TextComponent.h"
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
 using namespace std;
 
 float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
-
-
-#include <irrKlang.h>
-#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
