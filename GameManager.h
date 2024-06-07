@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include "tigl.h"
 #include <GLFW/glfw3.h>
+#include "cmath"
+#include <iostream>
+#include <string>
 
 class GameObject;
 
@@ -22,6 +25,7 @@ private:
 public:
 	unsigned int usage = 1;
 	float countdown = 100.0f;
+	float timeline = 12.0f;
 	float deltaTime;
 	std::shared_ptr<GameObject> enemy;
 	std::shared_ptr<GameObject> leftDoor;

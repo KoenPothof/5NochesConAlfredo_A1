@@ -4,7 +4,9 @@
 #include <iostream>
 #include <string>
 #include "TextComponent.h"
+#include "DoubleTextComponent.h"
 #include <irrKlang.h>
+
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
 using namespace std;
@@ -39,31 +41,39 @@ void GameManager::update(float elapsedTime)
 		usage++;
 
 	countdown -= elapsedTime * drainSpeed * usage;
-	player->getComponent<TextComponent>()->text = "Battery Level: " + std::to_string(countdown);
 
-    /*if (elapsedTime >= 0.05f) {
-        countdown -= elapsedTime/5;
-        elapsedTime = 0.0f;
 
-		if (!rightDoorClosed() && !leftDoorClosed()) {
-			countdown -= elapsedTime*2;
-		}
+	if (deltaTime > 60.0f){
+		timeline = 12;
+	}
+	else if (deltaTime < 120.0f && deltaTime > 60.0f) {
+		timeline = 1;
+	}
+	else if (deltaTime < 180.0f && deltaTime > 120.0f) {
+		timeline = 2;
+	}
+	else if (deltaTime < 240.0f && deltaTime > 180.0f) {
+		timeline = 3;
+	}
+	else if (deltaTime < 300.0f && deltaTime > 240.0f) {
+		timeline = 4;
+	}
+	else if (deltaTime < 360.0f && deltaTime > 300.0f) {
+		timeline = 5;
+	}
+	else if (deltaTime < 420.0f && deltaTime > 360.0f) {
+		timeline = 6;
+	}
 
-		if (!rightDoorClosed()) {
-			countdown -= elapsedTime/3;
-		}
-		if (!leftDoorClosed()) {
-			countdown -= elapsedTime/3;
-		}
 
-		if (countdown == 0) {
-		}*/
+	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + std::to_string(countdown) + "%";
 
-		// Ensure countdown does not go below 0
-		/*if (countdown < 0) {
-			countdown = 0;
-		}
-	}*/
+
+	if (timeline == 12)
+	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "PM";
+
+	if(timeline > 12)
+	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
 }
 
 

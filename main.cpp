@@ -15,6 +15,7 @@
 #include "ModelComponent.h"
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
+#include "DoubleTextComponent.h"
 
 #include "Texture.h"
 #include "fbo.h"
@@ -229,9 +230,9 @@ void init()
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>(gameManager);
     auto debugComponent = std::make_shared<DebugComponent>();
-    auto fontComponent = std::make_shared<TextComponent>(15, 400);
+    
     debugPlayer->addComponent(debugComponent);
-    debugPlayer->addComponent(fontComponent);
+    debugPlayer->addComponent(std::make_shared<DoubleTextComponent>(15, 400, 400, 100));
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameManager->player = debugPlayer;
     gameObjects.push_back(debugPlayer);
