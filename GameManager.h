@@ -10,7 +10,6 @@ class GameManager
 public:
 	unsigned int usage = 1;
 	float countdown = 100.0f;
-	float elapsedTime;
 	float deltaTime;
 	std::shared_ptr<GameObject> enemy;
 	std::shared_ptr<GameObject> leftDoor;

@@ -11,7 +11,7 @@ float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
 
 
-GameManager::GameManager() :elapsedTime(0.0f)
+GameManager::GameManager()
 {
 	
 }
