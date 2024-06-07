@@ -131,7 +131,6 @@ int main(void)
                 // Update the camera component's position
                 cameraComponent->updateRotation(EditCamera->rotation);
             }
-            ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
 
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
