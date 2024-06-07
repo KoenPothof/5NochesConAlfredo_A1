@@ -166,6 +166,7 @@
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DoorComponent.cpp" />
     <ClCompile Include="DrawComponent.cpp" />
+    <ClCompile Include="fbo.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -183,6 +184,8 @@
     <ClCompile Include="OpenCv.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RoomComponent.cpp" />
+    <ClCompile Include="ScreenComponent.cpp" />
+    <ClCompile Include="SecurityCameraComponent.cpp" />
     <ClCompile Include="SecurityDoorComponent.cpp" />
     <ClCompile Include="stb_truetype.cpp" />
     <ClCompile Include="TextComponent.cpp" />
@@ -196,6 +199,7 @@
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DoorComponent.h" />
     <ClInclude Include="DrawComponent.h" />
+    <ClInclude Include="fbo.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
@@ -213,7 +217,10 @@
     <ClInclude Include="ObjModel.h" />
     <ClInclude Include="OpenCv.h" />
     <ClInclude Include="RectangleComponent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RoomComponent.h" />
+    <ClInclude Include="ScreenComponent.h" />
+    <ClInclude Include="SecurityCameraComponent.h" />
     <ClInclude Include="SecurityDoorComponent.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="TextComponent.h" />
@@ -223,6 +230,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\..\..\..\..\Downloads\musicWin.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Program.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

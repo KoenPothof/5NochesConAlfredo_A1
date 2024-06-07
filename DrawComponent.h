@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Texture.h"
 
 class DrawComponent : public Component
 {

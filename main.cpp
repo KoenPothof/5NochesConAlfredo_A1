@@ -10,14 +10,17 @@
 #include "RoomComponent.h"
 #include "DebugComponent.h"
 #include "CameraComponent.h"
+#include "SecurityCameraComponent.h"
+#include "ScreenComponent.h"
 #include "ModelComponent.h"
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
+
+#include "Texture.h"
+#include "fbo.h"
 #include "GameManager.h"
 #include "TextComponent.h"
 #include "LightComponent.h"
-
-#include "Texture.h"
 #include <irrKlang.h>
 
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
@@ -37,8 +40,11 @@ GLFWwindow* window;
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* sound;
 
+std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
+std::shared_ptr<GameObject> camera;
+std::shared_ptr<GameObject> EditCamera;
 std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
@@ -48,11 +54,12 @@ std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
 const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
 
-float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
+int selectedCamera = 1;
 
 void init();
 void update();
+void buildFbo();
 void draw();
 void runOpencv();
 void initRoom();
@@ -97,9 +104,11 @@ int main(void)
         ImGui::NewFrame();
 
         update();
+        buildFbo();
         draw();
 
         {
+            auto cameraComponent = EditCamera->getComponent<SecurityCameraComponent>();
             ImGui::SetNextWindowPos(ImVec2(0, 0));
             ImGui::SetNextWindowSize(ImVec2(0, 400));
             ImGui::Begin("Demo Selection");
@@ -108,7 +117,20 @@ int main(void)
             ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
 
             ImGui::BeginGroup();
-            ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
+            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 2);
+            if (ImGui::SliderFloat("Pos x", &EditCamera->position.x, -10, 60) ||
+                ImGui::SliderFloat("Pos y", &EditCamera->position.y, 0, 30) ||
+                ImGui::SliderFloat("Pos z", &EditCamera->position.z, -40, 20))
+            {
+                cameraComponent->updatePosition(EditCamera->position);
+            }
+            if (ImGui::SliderFloat("Rot x", &EditCamera->rotation.x, -20, 20) ||
+                ImGui::SliderFloat("Rot y", &EditCamera->rotation.y, -20, 20) ||
+                ImGui::SliderFloat("Rot z", &EditCamera->rotation.z, -20, 20))
+            {
+                // Update the camera component's position
+                cameraComponent->updateRotation(EditCamera->rotation);
+            }
 
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
@@ -190,7 +212,23 @@ void init()
     gameManager = std::make_shared<GameManager>();
     initRoom();
 
+    auto RoomObjCameraB = std::make_shared<GameObject>();
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 0, 0, 800, 600, glm::vec3(0.468, 9.672, -0.748), glm::vec3(0.748, 0.935, 0));
+    RoomObjCameraB->addComponent(RoomCompCameraB);
+    gameObjects.push_back(RoomObjCameraB);
 
+    auto RoomObjCameraC = std::make_shared<GameObject>();
+    auto RoomCompCameraC = std::make_shared<SecurityCameraComponent>(2, 0, 0, 800, 600, glm::vec3(-9.346, 9.813, -15.888), glm::vec3(0.561, 0.747, 0));
+    RoomObjCameraC->addComponent(RoomCompCameraC);
+    EditCamera = RoomObjCameraC;
+    gameObjects.push_back(EditCamera);
+
+    auto screenObject = std::make_shared<GameObject>();
+    screenObject->position = glm::vec3(0, 0, 5); 
+    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());
+    screenObject->addComponent(screenComponent);
+    gameObjects.push_back(screenObject);
+    
     enemy = std::make_shared<GameObject>(gameManager);
     enemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
     std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A};
@@ -253,11 +291,60 @@ void update()
 
 }
 
+void buildFbo()
+{
+    // Find the SecurityCameraComponent for the selectedCamera
+    std::shared_ptr<SecurityCameraComponent> selectedCameraComponent;
+    for (auto& go : gameObjects)
+    {
+        auto cameraComponent = go->getComponent<SecurityCameraComponent>();
+        if (cameraComponent && cameraComponent->id == selectedCamera)
+        {
+            selectedCameraComponent = cameraComponent;
+            break;
+        }
+    }
+
+    if (!selectedCameraComponent)
+    {
+        std::cerr << "Selected camera not found!" << std::endl;
+        return;
+    }
+
+    fbo->bind();
+    glViewport(selectedCameraComponent->viewportX, selectedCameraComponent->viewportY, selectedCameraComponent->viewportWidth, selectedCameraComponent->viewportHeight);
+    glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    int viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
+
+    tigl::shader->setProjectionMatrix(projection);
+
+    // Set view matrix based on the camera's position and rotation
+    glm::mat4 viewMatrix = glm::mat4(1.0f);
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.x, glm::vec3(1, 0, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.y, glm::vec3(0, 1, 0));
+    viewMatrix = glm::rotate(viewMatrix, selectedCameraComponent->rotation.z, glm::vec3(0, 0, 1));
+    viewMatrix = glm::translate(viewMatrix, -selectedCameraComponent->position);
+
+    tigl::shader->setViewMatrix(viewMatrix);
+
+    tigl::shader->setModelMatrix(glm::mat4(1.0f));
+    tigl::shader->enableTexture(true);
+
+    for (auto& go : gameObjects)
+        go->draw();
+
+    fbo->unbind();
+}
+
 void draw()
 {
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    glViewport(0, 0, 1920, 1080);
     int viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
