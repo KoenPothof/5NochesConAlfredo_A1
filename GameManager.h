@@ -5,6 +5,17 @@ class GameObject;
 
 class GameManager
 {
+
+private:
+
+	enum Sounds
+	{
+		DOOR_OPEN,
+		DOOR_CLOSE,
+		LOSE,
+		WIN
+	};
+
 public:
 	std::shared_ptr<GameObject> enemy;
 	std::shared_ptr<GameObject> leftDoor;
@@ -24,5 +35,6 @@ public:
 	bool leftDoorClosed();
 	void rightDoorToggle();
 	void leftDoorToggle();
+	void playSound(Sounds sound);
 };
 

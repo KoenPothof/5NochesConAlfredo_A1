@@ -21,9 +21,6 @@
 #include "GameManager.h"
 #include "TextComponent.h"
 #include "LightComponent.h"
-#include <irrKlang.h>
-
-#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -37,9 +34,6 @@ using tigl::Vertex;
 
 GLFWwindow* window;
 
-irrklang::ISoundEngine* soundEngine;
-irrklang::ISound* sound;
-
 std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
@@ -48,6 +42,7 @@ std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
 std::shared_ptr<GameObject> light;
+
 Texture* texture;
 Texture* textureFloor;
 Texture* textureWall;
@@ -74,7 +69,6 @@ glm::mat4 getMatrix();
 
 int main(void)
 {
-    soundEngine = irrklang::createIrrKlangDevice();
     if (!glfwInit())
         throw "Could not initialize glwf";
     window = glfwCreateWindow(1800, 1000, "Hello World", NULL, NULL);
@@ -88,8 +82,6 @@ int main(void)
     {
         throw "Could not initialize GLEW";
     }
-
-    // sound = soundEngine->play2D("assets/sounds/musicWin.mp3", true, false, true);
 
     tigl::init();
 
@@ -206,6 +198,7 @@ void init()
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
+    gameManager->init();
     initRoom();
     initSecurity();
     
