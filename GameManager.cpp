@@ -31,10 +31,25 @@ void GameManager::update(float elapsedTime)
         countdown -= elapsedTime/5;
         elapsedTime = 0.0f;
 
-        if (countdown < 0) {
-            countdown = 0;
-        }
-    }
+		if (!rightDoorClosed() && !leftDoorClosed()) {
+			countdown -= elapsedTime*2;
+		}
+
+		if (!rightDoorClosed()) {
+			countdown -= elapsedTime/3;
+		}
+		if (!leftDoorClosed()) {
+			countdown -= elapsedTime/3;
+		}
+
+		if (countdown == 0) {
+		}
+
+		// Ensure countdown does not go below 0
+		if (countdown < 0) {
+			countdown = 0;
+		}
+	}
 }
 
 
