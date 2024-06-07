@@ -364,7 +364,7 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getMatrix());
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
