@@ -229,9 +229,6 @@
     <ClInclude Include="VisionComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\..\..\..\..\..\..\Downloads\musicWin.mp3" />
-    <Media Include="..\..\..\..\..\..\Users\Wessel\Downloads\doorClose.mp3" />
-    <Media Include="..\..\..\..\..\..\Users\Wessel\Downloads\doorOpen.mp3" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Program.rc" />
