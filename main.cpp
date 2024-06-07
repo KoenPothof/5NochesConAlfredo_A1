@@ -12,6 +12,7 @@
 #include "CameraComponent.h"
 #include "SecurityCameraComponent.h"
 #include "ScreenComponent.h"
+#include <iostream>
 
 #include "Texture.h"
 #include "fbo.h"
@@ -33,10 +34,9 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-std::shared_ptr<GameObject> testCamera;
+std::shared_ptr<GameObject> EditCamera;
 Texture* texture;
 
-float romigeKwarkTaardt = 0.0f;
 bool pauseCamera = false;
 int selectedCamera = 1;
 
@@ -86,14 +86,27 @@ int main(void)
         draw();
 
         {
+            auto cameraComponent = EditCamera->getComponent<SecurityCameraComponent>();
             ImGui::SetNextWindowPos(ImVec2(0, 0));
             ImGui::SetNextWindowSize(ImVec2(0, 400));
             ImGui::Begin("Demo Selection");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
             ImGui::BeginGroup();
-            ImGui::SliderFloat("Romige kwarkTaardt", &romigeKwarkTaardt, -10, 10);
-            ImGui::SliderFloat("a", &testCamera->position.x);
+            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 2);
+            if (ImGui::SliderFloat("Pos x", &EditCamera->position.x, -10, 60) ||
+                ImGui::SliderFloat("Pos y", &EditCamera->position.y, 0, 30) ||
+                ImGui::SliderFloat("Pos z", &EditCamera->position.z, -40, 20))
+            {
+                cameraComponent->updatePosition(EditCamera->position);
+            }
+            if (ImGui::SliderFloat("Rot x", &EditCamera->rotation.x, -20, 20) ||
+                ImGui::SliderFloat("Rot y", &EditCamera->rotation.y, -20, 20) ||
+                ImGui::SliderFloat("Rot z", &EditCamera->rotation.z, -20, 20))
+            {
+                // Update the camera component's position
+                cameraComponent->updateRotation(EditCamera->rotation);
+            }
             ImGui::EndGroup();
 
             ImGui::End();
@@ -220,14 +233,19 @@ void init()
     gameObjects.push_back(roomObjectHallWayLeft);
 
     auto RoomObjCameraB = std::make_shared<GameObject>();
-    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 5, 0, -10, 600, glm::vec3(5, 2, -5), glm::vec3(glm::radians(45.0f), glm::radians(-45.0f), 0));
+    auto RoomCompCameraB = std::make_shared<SecurityCameraComponent>(1, 0, 0, 800, 600, glm::vec3(0.468, 9.672, -0.748), glm::vec3(0.748, 0.935, 0));
     RoomObjCameraB->addComponent(RoomCompCameraB);
-    testCamera = RoomObjCameraB;
-    gameObjects.push_back(testCamera);
+    gameObjects.push_back(RoomObjCameraB);
+
+    auto RoomObjCameraC = std::make_shared<GameObject>();
+    auto RoomCompCameraC = std::make_shared<SecurityCameraComponent>(2, 0, 0, 800, 600, glm::vec3(-9.346, 9.813, -15.888), glm::vec3(0.561, 0.747, 0));
+    RoomObjCameraC->addComponent(RoomCompCameraC);
+    EditCamera = RoomObjCameraC;
+    gameObjects.push_back(EditCamera);
 
     auto screenObject = std::make_shared<GameObject>();
     screenObject->position = glm::vec3(0, 0, 5); 
-    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 2, 2, fbo.get());
+    auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());
     screenObject->addComponent(screenComponent);
     gameObjects.push_back(screenObject);
 

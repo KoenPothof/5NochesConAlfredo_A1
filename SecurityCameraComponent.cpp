@@ -8,3 +8,13 @@ SecurityCameraComponent::SecurityCameraComponent(int id, int x, int y, int width
 SecurityCameraComponent::~SecurityCameraComponent()
 {
 }
+
+void SecurityCameraComponent::updatePosition(const glm::vec3& newPosition)
+{
+    position = newPosition;
+}
+
+void SecurityCameraComponent::updateRotation(const glm::vec3& newRotation)
+{
+    rotation = newRotation;
+}
