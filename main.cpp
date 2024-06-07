@@ -248,7 +248,7 @@ void init()
     object3 = std::make_shared<GameObject>(gameManager);
     object3->position = glm::vec3(0, 2, -2);
     object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
-    //object3->addComponent(std::make_shared<VisionComponent>());
+    object3->addComponent(std::make_shared<VisionComponent>());
     gameObjects.push_back(object3);
     
     object3->getComponent<VisionComponent>()->init();
