@@ -218,7 +218,7 @@ void init()
     textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
     textureWall = new Texture("assets/wall.png", 128, 128, NULL);
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
-    textureDoor = new Texture("assets/door.png", 128, 128, NULL);
+    textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
     initRoom();
 

@@ -63,4 +63,7 @@ void TextComponent::draw()
 
 	tigl::shader->enableColor(false);
 	tigl::shader->enableColorMult(false);
+	tigl::shader->enableLighting(true);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
 }
