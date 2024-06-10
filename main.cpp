@@ -52,7 +52,8 @@ Texture* textureDoor;
 
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
-const std::string ENEMY_PATH = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
+const std::string ENEMY_PATH1 = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
+const std::string ENEMY_PATH2 = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
 
 bool pauseCamera = false;
 int selectedCamera = 1;
@@ -207,7 +208,7 @@ void init()
 
     // enemy1
     enemy1 = std::make_shared<GameObject>(gameManager);
-    enemy1->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
+    enemy1->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH1));
     std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A};
     std::vector<glm::vec3> positions = 
     { 
@@ -233,9 +234,9 @@ void init()
     gameObjects.push_back(enemy1);
 
     // enemy2
-    /*enemy1 = std::make_shared<GameObject>(gameManager);
-    enemy1->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH));
-    std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::F, EnemyComponent::K, EnemyComponent::D, EnemyComponent::C, EnemyComponent::HALL_LEFT, EnemyComponent::A };
+    enemy1 = std::make_shared<GameObject>(gameManager);
+    enemy1->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH2));
+    std::vector<EnemyComponent::EnemyLocations> enemyPath = { EnemyComponent::G, EnemyComponent::K, EnemyComponent::J, EnemyComponent::HALL_RIGHT, EnemyComponent::A, EnemyComponent::K };
     std::vector<glm::vec3> positions =
     {
         glm::vec3(47.248f, -1.162f, -15.329f),
@@ -257,7 +258,7 @@ void init()
     enemy2->addComponent(std::make_shared<EnemyComponent>(enemyPath, positions, rotations));
     enemy2->getComponent<EnemyComponent>()->init();
     gameManager->enemy = enemy2;
-    gameObjects.push_back(enemy2);*/
+    gameObjects.push_back(enemy2);
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>(gameManager);
