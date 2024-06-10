@@ -3,7 +3,7 @@
 class CameraSystemToggleComponent : public Component
 {
 public:
-	bool isOff = false;
+	bool isOff = true;
 	CameraSystemToggleComponent();
 	~CameraSystemToggleComponent();
 	void update(float elapsedTime) override;
