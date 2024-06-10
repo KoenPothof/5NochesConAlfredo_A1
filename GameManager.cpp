@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "SecurityDoorComponent.h"
+#include "CameraSystemToggleComponent.h"
 #include <iostream>
 #include <string>
 #include "TextComponent.h"
@@ -38,6 +39,8 @@ void GameManager::update(float elapsedTime)
 	if (leftDoorClosed())
 		usage++;
 	if (rightDoorClosed())
+		usage++;
+	if (!cameraSystemIsOff())
 		usage++;
 
 	countdown -= elapsedTime * drainSpeed * usage;
@@ -151,7 +154,12 @@ void GameManager::playSound(Sounds sound)
 	}
 }
 
-void GameManager::toggleCamera() 
+void GameManager::toggleCameraSystem()
 {
-	cameraSystemToggle->
+	cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
+}
+
+bool GameManager::cameraSystemIsOff()
+{
+	return cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isSystemOff();
 }

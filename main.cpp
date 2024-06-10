@@ -16,6 +16,7 @@
 #include "EnemyComponent.h"
 #include "SecurityDoorComponent.h"
 #include "DoubleTextComponent.h"
+#include "CameraSystemToggleComponent.h"
 
 #include "Texture.h"
 #include "fbo.h"
@@ -43,6 +44,7 @@ std::shared_ptr<GameObject> enemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
 std::shared_ptr<GameObject> light;
+std::shared_ptr<GameObject> cameraSystemToggler;
 
 Texture* texture;
 Texture* textureFloor;
@@ -50,6 +52,7 @@ Texture* textureWall;
 Texture* textureCeiling;
 Texture* textureDoor;
 Texture* textureMap;
+Texture* textureCameraOff;
 
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
@@ -184,6 +187,11 @@ void init()
                 securityDoor1->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor1->getComponent<SecurityDoorComponent>()->isClosed;
             }
 
+            if (key == GLFW_KEY_P && action == GLFW_PRESS)
+            {
+                cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
+            }
+
             if (key == GLFW_KEY_ESCAPE)
                 glfwSetWindowShouldClose(window, true);
         });
@@ -198,6 +206,7 @@ void init()
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     textureMap = new Texture("assets/textureMap.png", 128, 128, NULL);
+    textureCameraOff = new Texture("assets/textureCameraOff.jpg", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     initRoom();
@@ -466,6 +475,14 @@ void initRoom()
     mapObject->position = glm::vec3(-2.0f, 0, -0.5f);
     mapObject->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 2, 2, textureMap, 0));
     gameObjects.push_back(mapObject);
+
+    cameraSystemToggler = std::make_shared<GameObject>(gameManager);
+    cameraSystemToggler->position = glm::vec3(-1.01f, 0, -2.5f);
+    cameraSystemToggler->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 4, 3, textureCameraOff, 0, true));
+    cameraSystemToggler->addComponent(std::make_shared<CameraSystemToggleComponent>());
+    gameManager->cameraSystemToggler = cameraSystemToggler;
+    gameObjects.push_back(cameraSystemToggler);
+
 }
 
 void initSecurity() {

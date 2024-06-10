@@ -48,5 +48,7 @@ public:
 	void rightDoorToggle();
 	void leftDoorToggle();
 	void playSound(Sounds sound);
+	void toggleCameraSystem();
+	bool cameraSystemIsOff();
 };
 
