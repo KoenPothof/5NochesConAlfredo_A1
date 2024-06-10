@@ -49,6 +49,7 @@ Texture* textureFloor;
 Texture* textureWall;
 Texture* textureCeiling;
 Texture* textureDoor;
+Texture* textureMap;
 
 std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
 const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
@@ -198,6 +199,7 @@ void init()
     textureWall = new Texture("assets/wall.png", 128, 128, NULL);
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
+    textureMap = new Texture("assets/textureMap.png", 128, 128, NULL);
     gameManager = std::make_shared<GameManager>();
     gameManager->init();
     initRoom();
@@ -461,6 +463,11 @@ void initRoom()
     securityDoor1->addComponent(std::make_shared<SecurityDoorComponent>());
     gameManager->leftDoor = securityDoor1;
     gameObjects.push_back(securityDoor1);
+
+    auto mapObject = std::make_shared<GameObject>();
+    mapObject->position = glm::vec3(-2.0f, 0, -0.5f);
+    mapObject->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 2, 2, textureMap, 0));
+    gameObjects.push_back(mapObject);
 }
 
 void initSecurity() {
