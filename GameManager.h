@@ -31,6 +31,7 @@ public:
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
 	std::shared_ptr<GameObject> player;
+	std::shared_ptr<GameObject> cameraSystemToggler;
 	bool gameOver = false;
 	bool gameWon = false;
 	GameManager();

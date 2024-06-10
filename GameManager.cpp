@@ -132,7 +132,8 @@ void GameManager::leftDoorToggle()
 		playSound(DOOR_OPEN);
 }
 
-void GameManager::playSound(Sounds sound) {
+void GameManager::playSound(Sounds sound) 
+{
 
 	switch (sound)
 	{
@@ -148,4 +149,9 @@ void GameManager::playSound(Sounds sound) {
 			soundPlay = soundEngine->play2D("assets/sounds/musicWin.mp3", false, false, true);
 			break;
 	}
+}
+
+void GameManager::toggleCamera() 
+{
+	cameraSystemToggle->
 }
