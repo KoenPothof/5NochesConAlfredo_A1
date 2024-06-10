@@ -20,6 +20,7 @@ int siggy3 = 0;
 
 chrono::steady_clock::time_point lastRightDoorToggle = chrono::steady_clock::now();
 chrono::steady_clock::time_point lastLeftDoorToggle = chrono::steady_clock::now();
+chrono::steady_clock::time_point lastCameraToggle = chrono::steady_clock::now();
 
 VisionComponent::VisionComponent()
 {
@@ -74,10 +75,13 @@ void VisionComponent::update(float elapseTime)
 			}
 		}
 
-		/// CameraButton ///
+		/// CameraSystemToggleButton ///
 		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
-			//controlsComponent.controls(ControlsComponent::TOGGLECAMERAS);
-			cout << "Camerasystem toggled" << endl;
+			if (chrono::duration_cast<chrono::seconds>(now - lastCameraToggle).count() >= 1.5) {
+				cout << "Camerasystem toggled" << endl;
+				gameObject->gameManager->toggleCameraSystem();
+				lastCameraToggle = now;
+			}
 		}
 
 		/// CameraViewButtonLeft ///

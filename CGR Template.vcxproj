@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraSystemToggleComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugComponent.cpp" />
     <ClCompile Include="DoorComponent.cpp" />
@@ -196,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CameraSystemToggleComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugComponent.h" />
     <ClInclude Include="DoorComponent.h" />
