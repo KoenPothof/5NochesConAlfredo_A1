@@ -111,7 +111,9 @@ int main(void)
             ImGui::Begin("Demo Selection");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::Text("Player position: x: %.3f, y: %.3f, z: %.3f", debugPlayer->position.x, debugPlayer->position.y, debugPlayer->position.z);
-            ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);         
+            ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);
+            ImGui::Text("Beest passed time: %.3f", enemy->getComponent<EnemyComponent>()->deltaTime);
+            ImGui::Text("Beest move time: %.3f", enemy->getComponent<EnemyComponent>()->moveTime);
 
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);

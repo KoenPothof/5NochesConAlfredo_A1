@@ -1,6 +1,12 @@
 #include "EnemyComponent.h"
 //#include "GameObject.h"
 #include "GameManager.h"
+#include <cstdlib>
+
+
+float passedEnemyTime = glfwGetTime();
+float mininumTimeBeforeNextMove = 15.0f;
+int randomTimeBeforeNextMove = 16;
 
 EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& rotations)
 {
@@ -19,10 +25,20 @@ void EnemyComponent::init()
 {
 	gameObject->position = positions.at(currentPathIndex);
 	gameObject->rotation = rotations[currentPathIndex];
+	moveTime = (float)(rand() % randomTimeBeforeNextMove) + mininumTimeBeforeNextMove;
 }
 
 void EnemyComponent::update(float elapsedTime)
 {
+	float currentTime = glfwGetTime();
+	deltaTime = currentTime - passedEnemyTime;
+
+	if (deltaTime > moveTime)
+	{
+		moveToNextRoom();
+		moveTime = (float)(rand() % randomTimeBeforeNextMove) + mininumTimeBeforeNextMove;
+		passedEnemyTime = currentTime;
+	}
 }
 
 void EnemyComponent::moveToNextRoom()

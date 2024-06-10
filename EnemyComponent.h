@@ -7,6 +7,8 @@ class EnemyComponent : public Component
 {
 public:
 	bool attackFromLeft = true;
+	float deltaTime = 0.0f;
+	float moveTime = 0.0f;
 	enum EnemyLocations
 	{
 		A, B, C, D, E, F, G, H, I, J, K, HALL_LEFT, HALL_RIGHT
