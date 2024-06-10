@@ -67,7 +67,7 @@ bool EnemyComponent::tryToAttack()
 
 void EnemyComponent::jumpscare()
 {
-	gameObject->position = glm::vec3(-0.427f, -3.660f, -4.763f);
-	gameObject->rotation = glm::vec3(0.0f, -2.519f, 0.0f);
+	gameObject->position = jumpscarePosition;
+	gameObject->rotation = jumpscareRotation;
 	currentPathIndex = 0;
 }

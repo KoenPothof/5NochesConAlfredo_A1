@@ -55,7 +55,7 @@ const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
 
 const std::string ENEMY_PATH1 = "assets/models/kai_beest/kai_beest.obj";
 const std::string ENEMY_PATH2 = "assets/models/freaky_ahh_beest/monster.obj";
-const std::string ENEMY_PATH3 = "assets/models/eng_beest_ahhhh/eng_beest_ahhh.obj";
+const std::string ENEMY_PATH3 = "assets/models/sklt/sklt.obj";
 
 bool pauseCamera = false;
 int selectedCamera = 1;
@@ -119,13 +119,13 @@ int main(void)
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
 
-            ImGui::SliderFloat("Enemy y", &enemy1->position.y, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy x", &enemy1->position.x, -100.0f, 100.0f);
-            ImGui::SliderFloat("Enemy z", &enemy1->position.z, -100.0f, 100.0f);
+            ImGui::SliderFloat("Enemy y", &enemy3->position.y, -10.0f, 10.0f);
+            ImGui::SliderFloat("Enemy x", &enemy3->position.x, -100.0f, 100.0f);
+            ImGui::SliderFloat("Enemy z", &enemy3->position.z, -100.0f, 100.0f);
 
-            ImGui::SliderFloat("Enemy rot y", &enemy1->rotation.y, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy rot x", &enemy1->rotation.x, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy rot z", &enemy1->rotation.z, -10.0f, 10.0f);
+            ImGui::SliderFloat("Enemy rot y", &enemy3->rotation.y, -10.0f, 10.0f);
+            ImGui::SliderFloat("Enemy rot x", &enemy3->rotation.x, -10.0f, 10.0f);
+            ImGui::SliderFloat("Enemy rot z", &enemy3->rotation.z, -10.0f, 10.0f);
       
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
@@ -181,9 +181,9 @@ void init()
 
             if (key == GLFW_KEY_R && action == GLFW_PRESS)
             {
-				enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
-                enemy2->getComponent<EnemyComponent>()->moveToNextRoom();
-                //enemy3->getComponent<EnemyComponent>()->moveToNextRoom();
+				//enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
+                //enemy2->getComponent<EnemyComponent>()->moveToNextRoom();
+                enemy3->getComponent<EnemyComponent>()->moveToNextRoom();
 
 			}
 
@@ -226,8 +226,7 @@ void init()
         glm::vec3(30.787f, -0.013f, -16.759f),
         glm::vec3(18.546f, -0.013f, -32.304f),
         glm::vec3(-8.678f, 6.574f, -16.220f),
-        glm::vec3(-3.748f, -0.013f, -11.838f),
-        glm::vec3(-2.770f, -0.041f, -4.846f)
+        glm::vec3(-3.748f, -0.013f, -11.838f)        
     };
     std::vector<glm::vec3> rotations =
     {
@@ -235,12 +234,14 @@ void init()
         glm::vec3(0.003f, 3.774f, 0),
         glm::vec3(0, 4.895f, 0),
         glm::vec3(-0.220f, -0.831f, -0.088),
-        glm::vec3(0, -0.083f, 0),
-        glm::vec3(0.264f, -1.726f, 0)
+        glm::vec3(0, -0.083f, 0)
     };
     enemy1->position = glm::vec3(0, -1.0f, 0);
     enemy1->scale = glm::vec3(1.1f, 1.1f, 1.1f);
     enemy1->addComponent(std::make_shared<EnemyComponent>(enemyPath, positions, rotations));
+    enemy1->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-2.770f, -0.793f, -4.846f);
+    enemy1->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0.264f, -1.726f, 0);
+
     enemy1->getComponent<EnemyComponent>()->init();
     gameManager->enemy = enemy1;
     gameObjects.push_back(enemy1);
@@ -248,31 +249,65 @@ void init()
     // enemy2
     enemy2 = std::make_shared<GameObject>(gameManager);
     enemy2->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH2));
-    std::vector<EnemyComponent::EnemyLocations> enemyPath2 = { EnemyComponent::G, EnemyComponent::K, EnemyComponent::J, EnemyComponent::HALL_RIGHT, EnemyComponent::A, EnemyComponent::K };
+    std::vector<EnemyComponent::EnemyLocations> enemyPath2 = { EnemyComponent::G, EnemyComponent::K, EnemyComponent::J, EnemyComponent::K, EnemyComponent::HALL_RIGHT, EnemyComponent::A };
     std::vector<glm::vec3> positions2 =
     {
         glm::vec3(49.010f, -0.044f, -3.964f),
         glm::vec3(27.615f, -0.044f, -2.662f),
         glm::vec3(-9.139, 6.387f, 6.609f),
-        glm::vec3(-2.341f, -0.044f, 2.624f),
-        glm::vec3(-2.341f, -1.013f, -4.424f),
-        glm::vec3(20.615f, -0.044f, -2.662f)
+        glm::vec3(20.615f, -0.044f, -2.662f),
+        glm::vec3(-2.341f, -0.044f, 2.624f)
+        
     };
     std::vector<glm::vec3> rotations2 =
     {
         glm::vec3(-0.040f, 2.964f, 0),
         glm::vec3(0, 5.624f, 0),
         glm::vec3(0.573f, 3.757f, 0.352f),
-        glm::vec3(0.003f, 3.774f, 0),
-        glm::vec3(0, 4.920f, 0),
-        glm::vec3(0, 5.624f, 0)
+        glm::vec3(0, 5.624f, 0),
+        glm::vec3(0.003f, 3.774f, 0)
+        
     };
+
     enemy2->position = glm::vec3(0, -1.0f, 0);
     enemy2->scale = glm::vec3(1.1f, 1.1f, 1.1f);
     enemy2->addComponent(std::make_shared<EnemyComponent>(enemyPath2, positions2, rotations2));
+    enemy2->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-2.341f, -1.013f, -4.424f);
+    enemy2->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0, 4.920f, 0);
+    enemy2->getComponent<EnemyComponent>()->attackFromLeft = false;
     enemy2->getComponent<EnemyComponent>()->init();
     gameManager->enemy = enemy2;
     gameObjects.push_back(enemy2);
+
+    // enemy3
+    enemy3 = std::make_shared<GameObject>(gameManager);
+    enemy3->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH3));
+    std::vector<EnemyComponent::EnemyLocations> enemyPath3 = { EnemyComponent::B, EnemyComponent::I, EnemyComponent::K, EnemyComponent::E, EnemyComponent::HALL_LEFT, EnemyComponent::A };
+    std::vector<glm::vec3> positions3 =
+    {
+        glm::vec3(-1.322f, 6.154f, 0.529f),
+        glm::vec3(11.404, -0.013f, 23.770f),
+        glm::vec3(14.048f, -0.013f, -4.425f),
+        glm::vec3(37.445f, -0.013f, -36.563f),
+        glm::vec3(-3.748f, -0.013f, -11.838f)
+    };
+    std::vector<glm::vec3> rotations3 =
+    {
+        glm::vec3(-1.362f, 5.683f, -0.969),
+        glm::vec3(0, 5.712f, 0),
+        glm::vec3(0, 6.064f, 0),
+        glm::vec3(0, 5.623f, 0),
+        glm::vec3(0, -0.083f, 0)
+    };
+    enemy3->position = glm::vec3(0, -1.0f, 0);
+    enemy3->scale = glm::vec3(2.1f, 2.1f, 2.1f);
+    enemy3->addComponent(std::make_shared<EnemyComponent>(enemyPath3, positions3, rotations3));
+    enemy3->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-3.651f, -2.203f, -4.365f);
+    enemy3->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(-0.705f, -1.022f, 5.683f);
+
+    enemy3->getComponent<EnemyComponent>()->init();
+    gameManager->enemy = enemy3;
+    gameObjects.push_back(enemy3);
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>(gameManager);

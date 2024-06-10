@@ -7,6 +7,8 @@ class EnemyComponent : public Component
 {
 public:
 	bool attackFromLeft = true;
+	glm::vec3 jumpscarePosition;
+	glm::vec3 jumpscareRotation;
 	enum EnemyLocations
 	{
 		A, B, C, D, E, F, G, H, I, J, K, HALL_LEFT, HALL_RIGHT
