@@ -76,7 +76,7 @@ void EnemyComponent::moveBack()
 	currentLocation = enemyPath[currentPathIndex];
 	gameObject->position = positions[currentPathIndex];
 	gameObject->rotation = rotations[currentPathIndex];
-	gameObject->gameManager->playSound(GameManager::BEWEEGBEEST);
+
 }
 
 bool EnemyComponent::tryToAttack()
