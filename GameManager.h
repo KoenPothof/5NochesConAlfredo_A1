@@ -31,7 +31,7 @@ public:
 	float countdown = 100.0f;
 	float timeline = 12.0f;
 	float deltaTime;
-	std::shared_ptr<GameObject> enemy;
+	std::shared_ptr<GameObject> enemy1, enemy2, enemy3;
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
 	std::shared_ptr<GameObject> player;
@@ -49,7 +49,7 @@ public:
 		BEWEEGBEEST,
 		JUMPSCARE,
 		BEGIN
-
+	};
 	GameManager();
 	~GameManager();
 	void update(float elapsedTime);

@@ -111,7 +111,9 @@ void GameManager::reset()
 
 void GameManager::gameOverScript(float elapsedTime)
 {
-	enemy->getComponent<EnemyComponent>()->isFrozen = true;
+	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
+	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
+	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 
 	if (player->getComponent<CameraComponent>()->cameraShakeTime >= 0.0f)
 	{

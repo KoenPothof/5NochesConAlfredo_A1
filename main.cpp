@@ -256,7 +256,7 @@ void init()
     enemy1->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0.264f, -1.726f, 0);
 
     enemy1->getComponent<EnemyComponent>()->init();
-    gameManager->enemy = enemy1;
+    gameManager->enemy1 = enemy1;
     gameObjects.push_back(enemy1);
 
     // enemy2
@@ -289,7 +289,7 @@ void init()
     enemy2->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0, 4.920f, 0);
     enemy2->getComponent<EnemyComponent>()->attackFromLeft = false;
     enemy2->getComponent<EnemyComponent>()->init();
-    gameManager->enemy = enemy2;
+    gameManager->enemy2 = enemy2;
     gameObjects.push_back(enemy2);
 
     // enemy3
@@ -319,7 +319,7 @@ void init()
     enemy3->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(-0.705f, -1.022f, 5.683f);
 
     enemy3->getComponent<EnemyComponent>()->init();
-    gameManager->enemy = enemy3;
+    gameManager->enemy3 = enemy3;
     gameObjects.push_back(enemy3);
 
     // Create and add DebugComponent
