@@ -1,15 +1,10 @@
 #include "EnemyComponent.h"
 //#include "GameObject.h"
 #include "GameManager.h"
-#include <random>
 #include "CameraComponent.h"
 
-
-float passedEnemyTime = glfwGetTime();
 float mininumTimeBeforeNextMove = 15.0f;
 int randomTimeBeforeNextMove = 16;
-std::default_random_engine generator;
-std::uniform_int_distribution<int> distribution;
 
 EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& rotations)
 {
@@ -18,6 +13,12 @@ EnemyComponent::EnemyComponent(const std::vector<EnemyLocations>& enemyPath, con
 	this->positions = positions;
 	this->rotations = rotations;
 	currentLocation = this->enemyPath[currentPathIndex];
+	passedEnemyTime = glfwGetTime();
+
+	std::random_device randomDevice;
+	generator = std::default_random_engine(randomDevice());
+	distribution = std::uniform_int_distribution<int>(1, randomTimeBeforeNextMove);
+	moveTime = (float)distribution(generator) + mininumTimeBeforeNextMove;
 }
 
 EnemyComponent::~EnemyComponent()
@@ -28,10 +29,6 @@ void EnemyComponent::init()
 {
 	gameObject->position = positions.at(currentPathIndex);
 	gameObject->rotation = rotations[currentPathIndex];
-	std::random_device randomDevice;
-	generator = std::default_random_engine(randomDevice());
-	distribution = std::uniform_int_distribution<int>(1, randomTimeBeforeNextMove);
-	moveTime = (float)distribution(generator) + mininumTimeBeforeNextMove;
 }
 
 void EnemyComponent::update(float elapsedTime)
@@ -80,6 +77,7 @@ void EnemyComponent::moveToNextRoom()
 void EnemyComponent::moveBack()
 {
 	currentPathIndex = 0;
+	int randomIndex = (int)distribution(generator) % 3;
 	currentLocation = enemyPath[currentPathIndex];
 	gameObject->position = positions[currentPathIndex];
 	gameObject->rotation = rotations[currentPathIndex];
@@ -88,11 +86,9 @@ void EnemyComponent::moveBack()
 
 bool EnemyComponent::tryToAttack()
 {
-	if (gameObject->gameManager->leftDoorClosed())
-	{
-		return false;
-	}
-	else return true;
+	if (attackFromLeft) return !gameObject->gameManager->leftDoorClosed();
+	
+	else return !gameObject->gameManager->rightDoorClosed();
 }
 
 void EnemyComponent::jumpscare()
