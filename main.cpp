@@ -615,11 +615,25 @@ void initRoom()
     gameObjects.push_back(toy);
 
     auto arcade = std::make_shared<GameObject>();
-    arcade->position = glm::vec3(18.0f, 0, -37.0f);
+    arcade->position = glm::vec3(21.0f, 0, -38.0f);
     arcade->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
     arcade->scale = glm::vec3(0.02, 0.02, 0.02);
     arcade->rotation = glm::vec3(0, 0, 0);
     gameObjects.push_back(arcade);
+
+    auto arcade2 = std::make_shared<GameObject>();
+    arcade2->position = glm::vec3(18.0f, 0, -38.0f);
+    arcade2->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
+    arcade2->scale = glm::vec3(0.02, 0.02, 0.02);
+    arcade2->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(arcade2);
+
+    auto arcade3 = std::make_shared<GameObject>();
+    arcade3->position = glm::vec3(15.0f, 0, -38.0f);
+    arcade3->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
+    arcade3->scale = glm::vec3(0.02, 0.02, 0.02);
+    arcade3->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(arcade3);
 
 }
 
