@@ -20,8 +20,8 @@ private:
 	std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution;
 
-	float mininumTimeBeforeNextMove = 10.0f;
-	int randomTimeBeforeNextMove = 4;
+	float mininumTimeBeforeNextMove = 30.0f;
+	int randomTimeBeforeNextMove = 20;
 	bool runningDone = true;
 	float runningSpeed = 2.15f;
 	float passedEnemyTime = 0.0f;
