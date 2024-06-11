@@ -218,6 +218,16 @@ void init()
 
             if (key == GLFW_KEY_ESCAPE)
                 glfwSetWindowShouldClose(window, true);
+
+            if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+            {
+                selectedCamera++;
+                if (selectedCamera > 10)
+                {
+                    selectedCamera = 1;
+                }
+            }
+                
         });
 
     glEnable(GL_DEPTH_TEST);

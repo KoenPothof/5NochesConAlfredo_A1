@@ -8,6 +8,8 @@
 using namespace cv;
 using namespace std;
 
+extern int selectedCamera;
+
 VideoCapture cap(0);
 Mat img;
 Mat imgGray;
@@ -21,6 +23,7 @@ int siggy3 = 0;
 chrono::steady_clock::time_point lastRightDoorToggle = chrono::steady_clock::now();
 chrono::steady_clock::time_point lastLeftDoorToggle = chrono::steady_clock::now();
 chrono::steady_clock::time_point lastCameraToggle = chrono::steady_clock::now();
+chrono::steady_clock::time_point lastCameraSwitch = chrono::steady_clock::now();
 
 VisionComponent::VisionComponent()
 {
@@ -111,8 +114,15 @@ void VisionComponent::update(float elapseTime)
 
 		/// CameraSwitchButton ///
 		if (center.x < 290 / 2 && center.x > 60 / 2 && center.y < 120 / 2 && center.y > 30 / 2) {
-			//controlsComponent.controls(ControlsComponent::CAMERASWITCH);
-			cout << "Camera switched" << endl;
+			if (chrono::duration_cast<chrono::seconds>(now - lastCameraSwitch).count() >= 0.5) {
+				cout << "Selected next camera" << endl;
+				selectedCamera++;
+				if (selectedCamera > 10)
+				{
+					selectedCamera = 1;
+				}
+				lastCameraSwitch = now;
+			}
 		}
 
 
