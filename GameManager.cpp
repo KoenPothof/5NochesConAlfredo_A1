@@ -19,7 +19,7 @@ using namespace std;
 extern int selectedCamera;
 
 float passedTime = glfwGetTime();
-float drainSpeed = 0.20f;
+float drainSpeed = 0.15f;
 bool powerLeft = true;
 bool played = true;
 string camera;
@@ -84,6 +84,7 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 220.0f && passedTime > 160.0f) {
 		timeline = 2;
+		enemy1->getComponent<EnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 280.0f && passedTime > 220.0f) {
 		timeline = 3;
@@ -161,6 +162,7 @@ void GameManager::reset()
 
 void GameManager::gameOverScript(float elapsedTime)
 {
+	tigl::shader->enableLighting(false);
 	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
@@ -179,6 +181,7 @@ void GameManager::gameOverScript(float elapsedTime)
 
 void GameManager::gameWonScript(float elapsedTime)
 {
+	tigl::shader->enableLighting(false);
 	static int played = 1;
 	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;

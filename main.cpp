@@ -79,7 +79,7 @@ int main(void)
 {
     if (!glfwInit())
         throw "Could not initialize glwf";
-    window = glfwCreateWindow(1800, 1000, "5NochesConAlfredo", NULL, NULL);
+    window = glfwCreateWindow(1920, 1080, "5NochesConAlfredo", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -274,7 +274,6 @@ void init()
     enemy1->addComponent(std::make_shared<EnemyComponent>(enemyPath, positions, rotations));
     enemy1->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-2.770f, -0.793f, -4.846f);
     enemy1->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0.264f, -1.726f, 0);
-
     enemy1->getComponent<EnemyComponent>()->init();
     gameManager->enemy1 = enemy1;
     gameObjects.push_back(enemy1);
