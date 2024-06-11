@@ -45,6 +45,12 @@ void GameManager::update(float elapsedTime)
 		return;
 	}
 
+	if (gameWon)
+	{
+		gameWonScript(elapsedTime);
+		return;
+	}
+
     float currentTime = glfwGetTime();
     deltaTime = currentTime - passedTime;
     passedTime = currentTime;
@@ -86,6 +92,7 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 430.0f && passedTime > 370.0f) {
 		timeline = 6;
+		gameWon = true;
 	}
 
 
@@ -98,6 +105,7 @@ void GameManager::update(float elapsedTime)
 		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "AM";
 	}
 	
+	tigl::shader->enableLighting(true);
 	powerSystem();
 }
 
@@ -109,6 +117,7 @@ void GameManager::init()
 
 void GameManager::reset()
 {
+
 }
 
 void GameManager::gameOverScript(float elapsedTime)
@@ -127,6 +136,23 @@ void GameManager::gameOverScript(float elapsedTime)
 		player->rotation = glm::vec3(0, 0, 0);
 	}
 	
+}
+
+void GameManager::gameWonScript(float elapsedTime)
+{
+	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
+	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
+	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
+
+	if (true)
+	{
+		player->position = glm::vec3(-23.211f, 2, -57.633f); // Teleport player to game over room
+		player->rotation = glm::vec3(0, 0, 0);
+	}
+	else
+	{
+		
+	}
 }
 
 void GameManager::setGameWon()

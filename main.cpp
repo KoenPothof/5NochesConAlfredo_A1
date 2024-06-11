@@ -122,7 +122,10 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
-            ImGui::Checkbox("Beest staat stil", &enemy3->getComponent<EnemyComponent>()->isFrozen);
+            ImGui::Checkbox("Beest staat stil", &enemy2->getComponent<EnemyComponent>()->isFrozen);
+            ImGui::Text("Beest voor aanval: %.3f", enemy2->getComponent<EnemyComponent>()->moveTime);
+            ImGui::Text("Beest voor aanval: %.3f", enemy2->getComponent<EnemyComponent>()->deltaTimeEnemy);
+
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->moveTime);
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);
 
@@ -189,9 +192,9 @@ void init()
 
             if (key == GLFW_KEY_R && action == GLFW_PRESS)
             {
-				enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
+				//enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
                 enemy2->getComponent<EnemyComponent>()->moveToNextRoom();
-                enemy3->getComponent<EnemyComponent>()->moveToNextRoom();
+                //enemy3->getComponent<EnemyComponent>()->moveToNextRoom();
 
 			}
 
@@ -296,6 +299,7 @@ void init()
     enemy2->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0, 4.920f, 0);
     enemy2->getComponent<EnemyComponent>()->attackFromLeft = false;
     enemy2->getComponent<EnemyComponent>()->init();
+    enemy2->getComponent<EnemyComponent>()->isFrozen = false;
     gameManager->enemy2 = enemy2;
     gameObjects.push_back(enemy2);
 
@@ -592,6 +596,17 @@ void initRoom()
     gameManager->cameraSystemToggler = cameraSystemToggler;
     gameObjects.push_back(cameraSystemToggler);
 
+    auto winScreen = std::make_shared<GameObject>();
+    winScreen->position = glm::vec3(-25, 0, -60);
+    winScreen->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+    winScreen->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 7, 7, new Texture("assets/win_screen.png", NULL, NULL, NULL), 0));
+    gameObjects.push_back(winScreen);
+
+    auto winsScreenBig = std::make_shared<GameObject>();
+	winsScreenBig->position = glm::vec3(-32, -4, -60.2);
+    winsScreenBig->scale = glm::vec3(6.5f, 6.5f, 6.5f);
+    winsScreenBig->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 7, 7, new Texture("assets/win_screen.png", NULL, NULL, NULL), 0));
+    gameObjects.push_back(winsScreenBig);
 }
 
 void initSecurity() 

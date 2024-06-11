@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "tigl.h"
 #include "GameObject.h"
+#include <random>
 class EnemyComponent : public Component
 {
 public:
@@ -36,5 +37,9 @@ private:
 	std::vector<glm::vec3> rotations;
 	EnemyLocations currentLocation;
 	unsigned int currentPathIndex = 0;
+	float passedEnemyTime = 0.0f;
+
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution;
 };
 

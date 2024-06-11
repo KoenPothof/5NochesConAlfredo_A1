@@ -46,6 +46,7 @@ public:
 	void init();
 	void reset();
 	void gameOverScript(float elapsedTime);
+	void gameWonScript(float elapsedTime);
 	void setGameWon();
 	bool isGameOver();
 	bool isGameWon();
