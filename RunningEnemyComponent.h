@@ -21,9 +21,9 @@ private:
 	std::uniform_int_distribution<int> distribution;
 
 	float mininumTimeBeforeNextMove = 30.0f;
-	int randomTimeBeforeNextMove = 20;
+	int randomTimeBeforeNextMove = 25;
 	bool runningDone = true;
-	float runningSpeed = 2.15f;
+	float runningSpeed = 2.68f;
 	float passedEnemyTime = 0.0f;
 
 };
