@@ -215,8 +215,8 @@ void init()
     //openCv = OpenCv();
     fbo = std::make_shared<Fbo>(800, 600);
     texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
-    textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
-    textureWall = new Texture("assets/wall.png", 128, 128, NULL);
+    textureFloor = new Texture("assets/floorTexture.png", 128, 128, NULL);
+    textureWall = new Texture("assets/brickWallTexture.jpg", 128, 128, NULL);
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     textureMap = new Texture("assets/textureMap.png", 128, 128, NULL);
