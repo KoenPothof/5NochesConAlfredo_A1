@@ -18,6 +18,11 @@ float drainSpeed = 0.25f;
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
 
+std::string round_to_string(float value, int precision)
+{
+	return std::to_string(value).substr(0, std::to_string(value).find(".") + precision + 1);
+}
+
 GameManager::GameManager()
 {
 	
@@ -33,7 +38,7 @@ void GameManager::update(float elapsedTime)
     deltaTime = currentTime - passedTime;
     passedTime = currentTime;
 
-	cout << elapsedTime << endl;
+	cout << passedTime << endl;
 
 	usage = 1;
 	if (leftDoorClosed())
@@ -46,37 +51,38 @@ void GameManager::update(float elapsedTime)
 	countdown -= elapsedTime * drainSpeed * usage;
 
 
-	if (deltaTime > 60.0f){
+	if (passedTime < 70.0f){
 		timeline = 12;
 	}
-	else if (deltaTime < 120.0f && deltaTime > 60.0f) {
+	else if (passedTime < 130.0f && passedTime > 70.0f) {
 		timeline = 1;
 	}
-	else if (deltaTime < 180.0f && deltaTime > 120.0f) {
+	else if (passedTime < 190.0f && passedTime > 130.0f) {
 		timeline = 2;
 	}
-	else if (deltaTime < 240.0f && deltaTime > 180.0f) {
+	else if (passedTime < 250.0f && passedTime > 190.0f) {
 		timeline = 3;
 	}
-	else if (deltaTime < 300.0f && deltaTime > 240.0f) {
+	else if (passedTime < 310.0f && passedTime > 250.0f) {
 		timeline = 4;
 	}
-	else if (deltaTime < 360.0f && deltaTime > 300.0f) {
+	else if (passedTime < 370.0f && passedTime > 310.0f) {
 		timeline = 5;
 	}
-	else if (deltaTime < 420.0f && deltaTime > 360.0f) {
+	else if (passedTime < 430.0f && passedTime > 370.0f) {
 		timeline = 6;
 	}
 
 
-	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + std::to_string(countdown) + "%";
+	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + round_to_string(countdown, 1) + "%";
 
 
-	if (timeline == 12)
-	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "PM";
-
-	if(timeline > 12)
-	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
+	if (timeline == 12) {
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "PM";
+	}
+	else {
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "AM";
+	}
 }
 
 
