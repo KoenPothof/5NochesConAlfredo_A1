@@ -122,6 +122,7 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
+            ImGui::Checkbox("Beest staat stil", &enemy1->getComponent<EnemyComponent>()->isFrozen);
 
             ImGui::SliderFloat("Enemy y", &enemy3->position.y, -10.0f, 10.0f);
             ImGui::SliderFloat("Enemy x", &enemy3->position.x, -100.0f, 100.0f);
@@ -130,6 +131,7 @@ int main(void)
             ImGui::SliderFloat("Enemy rot y", &enemy3->rotation.y, -10.0f, 10.0f);
             ImGui::SliderFloat("Enemy rot x", &enemy3->rotation.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Enemy rot z", &enemy3->rotation.z, -10.0f, 10.0f);
+
       
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
@@ -332,12 +334,14 @@ void init()
 
     // Create and add object3
     object3 = std::make_shared<GameObject>(gameManager);
-    object3->position = glm::vec3(0, 2, -2);
+    object3->position = glm::vec3(-5.027f, 2, -4.187f);
+    object3->rotation = glm::vec3(0, 1.6f, 0);
     object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
     object3->addComponent(std::make_shared<VisionComponent>());
-    gameObjects.push_back(object3);
-    
+    object3->addComponent(std::make_shared<DoubleTextComponent>(15, 400, 400, 100));
     object3->getComponent<VisionComponent>()->init();
+    gameManager->player = object3;
+    gameObjects.push_back(object3);
 
     texture->bind();
 }
@@ -422,7 +426,10 @@ void draw()
     if (pauseCamera)
         tigl::shader->setViewMatrix(currentMatrix);
     else
-        tigl::shader->setViewMatrix(getDebugMatrix());
+    {
+        tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
+        //tigl::shader->setViewMatrix(getDebugMatrix());
+    }
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->enableTexture(true);
@@ -558,6 +565,18 @@ void initRoom()
     mapObject->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 2, 2, textureMap, 0));
     gameObjects.push_back(mapObject);
 
+    auto gameOverCage = std::make_shared<GameObject>();
+    gameOverCage->position = glm::vec3(-25, 0, -10);
+    gameOverCage->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+    gameOverCage->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 7, 7, new Texture("assets/game_over.png", NULL, NULL, NULL), 0));
+    gameObjects.push_back(gameOverCage);
+
+    auto gameOverBlackScreen = std::make_shared<GameObject>();
+    gameOverBlackScreen->position = glm::vec3(-32, -4, -10.2);
+    gameOverBlackScreen->scale = glm::vec3(2.5f, 2.5f, 2.5f);
+    gameOverBlackScreen->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 7, 7, new Texture("assets/game_over.png", NULL, NULL, NULL), 0));
+    gameObjects.push_back(gameOverBlackScreen);
+
     cameraSystemToggler = std::make_shared<GameObject>(gameManager);
     cameraSystemToggler->position = glm::vec3(-1.01f, 0, -2.5f);
     cameraSystemToggler->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 4, 3, textureCameraOff, 0, true));
@@ -567,7 +586,8 @@ void initRoom()
 
 }
 
-void initSecurity() {
+void initSecurity() 
+{
     auto screenObject = std::make_shared<GameObject>();
     screenObject->position = glm::vec3(-6, 0, 7.5);
     auto screenComponent = std::make_shared<ScreenComponent>(5, 0, -10, 1, false, 4, 3, fbo.get());

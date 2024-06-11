@@ -9,6 +9,7 @@
 
 class CameraComponent : public Component {
 public:
+    float cameraShakeTime = 0.0f;
     CameraComponent(float rotationSpeed, float moveSpeed);
     CameraComponent(const CameraComponent &obj);
     ~CameraComponent();

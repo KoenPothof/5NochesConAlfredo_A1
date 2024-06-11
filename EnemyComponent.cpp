@@ -2,6 +2,7 @@
 //#include "GameObject.h"
 #include "GameManager.h"
 #include <random>
+#include "CameraComponent.h"
 
 
 float passedEnemyTime = glfwGetTime();
@@ -35,6 +36,12 @@ void EnemyComponent::init()
 
 void EnemyComponent::update(float elapsedTime)
 {
+	if (isFrozen)
+	{
+		passedEnemyTime = glfwGetTime();
+		return;
+	}
+	
 	float currentTime = glfwGetTime();
 	deltaTime = currentTime - passedEnemyTime;
 
@@ -93,5 +100,9 @@ void EnemyComponent::jumpscare()
 	gameObject->position = jumpscarePosition;
 	gameObject->rotation = jumpscareRotation;
 	currentPathIndex = 0;
+
+	gameObject->gameManager->player->rotation = glm::vec3(0.0f, 1.6f, 0.0f);
+	gameObject->gameManager->player->getComponent<CameraComponent>()->cameraShakeTime = 3.0f;
+	gameObject->gameManager->gameOver = true;
 	gameObject->gameManager->playSound(GameManager::JUMPSCARE);
 }

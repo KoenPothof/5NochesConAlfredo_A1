@@ -38,6 +38,7 @@ public:
 	std::shared_ptr<GameObject> cameraSystemToggler;
 	bool gameOver = false;
 	bool gameWon = false;
+	bool jumpscareFinished = false;
 
 	enum Sounds
 	{
@@ -48,14 +49,13 @@ public:
 		BEWEEGBEEST,
 		JUMPSCARE,
 		BEGIN
-	};
 
 	GameManager();
 	~GameManager();
 	void update(float elapsedTime);
 	void init();
 	void reset();
-	void setGameOver();
+	void gameOverScript(float elapsedTime);
 	void setGameWon();
 	bool isGameOver();
 	bool isGameWon();
