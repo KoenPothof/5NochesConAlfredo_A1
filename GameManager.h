@@ -35,7 +35,8 @@ public:
 		LOSE,
 		WIN,
 		BEWEEGBEEST,
-		JUMPSCARE
+		JUMPSCARE,
+		CAMERA
 	};
 
 	GameManager();
