@@ -8,6 +8,7 @@
 #include "EnemyComponent.h"
 #include "DoubleTextComponent.h"
 #include "EnemyComponent.h"
+#include <string>
 #include <irrKlang.h>
 #include "CameraComponent.h"
 
@@ -15,10 +16,13 @@
 
 using namespace std;
 
+extern int selectedCamera;
+
 float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
 bool powerLeft = true;
 bool played = true;
+string camera;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
@@ -75,22 +79,22 @@ void GameManager::update(float elapsedTime)
 			playSound(BEGIN);
 		}
 	}
-	else if (passedTime < 130.0f && passedTime > 70.0f) {
+	else if (passedTime < 160.0f && passedTime > 100.0f) {
 		timeline = 1;
 	}
-	else if (passedTime < 190.0f && passedTime > 130.0f) {
+	else if (passedTime < 220.0f && passedTime > 160.0f) {
 		timeline = 2;
 	}
-	else if (passedTime < 250.0f && passedTime > 190.0f) {
+	else if (passedTime < 280.0f && passedTime > 220.0f) {
 		timeline = 3;
 	}
-	else if (passedTime < 310.0f && passedTime > 250.0f) {
+	else if (passedTime < 340.0f && passedTime > 280.0f) {
 		timeline = 4;
 	}
-	else if (passedTime < 370.0f && passedTime > 310.0f) {
+	else if (passedTime < 400.0f && passedTime > 340.0f) {
 		timeline = 5;
 	}
-	else if (passedTime < 430.0f && passedTime > 370.0f) {
+	else if (passedTime < 460.0f && passedTime > 400.0f) {
 		timeline = 6;
 		gameWon = true;
 	}
@@ -98,6 +102,38 @@ void GameManager::update(float elapsedTime)
 		passedTime = 0.0f;
 	}
 
+	if (selectedCamera == 1) {
+		camera = "B";
+	}
+	else if (selectedCamera == 2) {
+		camera = "C";
+	}
+	else if (selectedCamera == 3) {
+		camera = "D";
+	}
+	else if (selectedCamera == 4) {
+		camera = "E";
+	}
+	else if (selectedCamera == 5) {
+		camera = "F";
+	}
+	else if (selectedCamera == 6) {
+		camera = "G";
+	}
+	else if (selectedCamera == 7) {
+		camera = "H";
+	}
+	else if (selectedCamera == 8) {
+		camera = "I";
+	}
+	else if (selectedCamera == 9) {
+		camera = "J";
+	}
+	else if (selectedCamera == 10) {
+		camera = "K";
+	}
+
+	player->getComponent<DoubleTextComponent>()->text3->text = "Room " + camera;
 
 	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + round_to_string(countdown, 1) + "%";
 

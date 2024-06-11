@@ -359,7 +359,7 @@ void init()
     object3->rotation = glm::vec3(0, 1.6f, 0);
     object3->addComponent(std::make_shared<CameraComponent>(1.0f, 1.0f));
     object3->addComponent(std::make_shared<VisionComponent>());
-    object3->addComponent(std::make_shared<DoubleTextComponent>(15, 400, 400, 100));
+    object3->addComponent(std::make_shared<DoubleTextComponent>(10, 580, 350, 50, 650, 50));
     object3->getComponent<VisionComponent>()->init();
     gameManager->player = object3;
     gameObjects.push_back(object3);
