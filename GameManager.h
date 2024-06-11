@@ -48,8 +48,7 @@ public:
 		WIN,
 		BEWEEGBEEST,
 		JUMPSCARE,
-		CAMERA
-		JUMPSCARE,
+		CAMERA,
 		BEGIN
 	};
 	GameManager();
