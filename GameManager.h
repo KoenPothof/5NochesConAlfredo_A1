@@ -14,14 +14,18 @@ class GameManager
 
 private:
 
-	enum Sounds
+	/*enum Sounds
 	{
 		DOOR_OPEN,
 		DOOR_CLOSE,
 		LOSE,
-		WIN
-	};
+		WIN,
+		BEWEEGBEEST,
+		JUMPSCARE,
+		BEGIN
+	};*/
 
+	
 public:
 	unsigned int usage = 1;
 	float countdown = 100.0f;
@@ -31,9 +35,21 @@ public:
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
 	std::shared_ptr<GameObject> player;
+	std::shared_ptr<GameObject> cameraSystemToggler;
 	bool gameOver = false;
 	bool gameWon = false;
 	bool jumpscareFinished = false;
+
+	enum Sounds
+	{
+		DOOR_OPEN,
+		DOOR_CLOSE,
+		LOSE,
+		WIN,
+		BEWEEGBEEST,
+		JUMPSCARE,
+		BEGIN
+
 	GameManager();
 	~GameManager();
 	void update(float elapsedTime);
@@ -48,5 +64,7 @@ public:
 	void rightDoorToggle();
 	void leftDoorToggle();
 	void playSound(Sounds sound);
+	void toggleCameraSystem();
+	bool cameraSystemIsOff();
 };
 

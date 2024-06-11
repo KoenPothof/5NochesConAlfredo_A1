@@ -1,9 +1,11 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "SecurityDoorComponent.h"
+#include "CameraSystemToggleComponent.h"
 #include <iostream>
 #include <string>
 #include "TextComponent.h"
+#include "EnemyComponent.h"
 #include "DoubleTextComponent.h"
 #include "EnemyComponent.h"
 #include <irrKlang.h>
@@ -15,9 +17,15 @@ using namespace std;
 
 float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
+bool played = true;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
+
+std::string round_to_string(float value, int precision)
+{
+	return std::to_string(value).substr(0, std::to_string(value).find(".") + precision + 1);
+}
 
 GameManager::GameManager()
 {
@@ -40,48 +48,55 @@ void GameManager::update(float elapsedTime)
     deltaTime = currentTime - passedTime;
     passedTime = currentTime;
 
-	cout << elapsedTime << endl;
+	cout << passedTime << endl;
 
 	usage = 1;
 	if (leftDoorClosed())
 		usage++;
 	if (rightDoorClosed())
 		usage++;
+	if (!cameraSystemIsOff())
+		usage++;
 
 	countdown -= elapsedTime * drainSpeed * usage;
 
 
-	if (deltaTime > 60.0f){
+	if (passedTime < 70.0f){
 		timeline = 12;
+		if (played) {
+			played = false;
+			playSound(BEGIN);
+		}
 	}
-	else if (deltaTime < 120.0f && deltaTime > 60.0f) {
+	else if (passedTime < 130.0f && passedTime > 70.0f) {
 		timeline = 1;
 	}
-	else if (deltaTime < 180.0f && deltaTime > 120.0f) {
+	else if (passedTime < 190.0f && passedTime > 130.0f) {
 		timeline = 2;
 	}
-	else if (deltaTime < 240.0f && deltaTime > 180.0f) {
+	else if (passedTime < 250.0f && passedTime > 190.0f) {
 		timeline = 3;
 	}
-	else if (deltaTime < 300.0f && deltaTime > 240.0f) {
+	else if (passedTime < 310.0f && passedTime > 250.0f) {
 		timeline = 4;
 	}
-	else if (deltaTime < 360.0f && deltaTime > 300.0f) {
+	else if (passedTime < 370.0f && passedTime > 310.0f) {
 		timeline = 5;
 	}
-	else if (deltaTime < 420.0f && deltaTime > 360.0f) {
+	else if (passedTime < 430.0f && passedTime > 370.0f) {
 		timeline = 6;
 	}
 
 
-	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + std::to_string(countdown) + "%";
+	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + round_to_string(countdown, 1) + "%";
 
+	if (timeline == 12) {
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "PM";
+	}
+	else {
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "AM";
+	}
 
-	if (timeline == 12)
-		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "PM";
-
-	if(timeline > 12)
-		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
 }
 
 
@@ -152,7 +167,8 @@ void GameManager::leftDoorToggle()
 		playSound(DOOR_OPEN);
 }
 
-void GameManager::playSound(Sounds sound) {
+void GameManager::playSound(Sounds sound) 
+{
 
 	switch (sound)
 	{
@@ -167,5 +183,27 @@ void GameManager::playSound(Sounds sound) {
 		case WIN:
 			soundPlay = soundEngine->play2D("assets/sounds/musicWin.mp3", false, false, true);
 			break;
+
+		case BEWEEGBEEST:
+			soundPlay = soundEngine->play2D("assets/sounds/footstepMetal.mp3", false, false, true);
+			break;
+		
+		case JUMPSCARE:
+			soundPlay = soundEngine->play2D("assets/sounds/jumpscare.mp3", false, false, true);
+			break;
+
+		case BEGIN:
+			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);
+			break;
 	}
+}
+
+void GameManager::toggleCameraSystem()
+{
+	cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
+}
+
+bool GameManager::cameraSystemIsOff()
+{
+	return cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isSystemOff();
 }

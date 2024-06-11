@@ -7,7 +7,12 @@ class EnemyComponent : public Component
 {
 public:
 	bool attackFromLeft = true;
+
 	bool isFrozen = true;
+
+	glm::vec3 jumpscarePosition;
+	glm::vec3 jumpscareRotation;
+
 	float deltaTime = 0.0f;
 	float moveTime = 0.0f;
 	enum EnemyLocations

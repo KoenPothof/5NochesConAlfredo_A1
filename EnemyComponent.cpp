@@ -56,6 +56,7 @@ void EnemyComponent::update(float elapsedTime)
 void EnemyComponent::moveToNextRoom()
 {
 	currentPathIndex++;
+	gameObject->gameManager->playSound(GameManager::BEWEEGBEEST);
 	currentLocation = enemyPath[currentPathIndex];
 	if (currentLocation == A)
 	{
@@ -82,6 +83,7 @@ void EnemyComponent::moveBack()
 	currentLocation = enemyPath[currentPathIndex];
 	gameObject->position = positions[currentPathIndex];
 	gameObject->rotation = rotations[currentPathIndex];
+
 }
 
 bool EnemyComponent::tryToAttack()
@@ -95,11 +97,12 @@ bool EnemyComponent::tryToAttack()
 
 void EnemyComponent::jumpscare()
 {
-	gameObject->position = glm::vec3(-0.427f, -3.660f, -4.763f);
-	gameObject->rotation = glm::vec3(0.0f, -2.519f, 0.0f);
+	gameObject->position = jumpscarePosition;
+	gameObject->rotation = jumpscareRotation;
 	currentPathIndex = 0;
 
 	gameObject->gameManager->player->rotation = glm::vec3(0.0f, 1.6f, 0.0f);
 	gameObject->gameManager->player->getComponent<CameraComponent>()->cameraShakeTime = 3.0f;
 	gameObject->gameManager->gameOver = true;
+	gameObject->gameManager->playSound(GameManager::JUMPSCARE);
 }
