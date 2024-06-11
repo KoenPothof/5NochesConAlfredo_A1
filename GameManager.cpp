@@ -53,7 +53,7 @@ void GameManager::update(float elapsedTime)
 
     float currentTime = glfwGetTime();
     deltaTime = currentTime - passedTime;
-    passedTime = currentTime;
+    passedTime = currentTime * 15;
 
 	cout << passedTime << endl;
 
@@ -93,6 +93,9 @@ void GameManager::update(float elapsedTime)
 	else if (passedTime < 430.0f && passedTime > 370.0f) {
 		timeline = 6;
 		gameWon = true;
+	}
+	else {
+		passedTime = 0.0f;
 	}
 
 
@@ -140,12 +143,19 @@ void GameManager::gameOverScript(float elapsedTime)
 
 void GameManager::gameWonScript(float elapsedTime)
 {
+	static int played = 1;
 	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 
 	if (true)
 	{
+
+		if (played == 1)
+		{
+			playSound(WIN);
+			played++;
+		}
 		player->position = glm::vec3(-23.211f, 2, -57.633f); // Teleport player to game over room
 		player->rotation = glm::vec3(0, 0, 0);
 	}
@@ -215,7 +225,7 @@ void GameManager::playSound(Sounds sound)
 			break;
 
 		case WIN:
-			soundPlay = soundEngine->play2D("assets/sounds/musicWin.mp3", false, false, true);
+			soundPlay = soundEngine->play2D("assets/sounds/musicWin(1).mp3", false, false, true);
 			break;
 
 		case BEWEEGBEEST:

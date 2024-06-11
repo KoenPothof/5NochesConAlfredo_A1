@@ -2,6 +2,7 @@
 #include <random>
 
 extern GLFWwindow* window;
+extern glm::mat4 currentMatrix;
 
 float rotationIncrement;
 const float CAMERA_SHAKE_INTENSITY = 0.025f;
@@ -43,6 +44,9 @@ glm::mat4 CameraComponent::getMatrix() const
     view = glm::rotate(view, gameObject->rotation.x + offsetX, glm::vec3(1, 0, 0));
     view = glm::rotate(view, gameObject->rotation.y + offsetY, glm::vec3(0, 1, 0));
     view = glm::translate(view, -gameObject->position);
+
+    currentMatrix = view;
+
     return view;
 }
 
