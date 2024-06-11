@@ -186,6 +186,7 @@
     <ClCompile Include="OpenCv.cpp" />
     <ClCompile Include="RectangleComponent.cpp" />
     <ClCompile Include="RoomComponent.cpp" />
+    <ClCompile Include="RunningEnemyComponent.cpp" />
     <ClCompile Include="ScreenComponent.cpp" />
     <ClCompile Include="SecurityCameraComponent.cpp" />
     <ClCompile Include="SecurityDoorComponent.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="RectangleComponent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RoomComponent.h" />
+    <ClInclude Include="RunningEnemyComponent.h" />
     <ClInclude Include="ScreenComponent.h" />
     <ClInclude Include="SecurityCameraComponent.h" />
     <ClInclude Include="SecurityDoorComponent.h" />

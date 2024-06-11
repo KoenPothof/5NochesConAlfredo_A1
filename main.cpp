@@ -17,6 +17,7 @@
 #include "SecurityDoorComponent.h"
 #include "DoubleTextComponent.h"
 #include "CameraSystemToggleComponent.h"
+#include "RunningEnemyComponent.h"
 
 #include "Texture.h"
 #include "fbo.h"
@@ -40,7 +41,7 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-std::shared_ptr<GameObject> enemy1, enemy2, enemy3;
+std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
 std::shared_ptr<GameObject> light;
@@ -129,14 +130,19 @@ int main(void)
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->moveTime);
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);
 
-            ImGui::SliderFloat("Enemy y", &enemy3->position.y, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy x", &enemy3->position.x, -100.0f, 100.0f);
-            ImGui::SliderFloat("Enemy z", &enemy3->position.z, -100.0f, 100.0f);
+            
+            ImGui::SliderFloat("Running enemy X", &runningEnemy->position.x, -30.f, 30.f);
+            ImGui::SliderFloat("Running enemy Y", &runningEnemy->position.y, -30.f, 30.f);
+            ImGui::SliderFloat("Running enemy Z", &runningEnemy->position.z, -30.f, 30.f);
 
-            ImGui::SliderFloat("Enemy rot y", &enemy3->rotation.y, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy rot x", &enemy3->rotation.x, -10.0f, 10.0f);
-            ImGui::SliderFloat("Enemy rot z", &enemy3->rotation.z, -10.0f, 10.0f);
+            ImGui::SliderFloat("Rot enemy X", &runningEnemy->rotation.x, -4.0f, 4.0f);
+            ImGui::SliderFloat("Rot enemy Y", &runningEnemy->rotation.y, -4.0f, 4.0f);
+            ImGui::SliderFloat("Rot enemy Z", &runningEnemy->rotation.z, -4.0f, 4.0f);
 
+            ImGui::Checkbox("Running enemy staat stil", &runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen);
+            ImGui::Text("Running enemy voor aanval: %.3f", runningEnemy->getComponent<RunningEnemyComponent>()->moveTime);
+            ImGui::Text("Running enemy voor aanval: %.3f", runningEnemy->getComponent<RunningEnemyComponent>()->deltaTimeEnemy);
+           
       
             ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
             ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
@@ -275,6 +281,7 @@ void init()
     enemy1->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-2.770f, -0.793f, -4.846f);
     enemy1->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(0.264f, -1.726f, 0);
     enemy1->getComponent<EnemyComponent>()->init();
+    enemy1->getComponent<EnemyComponent>()->isFrozen = true;
     gameManager->enemy1 = enemy1;
     gameObjects.push_back(enemy1);
 
@@ -341,6 +348,15 @@ void init()
     enemy3->getComponent<EnemyComponent>()->isFrozen = false;
     gameManager->enemy3 = enemy3;
     gameObjects.push_back(enemy3);
+
+    runningEnemy = std::make_shared<GameObject>(gameManager);
+    runningEnemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH3));
+    runningEnemy->addComponent(std::make_shared<RunningEnemyComponent>());
+    runningEnemy->getComponent<RunningEnemyComponent>()->init();
+    runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
+    runningEnemy->scale = glm::vec3(2.1f, 2.1f, 2.1f);
+    gameManager->runningEnemy = runningEnemy;
+    gameObjects.push_back(runningEnemy);
 
     // Create and add DebugComponent
     debugPlayer = std::make_shared<GameObject>(gameManager);
