@@ -601,6 +601,12 @@ void initRoom()
     tafel6->scale = glm::vec3(1.5, 1.5, 1.5);
     gameObjects.push_back(tafel6);
 
+    auto roeloeTafel = std::make_shared<GameObject>();
+    roeloeTafel->position = glm::vec3(46.0f, 1, -19.0f);
+    roeloeTafel->addComponent(std::make_shared<ModelComponent>("assets/models/roeloeTafel/roeloeTafel2.obj"));
+    roeloeTafel->scale = glm::vec3(0.15, 0.15, 0.15);
+    gameObjects.push_back(roeloeTafel);
+
 }
 
 void initSecurity() {
