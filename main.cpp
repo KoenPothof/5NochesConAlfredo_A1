@@ -181,8 +181,8 @@ void init()
 
             if (key == GLFW_KEY_R && action == GLFW_PRESS)
             {
-				//enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
-                //enemy2->getComponent<EnemyComponent>()->moveToNextRoom();
+				enemy1->getComponent<EnemyComponent>()->moveToNextRoom();
+                enemy2->getComponent<EnemyComponent>()->moveToNextRoom();
                 enemy3->getComponent<EnemyComponent>()->moveToNextRoom();
 
 			}

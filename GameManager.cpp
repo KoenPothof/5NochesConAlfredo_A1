@@ -17,6 +17,11 @@ float drainSpeed = 0.25f;
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
 
+std::string round_to_string(float value, int precision)
+{
+	return std::to_string(value).substr(0, std::to_string(value).find(".") + precision + 1);
+}
+
 GameManager::GameManager()
 {
 	
@@ -66,14 +71,14 @@ void GameManager::update(float elapsedTime)
 	}
 
 
-	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + std::to_string(countdown) + "%";
+	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + round_to_string(countdown, 1) + "%";
 
 
 	if (timeline == 12) {
-		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(round(timeline)) + "PM";
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "PM";
 	}
 	else {
-		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
+		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "AM";
 	}
 }
 
