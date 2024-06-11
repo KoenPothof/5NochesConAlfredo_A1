@@ -14,6 +14,15 @@ class GameManager
 
 private:
 
+	enum Sounds
+	{
+		DOOR_OPEN,
+		DOOR_CLOSE,
+		LOSE,
+		WIN,
+		BEGIN
+	};
+
 	
 public:
 	unsigned int usage = 1;

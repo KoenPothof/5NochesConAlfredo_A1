@@ -15,6 +15,7 @@ using namespace std;
 
 float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
+bool played = true;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
@@ -54,6 +55,10 @@ void GameManager::update(float elapsedTime)
 
 	if (passedTime < 70.0f){
 		timeline = 12;
+		if (played) {
+			played = false;
+			playSound(BEGIN);
+		}
 	}
 	else if (passedTime < 130.0f && passedTime > 70.0f) {
 		timeline = 1;
@@ -166,6 +171,10 @@ void GameManager::playSound(Sounds sound)
 			soundPlay = soundEngine->play2D("assets/sounds/jumpscare.mp3", false, false, true);
 			break;
 
+
+		case BEGIN:
+			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);
+			break;
 	}
 }
 
