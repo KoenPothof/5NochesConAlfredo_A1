@@ -19,7 +19,8 @@ private:
 		DOOR_OPEN,
 		DOOR_CLOSE,
 		LOSE,
-		WIN
+		WIN,
+		BEGIN
 	};
 
 public:
