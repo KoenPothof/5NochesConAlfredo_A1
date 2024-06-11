@@ -75,20 +75,13 @@ void VisionComponent::update(float elapseTime)
 			}
 		}
 
-<<<<<<< Updated upstream
 		/// CameraSystemToggleButton ///
-		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
+		if (center.x < 280 / 2 && center.x > 70 / 2 && center.y < 490 / 2 && center.y > 420 / 2) {
 			if (chrono::duration_cast<chrono::seconds>(now - lastCameraToggle).count() >= 1.5) {
 				cout << "Camerasystem toggled" << endl;
 				gameObject->gameManager->toggleCameraSystem();
 				lastCameraToggle = now;
 			}
-=======
-		/// CameraButton ///
-		if (center.x < 280 / 2 && center.x > 70 / 2 && center.y < 490 / 2 && center.y > 420 / 2) {
-			//controlsComponent.controls(ControlsComponent::TOGGLECAMERAS);
-			cout << "Camerasystem toggled" << endl;
->>>>>>> Stashed changes
 		}
 
 		/// CameraViewButtonLeft ///
