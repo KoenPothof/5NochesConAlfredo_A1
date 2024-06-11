@@ -88,6 +88,7 @@ void GameManager::update(float elapsedTime)
 		timeline = 6;
 	}
 
+	player->getComponent<DoubleTextComponent>()->text3->text = "Room" + ;
 
 	player->getComponent<DoubleTextComponent>()->text1->text = "Power: " + round_to_string(countdown, 1) + "%";
 
