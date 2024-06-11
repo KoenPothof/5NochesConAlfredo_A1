@@ -167,10 +167,10 @@ void GameManager::playSound(Sounds sound)
 		case BEWEEGBEEST:
 			soundPlay = soundEngine->play2D("assets/sounds/footstepMetal.mp3", false, false, true);
 			break;
+		
 		case JUMPSCARE:
 			soundPlay = soundEngine->play2D("assets/sounds/jumpscare.mp3", false, false, true);
 			break;
-
 
 		case BEGIN:
 			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);

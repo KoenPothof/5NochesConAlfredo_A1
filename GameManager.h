@@ -14,14 +14,16 @@ class GameManager
 
 private:
 
-	enum Sounds
+	/*enum Sounds
 	{
 		DOOR_OPEN,
 		DOOR_CLOSE,
 		LOSE,
 		WIN,
+		BEWEEGBEEST,
+		JUMPSCARE,
 		BEGIN
-	};
+	};*/
 
 	
 public:
@@ -44,7 +46,8 @@ public:
 		LOSE,
 		WIN,
 		BEWEEGBEEST,
-		JUMPSCARE
+		JUMPSCARE,
+		BEGIN
 	};
 
 	GameManager();
