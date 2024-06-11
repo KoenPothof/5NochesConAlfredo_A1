@@ -33,12 +33,13 @@ public:
 	std::shared_ptr<GameObject> player;
 	bool gameOver = false;
 	bool gameWon = false;
+	bool jumpscareFinished = false;
 	GameManager();
 	~GameManager();
 	void update(float elapsedTime);
 	void init();
 	void reset();
-	void setGameOver();
+	void gameOverScript(float elapsedTime);
 	void setGameWon();
 	bool isGameOver();
 	bool isGameWon();

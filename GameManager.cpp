@@ -5,7 +5,9 @@
 #include <string>
 #include "TextComponent.h"
 #include "DoubleTextComponent.h"
+#include "EnemyComponent.h"
 #include <irrKlang.h>
+#include "CameraComponent.h"
 
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
@@ -28,6 +30,12 @@ GameManager::~GameManager()
 
 void GameManager::update(float elapsedTime)
 {
+	if (gameOver)
+	{
+		gameOverScript(elapsedTime);
+		return;
+	}
+
     float currentTime = glfwGetTime();
     deltaTime = currentTime - passedTime;
     passedTime = currentTime;
@@ -70,10 +78,10 @@ void GameManager::update(float elapsedTime)
 
 
 	if (timeline == 12)
-	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "PM";
+		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "PM";
 
 	if(timeline > 12)
-	player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
+		player->getComponent<DoubleTextComponent>()->text2->text = std::to_string(timeline) + "AM";
 }
 
 
@@ -86,8 +94,20 @@ void GameManager::reset()
 {
 }
 
-void GameManager::setGameOver()
+void GameManager::gameOverScript(float elapsedTime)
 {
+	enemy->getComponent<EnemyComponent>()->isFrozen = true;
+
+	if (player->getComponent<CameraComponent>()->cameraShakeTime >= 0.0f)
+	{
+		player->getComponent<CameraComponent>()->update(elapsedTime);
+	}
+	else
+	{
+		player->position = glm::vec3(-23.211f, 2, -7.633f); // Teleport player to game over room
+		player->rotation = glm::vec3(0, 0, 0);
+	}
+	
 }
 
 void GameManager::setGameWon()

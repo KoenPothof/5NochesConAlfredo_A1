@@ -1,7 +1,13 @@
 #include "CameraComponent.h"
+#include <random>
+
 extern GLFWwindow* window;
 
 float rotationIncrement;
+const float CAMERA_SHAKE_INTENSITY = 0.025f;
+
+std::default_random_engine cameraShakeGenerator;
+std::uniform_real_distribution<float> cameraShakeDistribution(-1.0f, 1.0f);
 
 CameraComponent::CameraComponent(float rotationSpeed, float moveSpeed)
     : position(0.0f, 0.0f, 0.0f), rotation(0.0f, 0.0f), rotationSpeed(rotationSpeed), moveSpeed(moveSpeed)
@@ -23,8 +29,19 @@ CameraComponent::~CameraComponent()
 glm::mat4 CameraComponent::getMatrix() const
 {
     glm::mat4 view(1.0f);
-    view = glm::rotate(view, gameObject->rotation.x, glm::vec3(1, 0, 0));
-    view = glm::rotate(view, gameObject->rotation.y, glm::vec3(0, 1, 0));
+
+    float offsetX = 0.0f;
+    float offsetY = 0.0f;
+    float offsetZ = 0.0f;
+
+    if (cameraShakeTime > 0.0f)
+    {
+        offsetX = cameraShakeDistribution(cameraShakeGenerator) * CAMERA_SHAKE_INTENSITY;
+        offsetY = cameraShakeDistribution(cameraShakeGenerator) * CAMERA_SHAKE_INTENSITY;
+    }
+
+    view = glm::rotate(view, gameObject->rotation.x + offsetX, glm::vec3(1, 0, 0));
+    view = glm::rotate(view, gameObject->rotation.y + offsetY, glm::vec3(0, 1, 0));
     view = glm::translate(view, -gameObject->position);
     return view;
 }
@@ -45,6 +62,11 @@ void CameraComponent::update(float elapsedTime)
         gameObject->rotation.y -= rotationIncrement;
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         gameObject->rotation.y += rotationIncrement;
+
+    if (cameraShakeTime > 0.0f)
+    {
+        cameraShakeTime -= elapsedTime;
+    }
 }
 
 void CameraComponent::lookLeft()
