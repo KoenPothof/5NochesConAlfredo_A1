@@ -193,6 +193,9 @@ void GameManager::playSound(Sounds sound)
 		case JUMPSCARE:
 			soundPlay = soundEngine->play2D("assets/sounds/jumpscare.mp3", false, false, true);
 			break;
+		case CAMERA:
+			soundPlay = soundEngine->play2D("assets/sounds/cameraSound.mp3", false, false, true);
+			break;
 
 		case BEGIN:
 			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);
@@ -203,6 +206,9 @@ void GameManager::playSound(Sounds sound)
 void GameManager::toggleCameraSystem()
 {
 	cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
+	if (cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff)
+		playSound(CAMERA);
+
 }
 
 bool GameManager::cameraSystemIsOff()
