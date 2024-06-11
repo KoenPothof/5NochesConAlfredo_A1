@@ -77,7 +77,7 @@ void EnemyComponent::moveToNextRoom()
 void EnemyComponent::moveBack()
 {
 	currentPathIndex = 0;
-	int randomIndex = (int)distribution(generator) % 3;
+	currentPathIndex = (int)distribution(generator) % 3;
 	currentLocation = enemyPath[currentPathIndex];
 	gameObject->position = positions[currentPathIndex];
 	gameObject->rotation = rotations[currentPathIndex];
