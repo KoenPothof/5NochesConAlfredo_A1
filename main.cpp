@@ -62,7 +62,7 @@ const std::string ENEMY_PATH2 = "assets/models/freaky_ahh_beest/monster.obj";
 const std::string ENEMY_PATH3 = "assets/models/sklt/sklt.obj";
 
 bool pauseCamera = false;
-int selectedCamera = 1;
+
 
 void init();
 void update();
@@ -121,7 +121,7 @@ int main(void)
             ImGui::Text("Player rotation: x: %.3f, y: %.3f, z: %.3f", debugPlayer->rotation.x, debugPlayer->rotation.y, debugPlayer->rotation.z);
 
             ImGui::BeginGroup();
-            ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
+ 
             ImGui::Checkbox("Beest staat stil", &enemy3->getComponent<EnemyComponent>()->isFrozen);
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->moveTime);
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);
@@ -377,7 +377,7 @@ void buildFbo()
     for (auto& go : gameObjects)
     {
         auto cameraComponent = go->getComponent<SecurityCameraComponent>();
-        if (cameraComponent && cameraComponent->id == selectedCamera)
+        if (cameraComponent && cameraComponent->id == cameraComponent->selectedCamera)
         {
             selectedCameraComponent = cameraComponent;
             break;

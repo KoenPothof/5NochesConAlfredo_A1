@@ -14,10 +14,13 @@ public:
     glm::vec3 position;
     glm::vec3 rotation;
 
+    int selectedCamera = 1;
+
     SecurityCameraComponent(int id, int x, int y, int width, int height, const glm::vec3& pos, const glm::vec3& rot);
     ~SecurityCameraComponent(); // Destructor declaration
 
     void updatePosition(const glm::vec3& newPosition);
     void updateRotation(const glm::vec3& newRotation);
+    void switchCamera();
 };
 

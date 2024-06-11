@@ -1,6 +1,7 @@
 #include "VisionComponent.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "SecurityCameraComponent.h"
 #include "GameManager.h"
 #include <chrono>
 
@@ -111,8 +112,15 @@ void VisionComponent::update(float elapseTime)
 
 		/// CameraSwitchButton ///
 		if (center.x < 290 / 2 && center.x > 60 / 2 && center.y < 120 / 2 && center.y > 30 / 2) {
-			//controlsComponent.controls(ControlsComponent::CAMERASWITCH);
+			//controlsComponent.controls(ControlsComponent::CAMERASWITCH)
 			cout << "Camera switched" << endl;
+			try {
+				gameObject->getComponent<SecurityCameraComponent>()->switchCamera();
+			}
+			catch (const std::exception& e) {
+				cout << "SecurityCameraComponent not found" << endl;
+			}
+			
 		}
 
 
