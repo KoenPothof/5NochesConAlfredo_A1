@@ -17,6 +17,7 @@ using namespace std;
 
 float passedTime = glfwGetTime();
 float drainSpeed = 0.25f;
+bool powerLeft = true;
 bool played = true;
 
 irrklang::ISoundEngine* soundEngine;
@@ -96,7 +97,8 @@ void GameManager::update(float elapsedTime)
 	else {
 		player->getComponent<DoubleTextComponent>()->text2->text = round_to_string(timeline, 0) + "AM";
 	}
-
+	
+	powerSystem();
 }
 
 
@@ -153,6 +155,8 @@ bool GameManager::leftDoorClosed()
 
 void GameManager::rightDoorToggle()
 {
+	if (!powerLeft) { return; }
+
 	rightDoor->getComponent<SecurityDoorComponent>()->isClosed = !rightDoor->getComponent<SecurityDoorComponent>()->isClosed;
 	if (rightDoor->getComponent<SecurityDoorComponent>()->isClosed)
 		playSound(DOOR_CLOSE);
@@ -162,6 +166,8 @@ void GameManager::rightDoorToggle()
 
 void GameManager::leftDoorToggle()
 {
+	if (!powerLeft) { return; }
+
 	leftDoor->getComponent<SecurityDoorComponent>()->isClosed = !leftDoor->getComponent<SecurityDoorComponent>()->isClosed;
 	if (leftDoor->getComponent<SecurityDoorComponent>()->isClosed)
 		playSound(DOOR_CLOSE);
@@ -205,6 +211,8 @@ void GameManager::playSound(Sounds sound)
 
 void GameManager::toggleCameraSystem()
 {
+	if (!powerLeft) { return; }
+
 	cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
 	if (cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff)
 		playSound(CAMERA);
@@ -214,4 +222,31 @@ void GameManager::toggleCameraSystem()
 bool GameManager::cameraSystemIsOff()
 {
 	return cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isSystemOff();
+}
+
+void GameManager::powerSystem()
+{
+
+	if (countdown < 0.0) {
+		if (!cameraSystemIsOff()) {
+			toggleCameraSystem();
+		}
+		if (rightDoorClosed()) {
+			rightDoorToggle();
+		}
+		if (leftDoorClosed()) {
+			leftDoorToggle();
+		}
+		
+		powerLeft = false;
+
+		lighting->getComponent<LightComponent>()->ambient.x = 0.3;
+		lighting->getComponent<LightComponent>()->ambient.y = 0.3;
+		lighting->getComponent<LightComponent>()->ambient.z = 0.3;
+
+	}
+	else {
+		powerLeft = true;
+	}
+
 }

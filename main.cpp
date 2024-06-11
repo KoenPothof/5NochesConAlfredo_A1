@@ -195,17 +195,20 @@ void init()
 
             if (key == GLFW_KEY_T && action == GLFW_PRESS)
             {
-				securityDoor->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor->getComponent<SecurityDoorComponent>()->isClosed;
+                gameManager->rightDoorToggle();
+				//securityDoor->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor->getComponent<SecurityDoorComponent>()->isClosed;
 			}
 
             if (key == GLFW_KEY_Y && action == GLFW_PRESS)
             {
-                securityDoor1->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor1->getComponent<SecurityDoorComponent>()->isClosed;
+                gameManager->leftDoorToggle();
+                //securityDoor1->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor1->getComponent<SecurityDoorComponent>()->isClosed;
             }
 
             if (key == GLFW_KEY_P && action == GLFW_PRESS)
             {
-                cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
+                gameManager->toggleCameraSystem();
+                //cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff = !cameraSystemToggler->getComponent<CameraSystemToggleComponent>()->isOff;
             }
 
             if (key == GLFW_KEY_ESCAPE)
@@ -227,6 +230,8 @@ void init()
     gameManager->init();
     initRoom();
     initSecurity();
+
+    gameManager->lighting = light;
     
 
     // enemy1
@@ -420,6 +425,7 @@ void draw()
     int viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
     glm::mat4 projection = glm::perspective(glm::radians(75.0f), viewport[2] / (float)viewport[3], 0.01f, 1000.0f);
+    tigl::shader->enableLighting(true);
 
     tigl::shader->setProjectionMatrix(projection);
 
