@@ -565,6 +565,42 @@ void initRoom()
     gameManager->cameraSystemToggler = cameraSystemToggler;
     gameObjects.push_back(cameraSystemToggler);
 
+    auto tafel = std::make_shared<GameObject>();
+    tafel->position = glm::vec3(48.0f, 0, -1.0f);
+    tafel->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel);
+
+    auto tafel2 = std::make_shared<GameObject>();
+    tafel2->position = glm::vec3(48.0f, 0, 2.0f);
+    tafel2->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel2->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel2);
+
+    auto tafel3 = std::make_shared<GameObject>();
+    tafel3->position = glm::vec3(48.0f, 0, 5.0f);
+    tafel3->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel3->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel3);
+
+    auto tafel4 = std::make_shared<GameObject>();
+    tafel4->position = glm::vec3(42.0f, 0, -1.0f);
+    tafel4->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel4->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel4);
+
+    auto tafel5 = std::make_shared<GameObject>();
+    tafel5->position = glm::vec3(42.0f, 0, 2.0f);
+    tafel5->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel5->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel5);
+
+    auto tafel6 = std::make_shared<GameObject>();
+    tafel6->position = glm::vec3(42.0f, 0, 5.0f);
+    tafel6->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel6->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel6);
+
 }
 
 void initSecurity() {
