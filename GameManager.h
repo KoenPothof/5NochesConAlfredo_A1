@@ -20,7 +20,7 @@ public:
 	float deltaTime;
 	std::shared_ptr<GameObject> lighting;
 	std::shared_ptr<GameObject> enemy;
-	std::shared_ptr<GameObject> enemy1, enemy2, enemy3;
+	std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy;
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
 	std::shared_ptr<GameObject> player;
@@ -38,7 +38,8 @@ public:
 		BEWEEGBEEST,
 		JUMPSCARE,
 		CAMERA,
-		BEGIN
+		BEGIN,
+		RUNNING
 	};
 	GameManager();
 	~GameManager();

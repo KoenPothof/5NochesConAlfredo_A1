@@ -11,6 +11,7 @@
 #include <string>
 #include <irrKlang.h>
 #include "CameraComponent.h"
+#include "RunningEnemyComponent.h"
 
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
@@ -88,6 +89,7 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 280.0f && passedTime > 220.0f) {
 		timeline = 3;
+		runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 340.0f && passedTime > 280.0f) {
 		timeline = 4;
@@ -166,6 +168,7 @@ void GameManager::gameOverScript(float elapsedTime)
 	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
+	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
 
 	if (player->getComponent<CameraComponent>()->cameraShakeTime >= 0.0f)
 	{
@@ -186,6 +189,7 @@ void GameManager::gameWonScript(float elapsedTime)
 	enemy1->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
+	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
 
 	if (true)
 	{
@@ -280,6 +284,9 @@ void GameManager::playSound(Sounds sound)
 
 		case BEGIN:
 			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);
+			break;
+		case RUNNING:
+			soundPlay = soundEngine->play2D("assets/sounds/running_sounds.mp3", false, false, true);
 			break;
 	}
 }
