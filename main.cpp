@@ -225,8 +225,8 @@ void init()
     //openCv = OpenCv();
     fbo = std::make_shared<Fbo>(800, 600);
     texture = new Texture("assets/spritesheet.png", 4736, 128, 128);
-    textureFloor = new Texture("assets/floor.png", 128, 128, NULL);
-    textureWall = new Texture("assets/wall.png", 128, 128, NULL);
+    textureFloor = new Texture("assets/floorTexture.png", 128, 128, NULL);
+    textureWall = new Texture("assets/brickWallTexture.jpg", 128, 128, NULL);
     textureCeiling = new Texture("assets/ceiling.png", 128, 128, NULL);
     textureDoor = new Texture("assets/deur.png", 128, 128, NULL);
     textureMap = new Texture("assets/textureMap.png", 128, 128, NULL);
@@ -607,6 +607,77 @@ void initRoom()
     winsScreenBig->scale = glm::vec3(6.5f, 6.5f, 6.5f);
     winsScreenBig->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 0, false, 7, 7, new Texture("assets/win_screen.png", NULL, NULL, NULL), 0));
     gameObjects.push_back(winsScreenBig);
+    
+    auto tafel = std::make_shared<GameObject>();
+    tafel->position = glm::vec3(48.0f, 0, -1.0f);
+    tafel->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel);
+
+    auto tafel2 = std::make_shared<GameObject>();
+    tafel2->position = glm::vec3(48.0f, 0, 2.0f);
+    tafel2->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel2->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel2);
+
+    auto tafel3 = std::make_shared<GameObject>();
+    tafel3->position = glm::vec3(48.0f, 0, 5.0f);
+    tafel3->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel3->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel3);
+
+    auto tafel4 = std::make_shared<GameObject>();
+    tafel4->position = glm::vec3(42.0f, 0, -1.0f);
+    tafel4->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel4->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel4);
+
+    auto tafel5 = std::make_shared<GameObject>();
+    tafel5->position = glm::vec3(42.0f, 0, 2.0f);
+    tafel5->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel5->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel5);
+
+    auto tafel6 = std::make_shared<GameObject>();
+    tafel6->position = glm::vec3(42.0f, 0, 5.0f);
+    tafel6->addComponent(std::make_shared<ModelComponent>("assets/models/pikniekTafel/picnicTafel.obj"));
+    tafel6->scale = glm::vec3(1.5, 1.5, 1.5);
+    gameObjects.push_back(tafel6);
+
+    auto roeloeTafel = std::make_shared<GameObject>();
+    roeloeTafel->position = glm::vec3(46.0f, 1, -19.0f);
+    roeloeTafel->addComponent(std::make_shared<ModelComponent>("assets/models/roeloeTafel/roeloeTafel2.obj"));
+    roeloeTafel->scale = glm::vec3(0.15, 0.15, 0.15);
+    gameObjects.push_back(roeloeTafel);
+
+    auto toy = std::make_shared<GameObject>();
+    toy->position = glm::vec3(30.0f, 2, -34.0f);
+    toy->addComponent(std::make_shared<ModelComponent>("assets/models/toy/toy.obj"));
+    toy->scale = glm::vec3(3, 3, 3);
+    toy->rotation = glm::vec3(0, -90, 0);
+    gameObjects.push_back(toy);
+
+    auto arcade = std::make_shared<GameObject>();
+    arcade->position = glm::vec3(21.0f, 0, -38.0f);
+    arcade->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
+    arcade->scale = glm::vec3(0.02, 0.02, 0.02);
+    arcade->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(arcade);
+
+    auto arcade2 = std::make_shared<GameObject>();
+    arcade2->position = glm::vec3(18.0f, 0, -38.0f);
+    arcade2->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
+    arcade2->scale = glm::vec3(0.02, 0.02, 0.02);
+    arcade2->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(arcade2);
+
+    auto arcade3 = std::make_shared<GameObject>();
+    arcade3->position = glm::vec3(15.0f, 0, -38.0f);
+    arcade3->addComponent(std::make_shared<ModelComponent>("assets/models/arcade/arcade.obj"));
+    arcade3->scale = glm::vec3(0.02, 0.02, 0.02);
+    arcade3->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(arcade3);
+
 }
 
 void initSecurity() 
