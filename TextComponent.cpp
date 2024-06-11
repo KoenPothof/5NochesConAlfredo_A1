@@ -11,7 +11,7 @@ TextComponent::TextComponent(const float x1, const float y1)
 
 	unsigned char* ttf_buffer = new unsigned char[1 << 20];
 	unsigned char* temp_bitmap = new unsigned char[512 * 512];
-	fread(ttf_buffer, 1, 1 << 20, fopen("c:/windows/fonts/times.ttf", "rb"));
+	fread(ttf_buffer, 1, 1 << 20, fopen("assets/modeseven.ttf", "rb"));
 	stbtt_BakeFontBitmap(ttf_buffer, 0, 32.0, temp_bitmap, 512, 512, 32, 96, cdata); // no guarantee this fits!
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
