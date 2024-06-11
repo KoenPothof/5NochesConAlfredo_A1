@@ -122,7 +122,9 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
-            ImGui::Checkbox("Beest staat stil", &enemy1->getComponent<EnemyComponent>()->isFrozen);
+            ImGui::Checkbox("Beest staat stil", &enemy3->getComponent<EnemyComponent>()->isFrozen);
+            ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->moveTime);
+            ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);
 
             ImGui::SliderFloat("Enemy y", &enemy3->position.y, -10.0f, 10.0f);
             ImGui::SliderFloat("Enemy x", &enemy3->position.x, -100.0f, 100.0f);
@@ -322,8 +324,8 @@ void init()
     enemy3->addComponent(std::make_shared<EnemyComponent>(enemyPath3, positions3, rotations3));
     enemy3->getComponent<EnemyComponent>()->jumpscarePosition = glm::vec3(-3.651f, -2.203f, -4.365f);
     enemy3->getComponent<EnemyComponent>()->jumpscareRotation = glm::vec3(-0.705f, -1.022f, 5.683f);
-
     enemy3->getComponent<EnemyComponent>()->init();
+    enemy3->getComponent<EnemyComponent>()->isFrozen = false;
     gameManager->enemy3 = enemy3;
     gameObjects.push_back(enemy3);
 
@@ -332,7 +334,7 @@ void init()
     auto debugComponent2 = std::make_shared<DebugComponent>();
     
     debugPlayer->addComponent(debugComponent2);
-    debugPlayer->addComponent(std::make_shared<DoubleTextComponent>(15, 400, 400, 100));
+    //debugPlayer->addComponent(std::make_shared<DoubleTextComponent>(15, 400, 400, 100));
     debugPlayer->position = glm::vec3(0, 2, 0);
     gameManager->player = debugPlayer;
     gameObjects.push_back(debugPlayer);

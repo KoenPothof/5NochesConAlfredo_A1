@@ -38,14 +38,14 @@ void EnemyComponent::update(float elapsedTime)
 {
 	if (isFrozen)
 	{
-		passedEnemyTime = glfwGetTime();
+		//passedEnemyTime = glfwGetTime();
 		return;
 	}
 	
 	float currentTime = glfwGetTime();
-	deltaTime = currentTime - passedEnemyTime;
+	deltaTimeEnemy = currentTime - passedEnemyTime;
 
-	if (deltaTime > moveTime)
+	if (deltaTimeEnemy > moveTime)
 	{
 		moveToNextRoom();
 		moveTime = (float)distribution(generator) + mininumTimeBeforeNextMove;
