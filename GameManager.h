@@ -13,16 +13,6 @@ class GameObject;
 class GameManager
 {
 
-private:
-
-	/*enum Sounds
-	{
-		DOOR_OPEN,
-		DOOR_CLOSE,
-		LOSE,
-		WIN
-	};
-
 public:
 	unsigned int usage = 1;
 	float countdown = 100.0f;
