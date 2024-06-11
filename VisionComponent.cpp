@@ -58,7 +58,7 @@ void VisionComponent::update(float elapseTime)
 
 
 		/// DoorButtonRight ///
-		if (center.x < 100 / 2 && center.x > 10 / 2 && center.y < 470 / 2 && center.y > 380 / 2) {
+		if (center.x < 150 / 2 && center.x > 60 / 2 && center.y < 610 / 2 && center.y > 520 / 2) {
 			if (chrono::duration_cast<chrono::seconds>(now - lastRightDoorToggle).count() >= 2) {
 				cout << "Door right toggled" << endl;
 				gameObject->gameManager->rightDoorToggle();
@@ -67,7 +67,7 @@ void VisionComponent::update(float elapseTime)
 		}
 
 		/// DoorButtonLeft ///
-		if (center.x < 630 / 2 && center.x > 540 / 2 && center.y < 470 / 2 && center.y > 380 / 2) {
+		if (center.x < 290 / 2 && center.x > 200 / 2 && center.y < 610 / 2 && center.y > 520 / 2) {
 			if (chrono::duration_cast<chrono::seconds>(now - lastLeftDoorToggle).count() >= 2) {
 				cout << "Door left toggled" << endl;
 				gameObject->gameManager->leftDoorToggle();
@@ -75,6 +75,7 @@ void VisionComponent::update(float elapseTime)
 			}
 		}
 
+<<<<<<< Updated upstream
 		/// CameraSystemToggleButton ///
 		if (center.x < 470 / 2 && center.x > 160 / 2 && center.y < 460 / 2 && center.y > 390 / 2) {
 			if (chrono::duration_cast<chrono::seconds>(now - lastCameraToggle).count() >= 1.5) {
@@ -82,10 +83,16 @@ void VisionComponent::update(float elapseTime)
 				gameObject->gameManager->toggleCameraSystem();
 				lastCameraToggle = now;
 			}
+=======
+		/// CameraButton ///
+		if (center.x < 280 / 2 && center.x > 70 / 2 && center.y < 490 / 2 && center.y > 420 / 2) {
+			//controlsComponent.controls(ControlsComponent::TOGGLECAMERAS);
+			cout << "Camerasystem toggled" << endl;
+>>>>>>> Stashed changes
 		}
 
 		/// CameraViewButtonLeft ///
-		if (center.x < 620 / 2 && center.x > 550 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
+		if (center.x < 280 / 2 && center.x > 210 / 2 && center.y < 390 / 2 && center.y > 150 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKLEFT);
 			cout << "Camera to the left" << endl;
 			try {
@@ -98,7 +105,7 @@ void VisionComponent::update(float elapseTime)
 		}
 
 		/// CameraViewButtonRight ///
-		if (center.x < 90 / 2 && center.x > 20 / 2 && center.y < 340 / 2 && center.y > 100 / 2) {
+		if (center.x < 140 / 2 && center.x > 70 / 2 && center.y < 390 / 2 && center.y > 150 / 2) {
 			//controlsComponent.controls(ControlsComponent::LOOKRIGHT);
 			cout << "Camera to the right" << endl;
 			try {
@@ -110,7 +117,7 @@ void VisionComponent::update(float elapseTime)
 		}
 
 		/// CameraSwitchButton ///
-		if (center.x < 360 / 2 && center.x > 280 / 2 && center.y < 280 / 2 && center.y > 200 / 2) {
+		if (center.x < 290 / 2 && center.x > 60 / 2 && center.y < 120 / 2 && center.y > 30 / 2) {
 			//controlsComponent.controls(ControlsComponent::CAMERASWITCH);
 			cout << "Camera switched" << endl;
 		}
@@ -122,18 +129,18 @@ void VisionComponent::update(float elapseTime)
 
 
 	////////////////////// DoorButtons(purple) //////////////////////
-	rectangle(img, Point(10 / 2, 380 / 2), Point(100 / 2, 470 / 2), Scalar(255, 0, 255), 3);
-	rectangle(img, Point(540 / 2, 380 / 2), Point(630 / 2, 470 / 2), Scalar(255, 0, 255), 3);
+	rectangle(img, Point(60 / 2, 520 / 2), Point(150 / 2, 610 / 2), Scalar(255, 0, 255), 3); // Right
+	rectangle(img, Point(200 / 2, 520 / 2), Point(290 / 2, 610 / 2), Scalar(255, 0, 255), 3); // Left
 
-	////////////////////// CameraButton(red) //////////////////////
-	rectangle(img, Point(160 / 2, 390 / 2), Point(470 / 2, 460 / 2), Scalar(0, 0, 255), 3);
+	////////////////////// CameraButton(red) ////////////////////// 
+	rectangle(img, Point(70 / 2, 420 / 2), Point(280 / 2, 490 / 2), Scalar(0, 0, 255), 3);
 
 	////////////////////// CameraViewButtons(green) //////////////////////
-	rectangle(img, Point(20 / 2, 100 / 2), Point(90 / 2, 340 / 2), Scalar(0, 255, 0), 3);
-	rectangle(img, Point(550 / 2, 100 / 2), Point(620 / 2, 340 / 2), Scalar(0, 255, 0), 3);
+	rectangle(img, Point(70 / 2, 150 / 2), Point(140 / 2, 390 / 2), Scalar(0, 255, 0), 3); // Right
+	rectangle(img, Point(210 / 2, 150 / 2), Point(280 / 2, 390 / 2), Scalar(0, 255, 0), 3); // Left
 
 	////////////////////// CameraSwitchButton(blue) //////////////////////
-	rectangle(img, Point(280 / 2, 200 / 2), Point(360 / 2, 280 / 2), Scalar(255, 0, 0), 3);
+	rectangle(img, Point(60 / 2, 30 / 2), Point(290 / 2, 120 / 2), Scalar(255, 0, 0), 3);
 
 	flip(img, img, 1);
 
