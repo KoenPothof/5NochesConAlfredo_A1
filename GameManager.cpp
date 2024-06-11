@@ -19,7 +19,7 @@ using namespace std;
 extern int selectedCamera;
 
 float passedTime = glfwGetTime();
-float drainSpeed = 0.25f;
+float drainSpeed = 0.20f;
 bool powerLeft = true;
 bool played = true;
 string camera;
@@ -57,7 +57,7 @@ void GameManager::update(float elapsedTime)
 
     float currentTime = glfwGetTime();
     deltaTime = currentTime - passedTime;
-    passedTime = currentTime * 15;
+    passedTime = currentTime;
 
 	cout << passedTime << endl;
 
