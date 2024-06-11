@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "TextComponent.h"
+#include "EnemyComponent.h"
 #include "DoubleTextComponent.h"
 #include <irrKlang.h>
 
@@ -157,6 +158,14 @@ void GameManager::playSound(Sounds sound)
 		case WIN:
 			soundPlay = soundEngine->play2D("assets/sounds/musicWin.mp3", false, false, true);
 			break;
+
+		case BEWEEGBEEST:
+			soundPlay = soundEngine->play2D("assets/sounds/footstepMetal.mp3", false, false, true);
+			break;
+		case JUMPSCARE:
+			soundPlay = soundEngine->play2D("assets/sounds/jumpscare.mp3", false, false, true);
+			break;
+
 	}
 }
 
