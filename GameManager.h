@@ -39,8 +39,11 @@ public:
 		JUMPSCARE,
 		CAMERA,
 		BEGIN,
-		RUNNING
+		RUNNING,
+		twoAM,
+		fourAM
 	};
+
 	GameManager();
 	~GameManager();
 	void update(float elapsedTime);
