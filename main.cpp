@@ -59,6 +59,7 @@ Texture* textureCameraOff;
 const std::string ENEMY_PATH1 = "assets/models/kai_beest/kai_beest.obj";
 const std::string ENEMY_PATH2 = "assets/models/freaky_ahh_beest/monster.obj";
 const std::string ENEMY_PATH3 = "assets/models/sklt/sklt.obj";
+const std::string MUSIC_ENEMY_PATH = "assets/models/muziekbeest/muziekbeest.obj";
 
 bool pauseCamera = false;
 int selectedCamera = 1;
@@ -289,7 +290,6 @@ void init()
         glm::vec3(-9.139, 6.387f, 6.609f),
         glm::vec3(20.615f, -0.044f, -2.662f),
         glm::vec3(-2.341f, -0.044f, 2.624f)
-        
     };
     std::vector<glm::vec3> rotations2 =
     {
@@ -343,10 +343,10 @@ void init()
     gameObjects.push_back(enemy3);
 
     musicEnemy = std::make_shared<GameObject>(gameManager);
-    //musicEnemy->addComponent(std::make_shared<ModelComponent>(ALFREDO_PATH));
+    musicEnemy->addComponent(std::make_shared<ModelComponent>(MUSIC_ENEMY_PATH));
     musicEnemy->addComponent(std::make_shared<MusicEnemyComponent>());
-    musicEnemy->position = glm::vec3(0, 0, 0);
-    musicEnemy->scale = glm::vec3(0.1f, 0.1f, 0.1f);
+    musicEnemy->position = glm::vec3(0, 200, 0);
+    musicEnemy->scale = glm::vec3(0.7f, 0.7f, 0.7f);
     gameManager->musicEnemy = musicEnemy;
     gameObjects.push_back(musicEnemy);
 
@@ -465,8 +465,8 @@ void draw()
         tigl::shader->setViewMatrix(currentMatrix);
     else
     {
-        tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
-        //tigl::shader->setViewMatrix(getDebugMatrix());
+        //tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
     }
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));

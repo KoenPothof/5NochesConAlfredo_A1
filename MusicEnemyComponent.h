@@ -11,10 +11,11 @@ public:
 	};
 
 	MusicEnemyLocations currentLocation;
-	bool isFrozen = false;
+	bool isFrozen = true;
 	bool isPlaying = false;
+
 	float attackTime = 44.0f;
-	float timeBeforeNextAttack = 0.0f;
+	float timeBeforeNextAttack = 25.0f;
 	float scareAwayTime = 4.0f;
 
 	MusicEnemyComponent();

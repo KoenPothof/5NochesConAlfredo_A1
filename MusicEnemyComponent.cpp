@@ -33,6 +33,7 @@ void MusicEnemyComponent::update(float elapsedTime)
 	if (timeBeforeNextAttack <= 0.0)
 	{
 		isPlaying = true;
+		move();
 	}
 
 	if (isPlaying)
@@ -64,6 +65,9 @@ void MusicEnemyComponent::startPlaying()
 
 bool MusicEnemyComponent::canScareAway()
 {
+	if (gameObject->gameManager->cameraSystemIsOff())
+		return false;
+
 	switch (currentLocation)
 	{
 	case MusicEnemyComponent::C:
@@ -115,22 +119,40 @@ void MusicEnemyComponent::move()
 	switch (currentLocation)
 	{
 	case MusicEnemyComponent::C:
+		gameObject->position = glm::vec3(7.6f, 0.0f, -19.824f);
+		gameObject->rotation = glm::vec3(0.619f, 1.131f, -0.352f);
 		break;
 	case MusicEnemyComponent::D:
+		gameObject->position = glm::vec3(15.530f, 0.0f, -32.160f);
+		gameObject->rotation = glm::vec3(-0.352f, 2.957f, 0.264f);
 		break;
 	case MusicEnemyComponent::E:
+		gameObject->position = glm::vec3(37.445f, 0.0f, -36.564f);
+		gameObject->rotation = glm::vec3(-0.837, -4.267f, 1.058f);
 		break;
 	case MusicEnemyComponent::F:
+		gameObject->position = glm::vec3(39.207f, 0.0f, -11.805f);
+		gameObject->rotation = glm::vec3(0.705f, -1.288f, 1.058f);
 		break;
 	case MusicEnemyComponent::G:
+		gameObject->position = glm::vec3(43.612f, 0.0f, -11.805f);
+		gameObject->rotation = glm::vec3(-0.485f, 2.452f, 0.529f);
 		break;
 	case MusicEnemyComponent::H:
+		gameObject->position = glm::vec3(34.032f, 0.0f, 23.348f);
+		gameObject->rotation = glm::vec3(0.352f, 0.402f, 0.000f);
 		break;
 	case MusicEnemyComponent::I:
+		gameObject->position = glm::vec3(18.173f, 0.0f, 22.466f);
+		gameObject->rotation = glm::vec3(0.485, 0.579,  -0.088);
 		break;
 	case MusicEnemyComponent::J:
+		gameObject->position = glm::vec3(-8.259f, 0.0f, 22.466f);
+		gameObject->rotation = glm::vec3(0.441f, -0.700f, 0.529f);
 		break;
 	case MusicEnemyComponent::B:
+		gameObject->position = glm::vec3(2.313f, 0.0f, -5.727f);
+		gameObject->rotation = glm::vec3(-0.392f, -3.644f, 0.353f);
 		break;
 	default:
 		break;
@@ -139,6 +161,7 @@ void MusicEnemyComponent::move()
 
 void MusicEnemyComponent::stopPlaying()
 {
+	gameObject->position = glm::vec3(0.0f, 200.0f, 0.0f);
 	if (musicPlay)
 	{
 		musicPlay->stop();
@@ -154,6 +177,9 @@ void MusicEnemyComponent::stopPlaying()
 
 void MusicEnemyComponent::jumpscare()
 {
+	gameObject->position = glm::vec3(-3.651f, -2.203f, -4.365f);
+	gameObject->rotation = glm::vec3(-0.705f, -1.022f, 5.683f);
+
 	gameObject->gameManager->player->rotation = glm::vec3(0.0f, 1.6f, 0.0f);
 	gameObject->gameManager->player->getComponent<CameraComponent>()->cameraShakeTime = 3.0f;
 	gameObject->gameManager->gameOver = true;
