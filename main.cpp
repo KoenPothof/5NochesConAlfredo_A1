@@ -465,7 +465,7 @@ void draw()
     else
     {
         tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
-        //tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
     }
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
@@ -702,6 +702,24 @@ void initRoom()
     arcade3->scale = glm::vec3(0.02, 0.02, 0.02);
     arcade3->rotation = glm::vec3(0, 0, 0);
     gameObjects.push_back(arcade3);
+
+    auto lama = std::make_shared<GameObject>();
+    lama->position = glm::vec3(30.0f, 0, 0.0f);
+    lama->addComponent(std::make_shared<ModelComponent>("assets/models/swing/swing.obj"));
+    lama->scale = glm::vec3(0.02, 0.02, 0.02);
+    lama->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(lama);
+    
+    auto screen = std::make_shared<GameObject>();
+    screen->position = glm::vec3(-0.8f, -0.1, -4.6f);
+    screen->addComponent(std::make_shared<ModelComponent>("assets/models/screen/screen.obj"));
+    screen->scale = glm::vec3(0.025, 0.035, 0.035);
+    screen->rotation = glm::vec3(0, -1.55, 0);
+    gameObjects.push_back(screen);
+
+    
+
+
 
 }
 
