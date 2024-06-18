@@ -74,7 +74,7 @@ void GameManager::update(float elapsedTime)
 	if (!cameraSystemIsOff())
 		usage++;
 
-	countdown -= elapsedTime * drainSpeed * usage;
+	countdown -= elapsedTime * drainSpeed * (float)(usage * 0.8);
 
 
 	if (passedTime < 70.0f){
