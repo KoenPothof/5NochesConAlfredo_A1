@@ -12,6 +12,7 @@
 #include <irrKlang.h>
 #include "CameraComponent.h"
 #include "RunningEnemyComponent.h"
+#include "MusicEnemyComponent.h"
 
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
@@ -23,7 +24,6 @@ float passedTime = glfwGetTime();
 float drainSpeed = 0.15f;
 bool powerLeft = true;
 bool played = true;
-string camera;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
@@ -169,6 +169,7 @@ void GameManager::gameOverScript(float elapsedTime)
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
+	musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = true;
 
 	if (player->getComponent<CameraComponent>()->cameraShakeTime >= 0.0f)
 	{
