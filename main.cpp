@@ -599,8 +599,10 @@ void initRoom()
     gameObjects.push_back(securityDoor1);
 
     auto mapObject = std::make_shared<GameObject>();
-    mapObject->position = glm::vec3(-2.0f, 0, -0.5f);
-    mapObject->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 2, 2, textureMap, 0));
+    mapObject->position = glm::vec3(-2.5f, 0.5, -0.75f);
+    mapObject->rotation = glm::vec3(0.0f, -0.4f, 0.0f);
+    mapObject->addComponent(std::make_shared<RectangleComponent>(0, 0, 0, 1, false, 2, 1, textureMap, 0));
+    mapObject->scale = glm::vec3(1.0, 1.0, 0.8);
     gameObjects.push_back(mapObject);
 
     auto gameOverCage = std::make_shared<GameObject>();
@@ -704,6 +706,26 @@ void initRoom()
     arcade3->rotation = glm::vec3(0, 0, 0);
     gameObjects.push_back(arcade3);
 
+    auto lama = std::make_shared<GameObject>();
+    lama->position = glm::vec3(30.0f, 0, 0.0f);
+    lama->addComponent(std::make_shared<ModelComponent>("assets/models/swing/swing.obj"));
+    lama->scale = glm::vec3(0.02, 0.02, 0.02);
+    lama->rotation = glm::vec3(0, 0, 0);
+    gameObjects.push_back(lama);
+    
+    auto screen = std::make_shared<GameObject>();
+    screen->position = glm::vec3(-0.8f, -0.1, -4.6f);
+    screen->addComponent(std::make_shared<ModelComponent>("assets/models/screen/screen.obj"));
+    screen->scale = glm::vec3(0.025, 0.035, 0.035);
+    screen->rotation = glm::vec3(0, -1.55, 0);
+    gameObjects.push_back(screen);
+
+    auto tv = std::make_shared<GameObject>();
+    tv->position = glm::vec3(-1.6f, 1, -1.0f);
+    tv->addComponent(std::make_shared<ModelComponent>("assets/models/tv/tv.obj"));
+    tv->scale = glm::vec3(0.6, 0.5, 0.7);
+    tv->rotation = glm::vec3(0, -1.95, 0);
+    gameObjects.push_back(tv);
 }
 
 void initSecurity() 
