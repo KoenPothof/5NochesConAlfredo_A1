@@ -24,6 +24,10 @@ float passedTime = glfwGetTime();
 float drainSpeed = 0.15f;
 bool powerLeft = true;
 bool played = true;
+bool played1 = true;
+bool played2 = true;
+
+string camera;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
@@ -85,6 +89,11 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 220.0f && passedTime > 160.0f) {
 		timeline = 2;
+		enemy1->getComponent<EnemyComponent>()->isFrozen = false;
+		if (played1) {
+			played1 = false;
+			playSound(twoAM);
+		}
 		//enemy1->getComponent<EnemyComponent>()->isFrozen = false;
 		musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = false;
 	}
@@ -93,6 +102,10 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 340.0f && passedTime > 280.0f) {
 		timeline = 4;
+		if (played2) {
+			played2 = false;
+			playSound(fourAM);
+		}
 		runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 400.0f && passedTime > 340.0f) {
@@ -285,10 +298,16 @@ void GameManager::playSound(Sounds sound)
 			break;
 
 		case BEGIN:
-			soundPlay = soundEngine->play2D("assets/sounds/introclip.mp3", false, false, true);
+			soundPlay = soundEngine->play2D("assets/sounds/introclip2.0.mp3", false, false, true);
 			break;
 		case RUNNING:
 			soundPlay = soundEngine->play2D("assets/sounds/running_sounds.mp3", false, false, true);
+			break;
+		case twoAM:
+			soundPlay = soundEngine->play2D("assets/sounds/2uurClip.mp3", false, false, true);
+			break;
+		case fourAM:
+			soundPlay = soundEngine->play2D("assets/sounds/4uurClip.mp3", false, false, true);
 			break;
 	}
 }
