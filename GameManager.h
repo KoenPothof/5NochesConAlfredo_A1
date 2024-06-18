@@ -38,6 +38,7 @@ public:
 		WIN,
 		BEWEEGBEEST,
 		JUMPSCARE,
+		CRASH,
 		CAMERA,
 		BEGIN,
 		RUNNING,

@@ -72,6 +72,7 @@ void RunningEnemyComponent::startRunning(float elapsedTime)
 
 void RunningEnemyComponent::moveBack()
 {
+	gameObject->gameManager->playSound(GameManager::CRASH);
 	gameObject->position = glm::vec3(12.184f, 20.0f, 1.850f);
 }
 

@@ -41,6 +41,7 @@ void MusicEnemyComponent::update(float elapsedTime)
 		if (attackTime >= lastAttackTime)
 		{
 			musicPlay = soundEngine->play2D("assets/sounds/muziekbeest.mp3", false, false, true);
+			musicPlay->setVolume(0.5f);
 		}
 		attackTime -= elapsedTime;
 		startPlaying();

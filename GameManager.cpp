@@ -21,7 +21,7 @@ using namespace std;
 extern int selectedCamera;
 
 float passedTime = glfwGetTime();
-float drainSpeed = 0.15f;
+float drainSpeed = 0.135f;
 bool powerLeft = true;
 bool played = true;
 bool played1 = true;
@@ -89,7 +89,7 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 220.0f && passedTime > 160.0f) {
 		timeline = 2;
-		enemy1->getComponent<EnemyComponent>()->isFrozen = false;
+		//enemy1->getComponent<EnemyComponent>()->isFrozen = false;
 		if (played1) {
 			played1 = false;
 			playSound(twoAM);
@@ -205,6 +205,7 @@ void GameManager::gameWonScript(float elapsedTime)
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
+	musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = true;
 
 	if (true)
 	{
@@ -296,7 +297,9 @@ void GameManager::playSound(Sounds sound)
 		case CAMERA:
 			soundPlay = soundEngine->play2D("assets/sounds/cameraSound.mp3", false, false, true);
 			break;
-
+		case CRASH:
+			soundPlay = soundEngine->play2D("assets/sounds/crash_sound.mp3", false, false, true);
+			break;
 		case BEGIN:
 			soundPlay = soundEngine->play2D("assets/sounds/introclip2.0.mp3", false, false, true);
 			break;

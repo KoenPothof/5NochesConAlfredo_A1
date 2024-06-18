@@ -34,8 +34,8 @@ private:
 	std::uniform_int_distribution<int> distribution;
 	std::uniform_int_distribution<int> positionDistribution;
 
-	const float mininumTimeBeforeNextMove = 0.0f;
-	const int randomTimeBeforeNextMove = 15;
+	const float mininumTimeBeforeNextMove = 25.0f;
+	const int randomTimeBeforeNextMove = 20;
 
 	float passedAttackTime = 0.0f;
 	float lastAttackTime = attackTime;
