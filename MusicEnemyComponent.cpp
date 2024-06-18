@@ -25,6 +25,11 @@ void MusicEnemyComponent::update(float elapsedTime)
 {
 	if (isFrozen)
 	{
+		/*if (musicPlay)
+		{
+			musicPlay->stop();
+			musicPlay->drop();
+		}*/
 		return;
 	}
 
@@ -136,7 +141,7 @@ void MusicEnemyComponent::move()
 		gameObject->rotation = glm::vec3(0.705f, -1.288f, 1.058f);
 		break;
 	case MusicEnemyComponent::G:
-		gameObject->position = glm::vec3(43.612f, 0.0f, -11.805f);
+		gameObject->position = glm::vec3(50.482f, 0.0f, 9.019f);
 		gameObject->rotation = glm::vec3(-0.485f, 2.452f, 0.529f);
 		break;
 	case MusicEnemyComponent::H:

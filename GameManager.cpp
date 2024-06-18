@@ -21,7 +21,7 @@ using namespace std;
 extern int selectedCamera;
 
 float passedTime = glfwGetTime();
-float drainSpeed = 0.135f;
+float drainSpeed = 0.14f;
 bool powerLeft = true;
 bool played = true;
 bool played1 = true;
@@ -74,7 +74,7 @@ void GameManager::update(float elapsedTime)
 	if (!cameraSystemIsOff())
 		usage++;
 
-	countdown -= elapsedTime * drainSpeed * (float)(usage * 0.8);
+	countdown -= elapsedTime * drainSpeed * ((float)usage * 0.85f);
 
 
 	if (passedTime < 70.0f){
@@ -205,6 +205,9 @@ void GameManager::gameWonScript(float elapsedTime)
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
+
+
+
 	musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = true;
 
 	if (true)

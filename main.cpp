@@ -123,6 +123,7 @@ int main(void)
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
 
+            ImGui::Text("Current camera: %s", gameManager->camera);
             ImGui::Text("Beest voor aanval: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->timeBeforeNextAttack);
             ImGui::Text("Tijd voor aanval: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->attackTime);
             ImGui::Text("Tijd voor wegjagen: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->scareAwayTime);
@@ -138,21 +139,9 @@ int main(void)
             ImGui::Text("Running enemy voor aanval: %.3f", runningEnemy->getComponent<RunningEnemyComponent>()->deltaTimeEnemy);
            
       
-            ImGui::SliderFloat("Light position X", &light->position.x, -10.0f, 10.0f);
-            ImGui::SliderFloat("Light position Y", &light->position.y, -10.0f, 10.0f);
-            ImGui::SliderFloat("Light position Z", &light->position.z, -10.0f, 10.0f);
-
-            ImGui::SliderFloat("Light diffuse X", &light->getComponent<LightComponent>()->diffuse.x, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light diffuse Y", &light->getComponent<LightComponent>()->diffuse.y, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light diffuse Z", &light->getComponent<LightComponent>()->diffuse.z, -2.0f, 2.0f);
-
-            ImGui::SliderFloat("Light ambient X", &light->getComponent<LightComponent>()->ambient.x, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light ambient Y", &light->getComponent<LightComponent>()->ambient.y, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light ambient Z", &light->getComponent<LightComponent>()->ambient.z, -2.0f, 2.0f);
-
-            ImGui::SliderFloat("Light specular X", &light->getComponent<LightComponent>()->specular.x, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light specular Y", &light->getComponent<LightComponent>()->specular.y, -2.0f, 2.0f);
-            ImGui::SliderFloat("Light specular Z", &light->getComponent<LightComponent>()->specular.z, -2.0f, 2.0f);
+            ImGui::SliderFloat("Music enemy X", &musicEnemy->position.x, 0, 70.0f);
+            ImGui::SliderFloat("Music enemy Y", &musicEnemy->position.y, 0, 70.0f);
+            ImGui::SliderFloat("Music enemy Z", &musicEnemy->position.z, -30.0f, 20.0f);
             ImGui::EndGroup();
 
             ImGui::End();
@@ -198,13 +187,13 @@ void init()
 
 			}
 
-            if (key == GLFW_KEY_T && action == GLFW_PRESS)
+            if (key == GLFW_KEY_Y && action == GLFW_PRESS)
             {
                 gameManager->rightDoorToggle();
 				//securityDoor->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor->getComponent<SecurityDoorComponent>()->isClosed;
 			}
 
-            if (key == GLFW_KEY_Y && action == GLFW_PRESS)
+            if (key == GLFW_KEY_T && action == GLFW_PRESS)
             {
                 gameManager->leftDoorToggle();
                 //securityDoor1->getComponent<SecurityDoorComponent>()->isClosed = !securityDoor1->getComponent<SecurityDoorComponent>()->isClosed;
@@ -345,7 +334,7 @@ void init()
     musicEnemy = std::make_shared<GameObject>(gameManager);
     musicEnemy->addComponent(std::make_shared<ModelComponent>(MUSIC_ENEMY_PATH));
     musicEnemy->addComponent(std::make_shared<MusicEnemyComponent>());
-    musicEnemy->position = glm::vec3(0, 200, 0);
+    musicEnemy->position = glm::vec3(43.612f, 0.0f, -11.805f);
     musicEnemy->scale = glm::vec3(0.7f, 0.7f, 0.7f);
     gameManager->musicEnemy = musicEnemy;
     gameObjects.push_back(musicEnemy);
@@ -501,8 +490,8 @@ void initRoom()
     light = std::make_shared<GameObject>();
     light->position = glm::vec3(-4.032f, 6, -4.5f);
     auto lightComponent = std::make_shared<LightComponent>();
-    lightComponent->diffuse = glm::vec3(0.437f, 0.547f, 0.516f);
-    lightComponent->ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+    lightComponent->diffuse = glm::vec3(0.296f, 0.3f, 0.305f);
+    lightComponent->ambient = glm::vec3(0.384f, 0.397f, 0.378f);
     light->addComponent(lightComponent);
     gameObjects.push_back(light);
 
