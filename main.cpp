@@ -18,6 +18,7 @@
 #include "DoubleTextComponent.h"
 #include "CameraSystemToggleComponent.h"
 #include "RunningEnemyComponent.h"
+#include "MusicEnemyComponent.h"
 
 #include "Texture.h"
 #include "fbo.h"
@@ -41,7 +42,7 @@ std::shared_ptr<Fbo> fbo;
 std::shared_ptr<GameObject> debugPlayer;
 std::shared_ptr<GameObject> object3;
 std::shared_ptr<GameObject> camera;
-std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy;
+std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy, musicEnemy;
 std::shared_ptr<GameObject> securityDoor, securityDoor1;
 std::shared_ptr<GameManager> gameManager;
 std::shared_ptr<GameObject> light;
@@ -55,12 +56,10 @@ Texture* textureDoor;
 Texture* textureMap;
 Texture* textureCameraOff;
 
-std::string enumConverter[13] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "HALL_LEFT", "HALL_RIGHT"};
-const std::string ALFREDO_PATH = "assets/models/haribo/haribo.obj";
-
 const std::string ENEMY_PATH1 = "assets/models/kai_beest/kai_beest.obj";
 const std::string ENEMY_PATH2 = "assets/models/freaky_ahh_beest/monster.obj";
 const std::string ENEMY_PATH3 = "assets/models/sklt/sklt.obj";
+const std::string MUSIC_ENEMY_PATH = "assets/models/muziekbeest/muziekbeest.obj";
 
 bool pauseCamera = false;
 int selectedCamera = 1;
@@ -123,23 +122,18 @@ int main(void)
 
             ImGui::BeginGroup();
             ImGui::SliderInt("Selected Camera", &selectedCamera, 1, 10);
-            ImGui::Checkbox("Beest staat stil", &enemy2->getComponent<EnemyComponent>()->isFrozen);
+
+            ImGui::Text("Beest voor aanval: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->timeBeforeNextAttack);
+            ImGui::Text("Tijd voor aanval: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->attackTime);
+            ImGui::Text("Tijd voor wegjagen: %.3f", musicEnemy->getComponent<MusicEnemyComponent>()->scareAwayTime);
+            ImGui::Text("Positie beest %s", musicEnemy->getComponent<MusicEnemyComponent>()->locationToString());
+
             ImGui::Text("Beest voor aanval: %.3f", enemy2->getComponent<EnemyComponent>()->moveTime);
             ImGui::Text("Beest voor aanval: %.3f", enemy2->getComponent<EnemyComponent>()->deltaTimeEnemy);
 
             ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->moveTime);
-            ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);
-
-            
-            ImGui::SliderFloat("Running enemy X", &runningEnemy->position.x, -30.f, 30.f);
-            ImGui::SliderFloat("Running enemy Y", &runningEnemy->position.y, -30.f, 30.f);
-            ImGui::SliderFloat("Running enemy Z", &runningEnemy->position.z, -30.f, 30.f);
-
-            ImGui::SliderFloat("Rot enemy X", &runningEnemy->rotation.x, -4.0f, 4.0f);
-            ImGui::SliderFloat("Rot enemy Y", &runningEnemy->rotation.y, -4.0f, 4.0f);
-            ImGui::SliderFloat("Rot enemy Z", &runningEnemy->rotation.z, -4.0f, 4.0f);
-
-            ImGui::Checkbox("Running enemy staat stil", &runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen);
+            ImGui::Text("Beest voor aanval: %.3f", enemy3->getComponent<EnemyComponent>()->deltaTimeEnemy);            
+         
             ImGui::Text("Running enemy voor aanval: %.3f", runningEnemy->getComponent<RunningEnemyComponent>()->moveTime);
             ImGui::Text("Running enemy voor aanval: %.3f", runningEnemy->getComponent<RunningEnemyComponent>()->deltaTimeEnemy);
            
@@ -296,7 +290,6 @@ void init()
         glm::vec3(-9.139, 6.387f, 6.609f),
         glm::vec3(20.615f, -0.044f, -2.662f),
         glm::vec3(-2.341f, -0.044f, 2.624f)
-        
     };
     std::vector<glm::vec3> rotations2 =
     {
@@ -348,6 +341,14 @@ void init()
     enemy3->getComponent<EnemyComponent>()->isFrozen = false;
     gameManager->enemy3 = enemy3;
     gameObjects.push_back(enemy3);
+
+    musicEnemy = std::make_shared<GameObject>(gameManager);
+    musicEnemy->addComponent(std::make_shared<ModelComponent>(MUSIC_ENEMY_PATH));
+    musicEnemy->addComponent(std::make_shared<MusicEnemyComponent>());
+    musicEnemy->position = glm::vec3(0, 200, 0);
+    musicEnemy->scale = glm::vec3(0.7f, 0.7f, 0.7f);
+    gameManager->musicEnemy = musicEnemy;
+    gameObjects.push_back(musicEnemy);
 
     runningEnemy = std::make_shared<GameObject>(gameManager);
     runningEnemy->addComponent(std::make_shared<ModelComponent>(ENEMY_PATH3));
@@ -464,8 +465,8 @@ void draw()
         tigl::shader->setViewMatrix(currentMatrix);
     else
     {
-        tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
-        //tigl::shader->setViewMatrix(getDebugMatrix());
+        //tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
+        tigl::shader->setViewMatrix(getDebugMatrix());
     }
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));

@@ -12,6 +12,7 @@
 #include <irrKlang.h>
 #include "CameraComponent.h"
 #include "RunningEnemyComponent.h"
+#include "MusicEnemyComponent.h"
 
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
@@ -23,7 +24,6 @@ float passedTime = glfwGetTime();
 float drainSpeed = 0.15f;
 bool powerLeft = true;
 bool played = true;
-string camera;
 
 irrklang::ISoundEngine* soundEngine;
 irrklang::ISound* soundPlay;
@@ -85,14 +85,15 @@ void GameManager::update(float elapsedTime)
 	}
 	else if (passedTime < 220.0f && passedTime > 160.0f) {
 		timeline = 2;
-		enemy1->getComponent<EnemyComponent>()->isFrozen = false;
+		//enemy1->getComponent<EnemyComponent>()->isFrozen = false;
+		musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 280.0f && passedTime > 220.0f) {
 		timeline = 3;
-		runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 340.0f && passedTime > 280.0f) {
 		timeline = 4;
+		runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = false;
 	}
 	else if (passedTime < 400.0f && passedTime > 340.0f) {
 		timeline = 5;
@@ -169,6 +170,7 @@ void GameManager::gameOverScript(float elapsedTime)
 	enemy2->getComponent<EnemyComponent>()->isFrozen = true;
 	enemy3->getComponent<EnemyComponent>()->isFrozen = true;
 	runningEnemy->getComponent<RunningEnemyComponent>()->isFrozen = true;
+	musicEnemy->getComponent<MusicEnemyComponent>()->isFrozen = true;
 
 	if (player->getComponent<CameraComponent>()->cameraShakeTime >= 0.0f)
 	{

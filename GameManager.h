@@ -15,12 +15,12 @@ class GameManager
 
 public:
 	unsigned int usage = 1;
-	float countdown = 100.0f;
+	float countdown = 1800.0f;
 	float timeline = 12.0f;
 	float deltaTime;
 	std::shared_ptr<GameObject> lighting;
 	std::shared_ptr<GameObject> enemy;
-	std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy;
+	std::shared_ptr<GameObject> enemy1, enemy2, enemy3, runningEnemy, musicEnemy;
 	std::shared_ptr<GameObject> leftDoor;
 	std::shared_ptr<GameObject> rightDoor;
 	std::shared_ptr<GameObject> player;
@@ -28,6 +28,7 @@ public:
 	bool gameOver = false;
 	bool gameWon = false;
 	bool jumpscareFinished = false;
+	std::string camera = "camera";
 
 	enum Sounds
 	{
