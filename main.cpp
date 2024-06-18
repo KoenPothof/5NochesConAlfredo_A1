@@ -465,8 +465,8 @@ void draw()
         tigl::shader->setViewMatrix(currentMatrix);
     else
     {
-        //tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
-        tigl::shader->setViewMatrix(getDebugMatrix());
+        tigl::shader->setViewMatrix(object3->getComponent<CameraComponent>()->getMatrix());
+        //tigl::shader->setViewMatrix(getDebugMatrix());
     }
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));

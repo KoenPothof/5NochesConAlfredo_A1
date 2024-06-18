@@ -15,7 +15,7 @@ class GameManager
 
 public:
 	unsigned int usage = 1;
-	float countdown = 1800.0f;
+	float countdown = 100.0f;
 	float timeline = 12.0f;
 	float deltaTime;
 	std::shared_ptr<GameObject> lighting;
